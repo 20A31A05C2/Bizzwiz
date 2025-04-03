@@ -1,248 +1,724 @@
-
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import SideNavbar from './userlayout/sidebar';
-import anime from '../../assets/man.png';
-import { useEffect,useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ApiService from '../../Apiservice';
 import LoadingPage from './userlayout/loader';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  FiCreditCard, FiCalendar, FiUser, FiAward, FiBarChart2, 
+  FiPenTool, FiMessageSquare, FiCode, FiDollarSign, 
+  FiCheckCircle, FiXCircle, FiClock, FiChevronRight,
+  FiSettings, FiRefreshCw
+} from 'react-icons/fi';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({
+    name: "",
+    fname: "",
+    lname: "",
+    email: "",
+    credits: 0,
+    activePlan: null,
+    planActivatedAt: null,
+    planExpiresAt: null,
+    autoRenew: false,
+    isAdmin: false,
+    usageStats: {
+      logo_requests: 0,
+      chat_history: 0,
+      bizwebai: 0
+    },
+    transactions: []
+  });
+  const [loading, setLoading] = useState(true);
 
-    const navigate=useNavigate();
-    const [name,setname]=useState("");
-    const [loading,setloading]=useState(true);
-
-    useEffect(() => {
-        const validate = async () => {
-          let loadingTimeout;
-      
-          try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-              toast.error("Please login to continue");
-              navigate('/userlogin');
-              return;
-            }
-      
-            
-            loadingTimeout = setTimeout(() => {
-              setloading(true);
-            }, 100);
-      
-            
-            const response = await ApiService("/userdashboard", "GET");
-            clearTimeout(loadingTimeout);
-      
-            
-            if (response && response.name) {
-              setname(response.name);
-            } else {
-              throw new Error("Invalid response data");
-            }
-      
-          } catch (error) {
-            console.log(error);
-            clearTimeout(loadingTimeout);
-            toast.error(error.message || "An unexpected error occurred");
-            if (error.message.toLowerCase().includes('login') || 
-                error.message.toLowerCase().includes('token') || 
-                error.message.toLowerCase().includes('auth')) {
-              localStorage.removeItem('token');
-              localStorage.setItem('toastMessage', error.message);
-              localStorage.setItem('toastType', 'success');
-              navigate('/userlogin');
-            }
-      
-          } finally {
-            setloading(false);
-          }
-        };
-      
-        
-        let mounted = true;
-        if (mounted) {
-          validate();
+  // Fetch user data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('bizwizusertoken');
+        if (!token) {
+          navigate('/userlogin');
+          toast.error("Please login to continue");
+          return;
         }
-      
-        return () => {
-          mounted = false;
-        };
-      }, [navigate]);
 
+        const loadingTimeout = setTimeout(() => setLoading(true), 100);
+        const response = await ApiService("/userdashboard", "GET");
+        clearTimeout(loadingTimeout);
 
+        if (response) {
+          setUserData({
+            name: `${response.fname} ${response.lname}`,
+            fname: response.fname,
+            lname: response.lname,
+            email: response.email,
+            credits: response.credits,
+            activePlan: response.active_plan,
+            planActivatedAt: response.plan_activated_at,
+            planExpiresAt: response.plan_expires_at,
+            autoRenew: response.auto_renew,
+            isAdmin: response.isAdmin,
+            usageStats: response.usage_stats || {
+              logo_requests: 0,
+              chat_history: 0,
+              bizwebai: 0
+            },
+            transactions: response.transactions || []
+          });
+        } else {
+          throw new Error("Invalid response data");
+        }
+      } catch (error) {
+        const errorMessage = error?.response?.data?.message || "Unknown error occurred";
+        console.log(errorMessage);
+        navigate('/userlogin', { replace: true });
+        toast.error(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-
-
-
-
-
+    fetchUserData();
     
-  const trafficData = [
-    { name: 'Jan', visitors: 20 },
-    { name: 'Feb', visitors: 22 },
-    { name: 'Mar', visitors: 28 },
-    { name: 'Apr', visitors: 45 },
-    { name: 'May', visitors: 42 },
-    { name: 'Jun', visitors: 38 },
-    { name: 'Jul', visitors: 56 }
-  ];
+    return () => {
+      // Cleanup
+    };
+  }, [navigate]);
 
-  const adsData = [
-    { name: 'JAN', value1: 30, value2: 20 },
-    { name: 'FEB', value1: 35, value2: 25 },
-    { name: 'MAR', value1: 40, value2: 35 },
-    { name: 'APR', value1: 45, value2: 40 },
-    { name: 'MAY', value1: 50, value2: 45 },
-    { name: 'JUN', value1: 55, value2: 48 },
-    { name: 'JUL', value1: 60, value2: 52 },
-    { name: 'AUG', value1: 65, value2: 58 },
-    { name: 'SEP', value1: 70, value2: 62 },
-    { name: 'OCT', value1: 75, value2: 68 },
-    { name: 'NOV', value1: 80, value2: 72 },
-    { name: 'DEC', value1: 85, value2: 78 }
-  ];
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Not available';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
+  // Format transaction date
+  const formatTransactionDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  // Calculate days remaining until plan expiration
+  const getDaysRemaining = () => {
+    if (!userData.planExpiresAt) return 0;
+    
+    const expiryDate = new Date(userData.planExpiresAt);
+    const today = new Date();
+    const diffTime = expiryDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays > 0 ? diffDays : 0;
+  };
+
+  // Calculate how many days since plan activation
+  const getDaysSinceActivation = () => {
+    if (!userData.planActivatedAt) return 0;
+    
+    const activationDate = new Date(userData.planActivatedAt);
+    const today = new Date();
+    const diffTime = today - activationDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays > 0 ? diffDays : 0;
+  };
+
+  // Calculate the percentage of plan duration left
+  const calculatePlanTimePercentage = () => {
+    if (!userData.planExpiresAt || !userData.planActivatedAt) return 0;
+    
+    const activationDate = new Date(userData.planActivatedAt);
+    const expiryDate = new Date(userData.planExpiresAt);
+    const today = new Date();
+    
+    const totalPlanDuration = expiryDate - activationDate;
+    const timeElapsed = today - activationDate;
+    
+    const percentageUsed = (timeElapsed / totalPlanDuration) * 100;
+    const percentageRemaining = 100 - percentageUsed;
+    
+    return percentageRemaining > 0 ? Math.min(percentageRemaining, 100) : 0;
+  };
+
+  // Get status icon based on transaction status
+  const getStatusIcon = (status) => {
+    switch(status?.toLowerCase()) {
+      case 'completed':
+      case 'success':
+        return <FiCheckCircle className="text-green-500" />;
+      case 'failed':
+      case 'error':
+        return <FiXCircle className="text-red-500" />;
+      case 'pending':
+        return <FiClock className="text-yellow-500" />;
+      default:
+        return <FiClock className="text-gray-500" />;
+    }
+  };
+
+  // Prepare data for usage stats pie chart
+  const pieData = useMemo(() => {
+    const usageData = [
+      { name: 'Logo Requests', value: userData.usageStats.logo_requests, fill: '#8b5cf6' },
+      { name: 'Chat History', value: userData.usageStats.chat_history, fill: '#3b82f6' },
+      { name: 'BizWebAI', value: userData.usageStats.bizwebai, fill: '#06b6d4' }
+    ];
+
+    // If all values are 0, add a placeholder for better visualization
+    return usageData.every(item => item.value === 0) 
+      ? [...usageData, { name: 'No Usage Yet', value: 1, fill: '#4b5563' }]
+      : usageData;
+  }, [userData.usageStats]);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
 
   return (
-    <div>
-        {loading?<LoadingPage name="Loading DashBoard" /> :<div className="flex min-h-screen bg-black">
-      <SideNavbar />
-      
-      <ToastContainer/>
-      {/* Main Content - Scrollable */}
-      <main className="flex-1 p-8 py-10 overflow-y-auto transition-all duration-300 md:ml-2">
-        <div className="max-w-6xl mx-auto">
-          {/* Hero Section */}
-          <div className="relative p-8 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-900/20 to-black md:p-12">
-            <div className="relative z-10 max-w-xl">
-              <h1 className="mb-6 text-3xl font-bold text-white ">
-                Welcome,<span className="text-4xl text-purple-400">{name}</span>
-              </h1>
-              <h2 className="mb-8 text-xl font-medium leading-tight text-white md:text-xl">
-                Create your business ultra quickly!
-              </h2>
-              <button className="px-8 py-3 text-white transition-all duration-200 bg-purple-500 rounded-lg hover:bg-purple-600 hover:transform hover:translate-y-1">
-                Get Started
-              </button>
-            </div>
-            
-            {/* Background Image */}
-            <div className="absolute top-0 right-0 w-1/2 opacity-70 md:opacity-90 md:right-10">
-              <img
-                src={anime}
-                alt="Background"
-                className="object-cover w-56 h-64"
-              />
-            </div>
-          </div>
+    <div className="font-inter">
+      {loading ? (
+        <LoadingPage name="Loading Dashboard" />
+      ) : (
+        <div className="flex min-h-screen bg-gradient-to-br from-black to-purple-900/20">
+          <SideNavbar />
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-4 mt-8 md:grid-cols-4">
-            <div className="p-6 rounded-xl bg-[#2a2435]">
-              <p className="text-sm text-gray-400">LOGO GENERATED:</p>
-              <p className="mt-2 text-2xl font-bold text-white">1/5</p>
-            </div>
-            <div className="p-6 rounded-xl bg-[#2a2435]">
-              <p className="text-sm text-gray-400">GENERATED PLAN:</p>
-              <p className="mt-2 text-2xl font-bold text-white">1/5</p>
-            </div>
-            <div className="p-6 rounded-xl bg-[#2a2435]">
-              <p className="text-sm text-gray-400">WEBSITE CREATED:</p>
-              <p className="mt-2 text-2xl font-bold text-white">1/5</p>
-            </div>
-            <div className="p-6 rounded-xl bg-[#2a2435]">
-              <p className="text-sm text-gray-400">BI CREATES:</p>
-              <p className="mt-2 text-2xl font-bold text-white">1/5</p>
-            </div>
-          </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
 
-          {/* Large Stats Card */}
-          <div className="p-6 mt-4 rounded-xl bg-[#2a2435]">
-            <p className="text-sm text-gray-400">ADS START:</p>
-            <p className="mt-2 text-3xl font-bold text-white">1/10</p>
-          </div>
+          {/* Main Content */}
+          <main className="flex-1 p-4 overflow-y-auto md:p-6">
+            <div className="max-w-6xl mx-auto">
+              {/* Welcome Header */}
+              <motion.div 
+                className="mb-6"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-center mb-2">
+                  <div className="w-10 h-10 rounded-full bg-purple-700/30 flex items-center justify-center mr-3">
+                    <FiUser className="text-purple-300" />
+                  </div>
+                  <h1 className="text-2xl font-bold text-white">Welcome, {userData.fname}</h1>
+                </div>
+                <p className="text-gray-400">Here's an overview of your account status and activity</p>
+              </motion.div>
 
-          {/* Charts Section */}
-          <div className="grid gap-4 mt-4 md:grid-cols-2">
-            {/* Traffic Chart */}
-            <div className="p-6 rounded-xl bg-[#2a2435]">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-medium text-white">Traffic to your website</h3>
-                <select className="px-3 py-1 text-sm text-gray-400 bg-transparent border border-gray-700 rounded-md">
-                  <option>Monthly</option>
-                  <option>Weekly</option>
-                </select>
-              </div>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={trafficData}>
-                    <XAxis dataKey="name" stroke="#6b7280" />
-                    <YAxis stroke="#6b7280" />
-                    <Tooltip
-                      contentStyle={{
-                        background: '#1f2937',
-                        border: 'none',
-                        borderRadius: '8px',
-                        color: '#fff'
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="visitors"
-                      stroke="#8b5cf6"
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+              {/* Status Cards */}
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {/* Credits Card */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-5 rounded-xl bg-gradient-to-br from-purple-900/30 to-black border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-400">Available Credits</h3>
+                      <p className="text-2xl font-bold text-white mt-1">{userData.credits.toFixed(2)}</p>
+                    </div>
+                    <div className="p-2 rounded-lg bg-purple-600/20">
+                      <FiCreditCard className="text-purple-400" />
+                    </div>
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full mt-2 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
+                    onClick={() => navigate('/creditpurchase')}
+                  >
+                    Add Credits
+                  </motion.button>
+                </motion.div>
+
+                {/* Plan Name Card */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-5 rounded-xl bg-gradient-to-br from-purple-900/30 to-black border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-400">Current Plan</h3>
+                      <p className="text-2xl font-bold text-white mt-1">{userData.activePlan?.name || "No Active Plan"}</p>
+                    </div>
+                    <div className="p-2 rounded-lg bg-purple-600/20">
+                      <FiAward className="text-purple-400" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col md:flex-row gap-2">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex-1 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
+                      onClick={() => navigate('/pricingplan')}
+                    >
+                      Upgrade Plan
+                    </motion.button>
+                    {userData.activePlan && (
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex-1 py-2 text-sm font-medium bg-blue-600/30 text-blue-200 rounded-lg hover:bg-blue-600/40 transition-colors flex items-center justify-center"
+                        onClick={() => navigate('/manageplan')}
+                      >
+                        <FiSettings className="mr-1 w-4 h-4" />
+                        Manage
+                      </motion.button>
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Days Remaining Card */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-5 rounded-xl bg-gradient-to-br from-purple-900/30 to-black border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-400">Plan Expires</h3>
+                      <p className="text-2xl font-bold text-white mt-1">{getDaysRemaining()} Days</p>
+                    </div>
+                    <div className="p-2 rounded-lg bg-purple-600/20">
+                      <FiCalendar className="text-purple-400" />
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <div className="flex justify-between mb-1 text-xs">
+                      <span className="text-gray-400">Expires {formatDate(userData.planExpiresAt)}</span>
+                      <span className="text-gray-400">{calculatePlanTimePercentage().toFixed(0)}%</span>
+                    </div>
+                    <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${calculatePlanTimePercentage()}%` }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="h-2 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full"
+                      ></motion.div>
+                    </div>
+                    {userData.autoRenew !== undefined && (
+                      <div className="mt-2 flex items-center justify-end">
+                        <FiRefreshCw className={`w-3 h-3 mr-1 ${userData.autoRenew ? 'text-green-400' : 'text-gray-500'}`} />
+                        <span className={`text-xs ${userData.autoRenew ? 'text-green-400' : 'text-gray-500'}`}>
+                          {userData.autoRenew ? 'Auto-renewal enabled' : 'Auto-renewal disabled'}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Usage Stats Cards */}
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {/* Logo Requests Card */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-5 rounded-xl bg-gradient-to-br from-purple-900/30 to-black border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
+                >
+                  <div className="flex items-center mb-2">
+                    <div className="p-2 rounded-lg bg-purple-600/20 mr-3">
+                      <FiPenTool className="text-purple-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-400">Logo Requests</h3>
+                      <p className="text-xl font-bold text-white">{userData.usageStats.logo_requests}</p>
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${userData.usageStats.logo_requests > 0 ? 100 : 0}%` }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="h-1.5 bg-purple-500 rounded-full"
+                      ></motion.div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Chat History Card */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-5 rounded-xl bg-gradient-to-br from-purple-900/30 to-black border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
+                >
+                  <div className="flex items-center mb-2">
+                    <div className="p-2 rounded-lg bg-blue-600/20 mr-3">
+                      <FiMessageSquare className="text-blue-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-400">Chat History</h3>
+                      <p className="text-xl font-bold text-white">{userData.usageStats.chat_history}</p>
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${userData.usageStats.chat_history > 0 ? 100 : 0}%` }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="h-1.5 bg-blue-500 rounded-full"
+                      ></motion.div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* BizWebAI Card */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-5 rounded-xl bg-gradient-to-br from-purple-900/30 to-black border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
+                >
+                  <div className="flex items-center mb-2">
+                    <div className="p-2 rounded-lg bg-cyan-600/20 mr-3">
+                      <FiCode className="text-cyan-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-400">BizWebAI</h3>
+                      <p className="text-xl font-bold text-white">{userData.usageStats.bizwebai}</p>
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${userData.usageStats.bizwebai > 0 ? 100 : 0}%` }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="h-1.5 bg-cyan-500 rounded-full"
+                      ></motion.div>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Main Content Area */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Plan Details */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="lg:col-span-1 p-6 rounded-xl bg-gradient-to-br from-[#2a2435] to-[#231e2e] border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between mb-5">
+                    <h3 className="text-lg font-semibold text-white">Plan Features</h3>
+                    <div className="h-8 w-8 rounded-lg bg-purple-800/30 flex items-center justify-center">
+                      <FiAward className="text-purple-300" />
+                    </div>
+                  </div>
+
+                  {userData.activePlan ? (
+                    <div className="space-y-5">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="text-sm text-gray-400">Plan Name</p>
+                          <p className="text-lg font-bold text-white">{userData.activePlan.name}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-400">Price</p>
+                          {/* We need to directly check the transaction amount */}
+                          {userData.transactions && userData.transactions.some(t => 
+                            t.purchase_type === 'subscription' && 
+                            t.plan_name === userData.activePlan.name && 
+                            parseFloat(t.amount) === parseFloat(userData.activePlan.annual_price)
+                          ) ? (
+                            <p className="text-lg font-bold text-white">${userData.activePlan.annual_price}/yr</p>
+                          ) : (
+                            <p className="text-lg font-bold text-white">${userData.activePlan.monthly_price}/mo</p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Subscription Type Indicator */}
+                      <div className="mt-1 py-2 px-3 bg-purple-500/10 rounded-lg">
+                        <div className="flex items-center">
+                          <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                          <span className="text-sm text-green-300">
+                            {userData.transactions && userData.transactions.some(t => 
+                              t.purchase_type === 'subscription' && 
+                              t.plan_name === userData.activePlan.name && 
+                              parseFloat(t.amount) === parseFloat(userData.activePlan.annual_price)
+                            ) ? 'Annual Subscription' : 'Monthly Subscription'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Plan dates and auto-renewal status */}
+                      <div className="mt-1 py-2 px-3 bg-gray-800/40 rounded-lg space-y-2">
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-400">Activated:</span>
+                          <span className="text-gray-300">{formatDate(userData.planActivatedAt)}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-400">Expires:</span>
+                          <span className="text-gray-300">{formatDate(userData.planExpiresAt)}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-400">Auto-renewal:</span>
+                          <span className={userData.autoRenew ? 'text-green-400' : 'text-yellow-400'}>
+                            {userData.autoRenew ? 'Enabled' : 'Disabled'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-purple-900/30">
+                        <h4 className="text-sm font-medium text-gray-300 mb-3">Features Included:</h4>
+                        {userData.activePlan.raw_features && Array.isArray(userData.activePlan.raw_features) ? (
+                          <ul className="space-y-4">
+                            {userData.activePlan.raw_features.map((feature, index) => (
+                              <motion.li 
+                                key={index}
+                                className="flex items-center"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                              >
+                                <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
+                                <span className="text-gray-300">{feature}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-gray-400">No features available</p>
+                        )}
+                      </div>
+
+                      <div className="pt-4 text-center space-y-2">
+                        <p className="text-xs text-gray-400 mb-2">Plan Expires: {formatDate(userData.planExpiresAt)}</p>
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="w-full px-6 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
+                          onClick={() => navigate('/pricingplan')}
+                        >
+                          Upgrade Plan
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="w-full px-6 py-2 text-sm font-medium bg-blue-600/30 text-blue-200 rounded-lg hover:bg-blue-600/40 transition-colors flex items-center justify-center"
+                          onClick={() => navigate('/manageplan')}
+                        >
+                          <FiSettings className="mr-2 w-4 h-4" />
+                          Manage Subscription
+                        </motion.button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-6 text-center">
+                      <p className="text-gray-400 mb-4">No active plan</p>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="px-6 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
+                        onClick={() => navigate('/pricingplan')}
+                      >
+                        View Plans
+                      </motion.button>
+                    </div>
+                  )}
+
+
+                  {/* Usage Pie Chart */}
+                  <div className="mt-8 border-t border-purple-900/30 pt-5">
+                    <div className="flex items-center mb-4">
+                      <div className="h-7 w-7 rounded-lg bg-purple-800/30 flex items-center justify-center mr-2">
+                        <FiBarChart2 className="text-purple-300" />
+                      </div>
+                      <h3 className="text-md font-medium text-white">Usage Breakdown</h3>
+                    </div>
+                    
+                    <div className="h-48 flex items-center justify-center">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={pieData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={40}
+                            outerRadius={70}
+                            paddingAngle={1}
+                            dataKey="value"
+                            animationBegin={200}
+                            animationDuration={800}
+                          >
+                            {pieData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Pie>
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: 'rgba(26, 27, 38, 0.9)',
+                              border: '1px solid #3f3f5a',
+                              borderRadius: '8px',
+                              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)'
+                            }}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 gap-2 mt-3">
+                      <div className="flex items-center text-xs">
+                        <div className="w-2 h-2 rounded-full bg-purple-500 mr-2"></div>
+                        <span className="text-gray-400">Logo Requests: {userData.usageStats.logo_requests}</span>
+                      </div>
+                      <div className="flex items-center text-xs">
+                        <div className="w-2 h-2 rounded-full bg-blue-500 mr-2"></div>
+                        <span className="text-gray-400">Chat History: {userData.usageStats.chat_history}</span>
+                      </div>
+                      <div className="flex items-center text-xs">
+                        <div className="w-2 h-2 rounded-full bg-cyan-500 mr-2"></div>
+                        <span className="text-gray-400">BizWebAI: {userData.usageStats.bizwebai}</span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Transaction History - Revised Modern UI */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="lg:col-span-2 p-6 rounded-xl bg-gradient-to-br from-[#2a2435] to-[#231e2e] border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center">
+                      <div className="h-8 w-8 rounded-lg bg-blue-500/20 flex items-center justify-center mr-3">
+                        <FiDollarSign className="text-blue-400" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-white">Transaction History</h3>
+                    </div>
+                  </div>
+
+                  <div className="overflow-x-auto custom-scrollbar">
+                    <AnimatePresence>
+                      {userData.transactions && userData.transactions.length > 0 ? (
+                        <div className="space-y-3">
+                          {userData.transactions.map((transaction, index) => (
+                            <motion.div
+                              key={transaction.id || index}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.05 }}
+                              className="p-3 rounded-lg bg-purple-900/10 border border-purple-900/10 hover:border-purple-500/20 hover:bg-purple-900/20 transition-all duration-300"
+                            >
+                              <div className="flex flex-wrap md:flex-nowrap items-center justify-between">
+                                <div className="w-full md:w-auto mb-2 md:mb-0">
+                                  <div className="flex items-center">
+                                    {getStatusIcon(transaction.status)}
+                                    <span className="ml-2 text-sm font-medium text-gray-300 capitalize">
+                                      {transaction.payment_type || transaction.purchase_type || 'Transaction'}
+                                    </span>
+                                    {transaction.plan_name && (
+                                      <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-purple-500/20 text-purple-200">
+                                        {transaction.plan_name}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-gray-500 mt-1">
+                                    {formatTransactionDate(transaction.created_at)}
+                                  </p>
+                                </div>
+                                
+                                <div className="flex items-center space-x-4">
+                                  {transaction.credits_purchased ? (
+                                    <div className="text-center">
+                                      <p className="text-xs text-gray-400">Credits</p>
+                                      <p className="text-sm font-semibold text-blue-400">
+                                        {transaction.credits_purchased}
+                                      </p>
+                                    </div>
+                                  ) : null}
+                                  
+                                  <div className="text-center">
+                                    <p className="text-xs text-gray-400">{transaction.currency || 'USD'}</p>
+                                    <p className={`text-sm font-bold ${parseFloat(transaction.amount) > 0 ? 'text-green-400' : 'text-purple-400'}`}>
+                                      {parseFloat(transaction.amount).toFixed(2)}
+                                    </p>
+                                  </div>
+                                  
+                                  <div className="w-8 h-8 rounded-full bg-purple-900/30 flex items-center justify-center ml-2">
+                                    <FiChevronRight className="text-gray-400" />
+                                  </div>
+                                </div>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      ) : (
+                        <motion.div 
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="text-center py-10"
+                        >
+                          <div className="flex justify-center mb-3">
+                            <FiDollarSign className="text-gray-500 text-4xl" />
+                          </div>
+                          <p className="text-gray-400">No transactions found</p>
+                          <p className="text-gray-500 text-sm mt-2">Your recent transactions will appear here</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  
+                  {userData.transactions && userData.transactions.length > 0 && (
+                    <div className="mt-4 text-right">
+                      <motion.button 
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="px-4 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
+                        onClick={() => navigate('/transactions')}
+                      >
+                        View All Transactions
+                      </motion.button>
+                    </div>
+                  )}
+                </motion.div>
               </div>
             </div>
-
-            {/* ADS AI Stats */}
-            <div className="p-6 rounded-xl bg-[#2a2435]">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-medium text-white">Statistics ADS AI</h3>
-                <button className="px-3 py-1 text-sm text-gray-400 border border-gray-700 rounded-md">
-                  SEE MORE
-                </button>
-              </div>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={adsData}>
-                    <XAxis dataKey="name" stroke="#6b7280" />
-                    <YAxis stroke="#6b7280" />
-                    <Tooltip
-                      contentStyle={{
-                        background: '#1f2937',
-                        border: 'none',
-                        borderRadius: '8px',
-                        color: '#fff'
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="value1"
-                      stroke="#2dd4bf"
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="value2"
-                      stroke="#ec4899"
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
+          </main>
         </div>
-      </main>
-    </div>   }
-    
+      )}
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { PulseLoader } from 'react-spinners';
-
-const LoadingPage = (name) => {
-    
-  const [loadingText, setLoadingText] = useState('Loading');
+import PropTypes from 'prop-types';
+function LoadingPage ({name="Loading"})  {  // Properly destructure the name prop with default value
   
-  // Simulate different loading messages
+  const [loadingText, setLoadingText] = useState(name);
+ 
+  
   useEffect(() => {
     const messages = [
       name,
@@ -13,7 +13,7 @@ const LoadingPage = (name) => {
       'Almost there',
       'Setting things up'
     ];
-    
+
     let currentIndex = 0;
     const interval = setInterval(() => {
       setLoadingText(messages[currentIndex]);
@@ -21,21 +21,21 @@ const LoadingPage = (name) => {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [name]); // Add name to dependency array
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
       <div className="flex flex-col items-center space-y-6">
         {/* Logo or Brand Icon */}
         <div className="w-16 h-16 mb-8 overflow-hidden bg-gradient-to-r from-purple-600 to-purple-400 rounded-xl animate-pulse">
-          {/* You can replace this with your logo */}
           <div className="flex items-center justify-center w-full h-full text-2xl font-bold text-white">
             AI
           </div>
         </div>
+        
 
         {/* Loading Spinner */}
-        <PulseLoader 
+        <PulseLoader
           color="#8B5CF6"
           size={15}
           speedMultiplier={0.8}
@@ -58,13 +58,26 @@ const LoadingPage = (name) => {
       </div>
 
       {/* Background Decoration */}
-      <div className="absolute inset-0 z-[-1]">
-        <div className="absolute w-64 h-64 rounded-full top-1/4 left-1/4 bg-purple-500/10 filter blur-3xl animate-blob"></div>
-        <div className="absolute w-64 h-64 rounded-full top-1/3 right-1/4 bg-purple-700/10 filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute w-64 h-64 rounded-full bottom-1/4 left-1/3 bg-purple-300/10 filter blur-3xl animate-blob animation-delay-4000"></div>
+      <div className="absolute inset-0 z-[-1] overflow-hidden">
+        <div 
+          className="absolute w-64 h-64 -translate-x-1/2 -translate-y-1/2 rounded-full top-1/4 left-1/4 bg-purple-500/10 filter blur-3xl animate-blob"
+          style={{ animationDelay: '0ms' }}
+        />
+        <div 
+          className="absolute w-64 h-64 -translate-x-1/2 -translate-y-1/2 rounded-full top-1/3 right-1/4 bg-purple-700/10 filter blur-3xl animate-blob"
+          style={{ animationDelay: '2000ms' }}
+        />
+        <div 
+          className="absolute w-64 h-64 -translate-x-1/2 -translate-y-1/2 rounded-full bottom-1/4 left-1/3 bg-purple-300/10 filter blur-3xl animate-blob"
+          style={{ animationDelay: '4000ms' }}
+        />
       </div>
     </div>
   );
+};
+
+LoadingPage.propTypes = {
+  name: PropTypes.string,
 };
 
 export default LoadingPage;

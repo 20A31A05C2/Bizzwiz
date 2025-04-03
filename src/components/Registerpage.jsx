@@ -5,7 +5,8 @@ import { FaApple } from 'react-icons/fa';
 import ApiService from '../Apiservice';
 import { ToastContainer, toast } from 'react-toastify';
 import RingLoader  from "react-spinners/ClipLoader";
-
+import { Link, useNavigate } from 'react-router-dom';
+import { auth, googleProvider, signInWithPopup } from "../firebase";
 
 function Registerpage() {
 
@@ -17,6 +18,40 @@ function Registerpage() {
     const [check,setcheck]=useState(false);
     const [message,setmessage]=useState("");
     const [loading, setLoading] = useState(false);
+    const navigate=useNavigate();
+
+    // ✅ Handle Google Registration
+    const handleGoogleRegister = async () => {
+      try {
+        setLoading(true);
+    
+        // Sign in with Google
+        const result = await signInWithPopup(auth, googleProvider);
+        
+        // Get the ID token
+        const idToken = await result.user.getIdToken(true);
+        
+        // Send to backend - using the same endpoint as login but with registration intent
+        const response = await ApiService("/google-auth", "POST", { 
+          token: idToken,
+          isRegistration: true // Add flag to indicate this is a registration
+        });
+    
+        // Save authentication data
+        localStorage.setItem("bizwizusertoken", response.token);
+        localStorage.setItem("user", JSON.stringify(response.user));
+    
+        toast.success("Registration successful");
+        navigate("/UserDashboard", { replace: true });
+    
+      } catch (error) {
+        console.error('Google Auth Error:', error);
+        const errorMessage = error.response?.data?.error || error.message || "Registration failed";
+        toast.error(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     const handleRegister=async(e)=>{
         e.preventDefault();
@@ -32,7 +67,8 @@ function Registerpage() {
 
                     localStorage.setItem("token", response.token);
                     localStorage.setItem("user", JSON.stringify(response.user));
-                    console.log(response.user); 
+                    console.log(response.user);
+                    navigate('/userlogin'); 
                     toast.success("Registered Successfully");
                 }
                 else{
@@ -151,13 +187,16 @@ function Registerpage() {
                   </label>
                 </div>
     
-                <button type='submit' className="w-full bg-[var(--accent-turquoise)] text-black font-medium p-3 rounded-xl hover:bg-[var(--accent-turquoise-hover)] transition-colors text-lg">
-                {loading ? (
-                  <RingLoader
-                  />
-                ) : (
-                  "Create Account"
-                )}
+                <button 
+                  type='submit' 
+                  disabled={loading}
+                  className="w-full bg-[var(--accent-turquoise)] text-black font-medium p-3 rounded-xl hover:bg-[var(--accent-turquoise-hover)] transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <RingLoader />
+                  ) : (
+                    "Create Account"
+                  )}
                 </button>
     
                 <div className="relative my-8">
@@ -170,11 +209,20 @@ function Registerpage() {
                 </div>
     
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <button className="flex items-center justify-center gap-3 p-3 border border-gray-600 rounded-xl text-white hover:bg-[rgba(255,255,255,0.1)] transition-colors">
+                  <button 
+                    type="button"
+                    onClick={handleGoogleRegister}
+                    disabled={loading}
+                    className="flex items-center justify-center gap-3 p-3 border border-gray-600 rounded-xl text-white hover:bg-[rgba(255,255,255,0.1)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <FcGoogle className="w-6 h-6" />
                     <span className="text-base">Google</span>
                   </button>
-                  <button className="flex items-center justify-center gap-3 p-3 border border-gray-600 rounded-xl text-white hover:bg-[rgba(255,255,255,0.1)] transition-colors">
+                  <button 
+                    type="button"
+                    disabled={loading}
+                    className="flex items-center justify-center gap-3 p-3 border border-gray-600 rounded-xl text-white hover:bg-[rgba(255,255,255,0.1)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <FaApple className="w-6 h-6" />
                     <span className="text-base">Apple</span>
                   </button>
@@ -182,9 +230,9 @@ function Registerpage() {
     
                 <p className="mt-8 text-base text-center text-gray-400">
                   Already have an account?{' '}
-                  <a href="/userlogin" className="text-[var(--accent-turquoise)] hover:underline">
+                  <Link to="/userlogin" className="text-[var(--accent-turquoise)] hover:underline">
                     Sign In
-                  </a>
+                  </Link>
                 </p>
               </form>
             </div>

@@ -1,3 +1,5 @@
+
+
 :root {
     background-color:black;
     --primary-dark: rgb(37, 37, 37);
@@ -7,6 +9,7 @@
     --accent-turquoise: #5dd3d1;
     --accent-turquoise-hover: #4cc2c0;
     color: white;
+    font-family: 'Inter', sans-serif;
   }
   
   /* Custom checkbox styles */
@@ -31,3 +34,5 @@
       padding: 1rem;
     }
   }
+
+  

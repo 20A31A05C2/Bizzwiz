@@ -2,23 +2,26 @@ import { useState } from 'react';
 import Logo from '../../assets/logo.png';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import "@fontsource/inter"; 
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { text: 'Features', href: '#' },
-    { text: 'Developers', href: '#' },
-    { text: 'Pricing', href: '#' },
-    { text: 'Changelog', href: '#' }
+    { text: 'Accueil', href: '#' },
+    { text: 'Nos services', href: '#' },
+    { text: 'Créer mon entreprise', href: '#' },
+    { text: 'Créer mon site web', href: '#' },
+    { text: 'Contact', href: '#' }
   ];
 
   const navigate = useNavigate();
 
   return (
-    <header className="py-4 w-full border border-white/15 bg-gradient-to-b from-black/50 to-transparent backdrop-blur-sm fixed top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center max-w-6xl mx-auto">
+    <header className="py-4 w-full border-b border-white/10 bg-black/80 backdrop-blur-sm fixed top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
           <div className="flex items-center">
             <div className="relative group">
               <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600/20 to-purple-800/20 blur group-hover:blur-md transition-all duration-300"></div>
@@ -28,9 +31,11 @@ const Header = () => {
             </div>
           </div>
 
+          {/* Center Navigation */}
           <nav className="hidden lg:block">
-            <div className="border border-white/20 p-2 rounded-full bg-black/20 backdrop-blur-sm">
-              <ul className="flex gap-16 px-8">
+            {/* Nav links with border - 60px border radius */}
+            <div className="border border-white/10 rounded-[60px] px-8 py-2 bg-black/20 backdrop-blur-sm">
+              <ul className="flex gap-8">
                 {navLinks.map((link) => (
                   <li key={link.text}>
                     <a
@@ -47,18 +52,28 @@ const Header = () => {
 
          
           <div className="flex items-center gap-6">
-            <button onClick={()=>{
-                navigate('/userlogin')
-            }} className="relative group py-2.5 px-6 rounded-lg font-medium text-sm">
-              <div className="absolute inset-0 bg-gradient-to-b from-[#190d2e] to-[#4a208a] rounded-lg"></div>
-              <div className="absolute inset-0 bg-gradient-to-b from-purple-600/50 to-purple-800/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="absolute inset-0 shadow-[0_0_20px_rgb(140,69,255,0.5)] rounded-lg"></div>
-              <div className="absolute inset-0">
-                <div className="rounded-lg border border-white/20 absolute inset-0 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
-                <div className="rounded-lg border border-white/40 absolute inset-0 [mask-image:linear-gradient(to_top,white,transparent)]"></div>
-              </div>
-              <span className="relative text-white">Join Now</span>
-            </button>
+            {/* Button container with outer border - 8px border radius */}
+            <div className="border border-white/10 rounded-lg p-1 bg-black/20 backdrop-blur-sm">
+              <button 
+                onClick={() => navigate('/userlogin')} 
+                className="relative group py-2 px-8 rounded-lg overflow-hidden"
+              >
+                {/* Gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-purple-900 rounded-lg"></div>
+                
+                {/* Glow effect */}
+                <div className="absolute inset-0 shadow-[0_0_15px_rgba(140,69,255,0.4)] rounded-lg"></div>
+                
+                {/* Inner border */}
+                <div className="absolute inset-0 rounded-lg border border-purple-500/30"></div>
+                
+                {/* Hover effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                
+                {/* Text */}
+                <span className="relative text-white text-sm font-medium">SE CONNECTER</span>
+              </button>
+            </div>
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -75,7 +90,7 @@ const Header = () => {
 
         
         {isMenuOpen && (
-          <div className="lg:hidden absolute left-0 right-0 top-full mt-2 bg-transparent border-y border-white/10 backdrop-blur-lg">
+          <div className="lg:hidden absolute left-0 right-0 top-full mt-2 bg-black/90 border-y border-white/10 backdrop-blur-lg">
             <nav className="container mx-auto px-4 py-4">
               <ul className="space-y-4">
                 {navLinks.map((link) => (

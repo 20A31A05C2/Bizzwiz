@@ -10,15 +10,29 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^4.3.1",
+    "@fontsource/inter": "^5.1.1",
+    "@stripe/react-stripe-js": "^3.3.0",
+    "@stripe/stripe-js": "^5.10.0",
+    "@walletconnect/qrcode-modal": "^1.8.0",
+    "@walletconnect/web3-provider": "^1.8.0",
     "axios": "^1.7.9",
     "bizwizfrontend": "file:",
-    "framer-motion": "^11.18.0",
+    "ethers": "^5.7.2",
+    "firebase": "^11.3.1",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^0.474.0",
+    "qrcode": "^1.5.4",
+    "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-icons": "^5.4.0",
+    "react-intersection-observer": "^9.15.1",
     "react-router-dom": "^7.1.1",
     "react-spinners": "^0.15.0",
-    "react-toastify": "^11.0.3",
-    "recharts": "^2.15.0"
+    "react-toastify": "^11.0.5",
+    "recharts": "^2.15.0",
+    "web3modal": "^1.9.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

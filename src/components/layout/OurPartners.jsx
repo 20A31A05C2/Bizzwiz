@@ -1,14 +1,12 @@
-import p1 from '../../assets/partners/acene.png';
-import p2 from '../../assets/partners/outside.png';
-import p3 from '../../assets/partners/apex.png';
-import p4 from '../../assets/partners/celestial.png';
-import p5 from '../../assets/partners/echo.png';
-import p6 from '../../assets/partners/pulse.png';
-import p7 from '../../assets/partners/quantum.png';
-import p8 from '../../assets/partners/teice.png';
-import tem from '../../assets/template.png'
-
-import useScrollAnimation from './useScrollanimation';
+import p1 from "../../assets/partners/acene.png";
+import p2 from "../../assets/partners/outside.png";
+import p3 from "../../assets/partners/apex.png";
+import p4 from "../../assets/partners/celestial.png";
+import p5 from "../../assets/partners/echo.png";
+import p6 from "../../assets/partners/pulse.png";
+import p7 from "../../assets/partners/quantum.png";
+import p8 from "../../assets/partners/teice.png";
+import useScrollAnimation from "./useScrollanimation";
 
 function OurPartners() {
   const [headerRef, headerVisible] = useScrollAnimation();
@@ -26,24 +24,15 @@ function OurPartners() {
   ];
 
   return (
-    
-    <section className="relative flex flex-col items-center py-10 overflow-hidden text-white bg-transparent">
-
-
-      
-      
-       <div className="shadow-[0_0_100px_rgb(140,69,255,0.5)]">
-      <img src={tem} ></img>
-        </div>
+    <section className="relative flex flex-col items-center overflow-hidden overflow-x-hidden text-white bg-transparent">
       <h2
         ref={headerRef}
-        className={`text-4xl font-bold tracking-wide py-20 mb-12 text-center transform transition-all duration-700 ${
-          headerVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        className={`text-4xl font-bold tracking-wide mt-2 md:p-12 p-6 mb-5 text-center transform transition-all duration-700 ${
+          headerVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
         }`}
       >
         Our Partners
       </h2>
-      
       <div
         ref={gridRef}
         className="grid w-full grid-cols-2 gap-8 px-4 sm:grid-cols-3 md:grid-cols-4 max-w-7xl"
@@ -54,7 +43,7 @@ function OurPartners() {
             className={`flex flex-col items-center justify-center bg-transparent border border-gray-800 
               rounded-lg p-6 shadow-lg transition-all duration-700 transform
               hover:shadow-2xl hover:-translate-y-2 hover:border-purple-600/50
-              ${gridVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+              ${gridVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             style={{ transitionDelay: `${index * 100}ms` }}
           >
             <img
