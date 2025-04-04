@@ -1,13 +1,14 @@
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
-import { useState } from "react";
-import ApiService from "../Apiservice";
+import React, { useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import RingLoader from "react-spinners/ClipLoader";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, googleProvider, signInWithPopup } from "../firebase";
+import ApiService from "../Apiservice";
+import Logo from '../assets/logo.png';
+import BlueBlob from '../assets/blueblob.png';
+import PurpleBlob from '../assets/Ellipse .png';
 
-function LoginPage() {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -86,124 +87,195 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen md:flex-row min-w-screen">
-      <div className="w-full md:w-1/2 bg-[var(--primary-bg)] responsive-padding flex items-center justify-center">
-        <div className="w-full max-w-md px-4">
-          <div className="mb-8">
-            <h1 className="mb-2 text-2xl font-semibold text-white md:text-3xl">Welcome back!</h1>
-            <p className="text-sm text-gray-400 md:text-base">
-              Enter your credentials to access your account
-            </p>
+    <div 
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden"
+      style={{ backgroundColor: 'hsla(263, 55%, 16%, 1)' }}
+    >
+      {/* Top left purple circle blob - responsive positioning with reduced size */}
+      <div 
+        className="absolute -left-24 -top-24 h-[200px] w-[200px] md:-left-32 md:-top-32 md:h-[250px] md:w-[250px] lg:-left-40 lg:-top-40 lg:h-[300px] lg:w-[300px] rounded-full opacity-70"
+        style={{ backgroundColor: '#4A2A8A' }}
+      ></div>
+      
+      {/* Bottom left purple circle blob - responsive positioning with reduced size */}
+      <div 
+        className="absolute -bottom-24 -left-12 h-[200px] w-[200px] md:-bottom-32 md:-left-16 md:h-[250px] md:w-[250px] lg:-bottom-40 lg:-left-20 lg:h-[300px] lg:w-[300px] rounded-full opacity-70"
+        style={{ backgroundColor: '#4A2A8A' }}
+      ></div>
+      
+      {/* Right blue curved shape - responsive sizing with reduced size */}
+      <div className="absolute right-0 top-0 bottom-0 w-1/4 sm:w-1/3 md:w-1/3 lg:w-1/4 z-0 block">
+        <img 
+          src={BlueBlob} 
+          alt="Blue decorative shape" 
+          className="w-full h-full object-cover object-left"
+        />
+      </div>
+      
+      {/* Bottom right purple blob - responsive positioning with reduced size */}
+      <div className="absolute bottom-0 right-0 z-0 w-1/4 sm:w-1/4 md:w-1/4 lg:w-1/5 block">
+        <img 
+          src={PurpleBlob} 
+          alt="Purple decorative shape" 
+          className="w-full h-auto object-contain"
+        />
+      </div>
+      
+      <div className="z-10 flex w-full max-w-md flex-col items-center px-4 sm:px-6">
+        {/* Logo - responsive sizing */}
+        <div className="mb-8 md:mb-12">
+          <div className="h-24 w-24 md:h-28 md:w-28 lg:h-32 lg:w-32 flex items-center justify-center">
+            <img src={Logo} alt="Logo" className="h-full w-full object-contain" />
           </div>
+        </div>
 
-          {/* Email/Password Login Form */}
-          <form className="space-y-6" onSubmit={handleLogin}>
-            <div className="space-y-2">
-              <label className="text-sm text-gray-400">Email address</label>
+        {/* Welcome text */}
+        <div className="w-full mb-6 text-center">
+          <h1 className="mb-2 text-xl font-semibold text-white md:text-2xl">Welcome back!</h1>
+          <p className="text-xs text-white/70 md:text-sm">
+            Enter your credentials to access your account
+          </p>
+        </div>
+
+        {/* Login Form */}
+        <form className="w-full space-y-4" onSubmit={handleLogin}>
+          <div className="space-y-3 md:space-y-4">
+            <div className="relative">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="ADRESSE EMAIL"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
-                className="w-full p-3 rounded-lg bg-[var(--primary-bg)] border border-gray-600 text-white 
-                  custom-input focus:outline-none focus:border-[var(--accent-turquoise)]
-                  disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-10 md:h-12 w-full bg-transparent border border-white/20 rounded text-white placeholder:text-white/50 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               />
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="md:w-[18px] md:h-[18px]"
+                >
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="text-sm text-gray-400">Password</label>
-                <a href="/forgotpassword" className="text-sm text-[var(--accent-turquoise)] hover:underline">
-                  Forgot password?
-                </a>
-              </div>
+            <div className="relative">
               <input
                 type="password"
-                placeholder="Enter password"
+                placeholder="MOT DE PASSE"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
-                className="w-full p-3 rounded-lg bg-[var(--primary-bg)] border border-gray-600 text-white 
-                  custom-input focus:outline-none focus:border-[var(--accent-turquoise)]
-                  disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-10 md:h-12 w-full bg-transparent border border-white/20 rounded text-white placeholder:text-white/50 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               />
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="md:w-[18px] md:h-[18px]"
+                >
+                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
             </div>
+          </div>
 
+          <div className="flex items-center justify-between mt-2">
             <div className="flex items-center">
               <input
                 type="checkbox"
                 id="remember"
                 disabled={loading}
-                className="w-4 h-4 border-gray-600 rounded custom-checkbox"
+                className="w-4 h-4 border-gray-600 rounded"
               />
-              <label htmlFor="remember" className="ml-2 text-sm text-gray-400">
-                Remember me for 30 days
+              <label htmlFor="remember" className="ml-2 text-xs text-white/80">
+                Remember me
               </label>
             </div>
+            <a href="/forgotpassword" className="text-xs text-white/80 hover:text-white">
+              Mot de passe oublié ?
+            </a>
+          </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[var(--accent-turquoise)] text-black font-medium p-3 rounded-lg 
-                hover:bg-[var(--accent-turquoise-hover)] transition-colors relative
-                disabled:opacity-50 disabled:cursor-not-allowed h-[50px]"
-            >
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="w-full h-10 md:h-12 bg-white hover:bg-white/90 text-purple-900 font-medium rounded focus:outline-none text-sm md:text-base mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {loading ? (
               <div className="flex items-center justify-center">
-                {loading ? <RingLoader /> : "Login"}
+                <RingLoader size={20} color="#4A2A8A" />
               </div>
-            </button>
+            ) : (
+              "SE CONNECTER"
+            )}
+          </button>
 
-            {/* OR Separator */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-600"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 text-gray-400 bg-[var(--primary-bg)]">or continue with</span>
-              </div>
+          {/* Only Google Login */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/20"></div>
             </div>
-
-            {/* Google & Apple Login */}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={handleGoogleLogin}
-                disabled={loading}
-                className="flex items-center justify-center gap-2 p-3 border border-gray-600 rounded-lg 
-                  text-white hover:bg-[rgba(255,255,255,0.1)] transition-colors
-                  disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <FcGoogle className="w-5 h-5" />
-                <span className="text-sm">Google</span>
-              </button>
-              <button
-                type="button"
-                disabled={loading}
-                className="flex items-center justify-center gap-2 p-3 border border-gray-600 rounded-lg 
-                  text-white hover:bg-[rgba(255,255,255,0.1)] transition-colors
-                  disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <FaApple className="w-5 h-5" />
-                <span className="text-sm">Apple</span>
-              </button>
+            <div className="relative flex justify-center text-base">
+              <span className="px-4 text-white/50 bg-[hsla(263,55%,16%,1)] text-xs">ou continuer avec</span>
             </div>
+          </div>
 
-            <p className="mt-6 text-sm text-center text-gray-400">
-              Don’t have an account?{' '}
-              <Link to="/userregister" className="text-[var(--accent-turquoise)] hover:underline">
-                Sign Up
-              </Link>
-            </p>
-          </form>
-        </div>
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            disabled={loading}
+            className="w-full h-9 md:h-10 flex items-center justify-center gap-2 bg-transparent border border-white/20 text-white hover:bg-white/10 rounded text-xs md:text-sm disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            <svg className="h-3.5 w-3.5 md:h-4 md:w-4 mr-1 md:mr-2" viewBox="0 0 24 24">
+              <path
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                fill="#4285F4"
+              />
+              <path
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                fill="#34A853"
+              />
+              <path
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                fill="#FBBC05"
+              />
+              <path
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                fill="#EA4335"
+              />
+            </svg>
+            Sign in with Google
+          </button>
+
+          <div className="text-center text-white/80 text-xs md:text-sm pt-3 md:pt-4">
+            Vous n'avez pas de compte ?{" "}
+            <Link to="/userregister" className="text-blue-400 hover:text-blue-300">
+              inscrivez-vous
+            </Link>
+          </div>
+        </form>
       </div>
-
-      <div className="hidden w-1/2 bg-black md:block"></div>
-      <ToastContainer draggable />
+      <ToastContainer />
     </div>
   );
-}
+};
 
 export default LoginPage;

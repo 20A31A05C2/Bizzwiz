@@ -241,8 +241,8 @@ const TaskIntegrationSection = () => {
         </div>
       </div>
       
-      {/* Horizontal Line with improved responsive spacing */}
-      <div ref={lineRef} className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 relative mt-8 sm:mt-10 md:mt-12 lg:mt-14 mb-6 sm:mb-8 md:mb-10">
+      {/* Horizontal Line - Updated with the styling from Advertisement component */}
+      <div ref={lineRef} className="w-full max-w-6xl mx-auto relative mt-24 sm:mt-28 md:mt-32 mb-2 sm:mb-3 md:mb-4 flex justify-center items-center">
         <div 
           className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
         >
@@ -268,6 +268,26 @@ const TaskIntegrationSection = () => {
           }
           50% {
             transform: translateY(-10px);
+          }
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.2;
+            transform: scale(1.05);
+          }
+        }
+        
+        @keyframes glow {
+          0%, 100% {
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.5;
           }
         }
       `}</style>

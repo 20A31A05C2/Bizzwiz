@@ -1,4 +1,3 @@
-// CommunityJoin.jsx
 import React, { useState, useEffect, useRef } from 'react';
 
 const CommunityJoin = () => {
@@ -70,8 +69,8 @@ const CommunityJoin = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="w-full min-h-[500px] sm:min-h-[550px] md:min-h-[600px] bg-black flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 relative overflow-hidden">
-      <div className="relative w-full max-w-6xl h-[400px] sm:h-[450px] md:h-[500px] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-gray-900 via-blue-950 to-purple-950">
+    <div ref={sectionRef} className="w-full min-h-[600px] sm:min-h-[650px] md:min-h-[700px] bg-black flex flex-col items-center justify-center py-12 sm:py-16 md:py-18 relative overflow-hidden">
+      <div className="relative w-full max-w-6xl h-[500px] sm:h-[550px] md:h-[600px] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-gray-900 via-blue-950 to-purple-950">
         {/* Background glow effects */}
         <div 
           className={`absolute top-1/4 left-1/4 w-24 sm:w-32 md:w-48 lg:w-64 h-24 sm:h-32 md:h-48 lg:h-64 bg-purple-700 opacity-0 rounded-full blur-3xl transition-all duration-1500 ease-in-out ${isVisible ? 'opacity-10' : ''}`}
@@ -89,7 +88,7 @@ const CommunityJoin = () => {
         
         {/* Clouds - Responsive and scroll-triggered */}
         <div
-          className={`absolute top-14 sm:top-16 left-10 sm:left-20 md:left-32 transition-all duration-1000 transform ${areCloudsVisible ? 'opacity-40 translate-x-0' : 'opacity-0 -translate-x-10'}`}
+          className={`absolute top-20 sm:top-24 left-16 sm:left-24 md:left-32 transition-all duration-1000 transform ${areCloudsVisible ? 'opacity-40 translate-x-0' : 'opacity-0 -translate-x-10'}`}
           style={{ 
             animation: areCloudsVisible ? 'float-x 8s infinite alternate ease-in-out' : 'none'
           }}
@@ -100,7 +99,7 @@ const CommunityJoin = () => {
         </div>
         
         <div
-          className={`absolute top-8 sm:top-10 right-12 sm:right-24 md:right-40 transition-all duration-1000 delay-200 transform ${areCloudsVisible ? 'opacity-40 translate-x-0' : 'opacity-0 translate-x-10'}`}
+          className={`absolute top-12 sm:top-16 right-16 sm:right-28 md:right-40 transition-all duration-1000 delay-200 transform ${areCloudsVisible ? 'opacity-40 translate-x-0' : 'opacity-0 translate-x-10'}`}
           style={{ 
             animation: areCloudsVisible ? 'float-x-reverse 8s infinite alternate ease-in-out' : 'none',
             animationDelay: '1.5s'
@@ -112,7 +111,7 @@ const CommunityJoin = () => {
         </div>
         
         <div
-          className={`absolute top-12 sm:top-14 left-3 sm:left-8 transition-all duration-1000 delay-300 transform ${areCloudsVisible ? 'opacity-40 translate-x-0' : 'opacity-0 -translate-x-10'}`}
+          className={`absolute top-16 sm:top-20 left-8 sm:left-12 transition-all duration-1000 delay-300 transform ${areCloudsVisible ? 'opacity-40 translate-x-0' : 'opacity-0 -translate-x-10'}`}
           style={{ 
             animation: areCloudsVisible ? 'float-x 8s infinite alternate ease-in-out' : 'none',
             animationDelay: '0.8s'
@@ -124,7 +123,7 @@ const CommunityJoin = () => {
         </div>
         
         <div
-          className={`absolute bottom-40 sm:bottom-48 right-6 sm:right-16 transition-all duration-1000 delay-400 transform ${areCloudsVisible ? 'opacity-30 translate-x-0' : 'opacity-0 translate-x-10'}`}
+          className={`absolute bottom-48 sm:bottom-56 right-10 sm:right-20 transition-all duration-1000 delay-400 transform ${areCloudsVisible ? 'opacity-30 translate-x-0' : 'opacity-0 translate-x-10'}`}
           style={{ 
             animation: areCloudsVisible ? 'float-x-reverse 8s infinite alternate ease-in-out' : 'none',
             animationDelay: '2.2s'
@@ -136,7 +135,7 @@ const CommunityJoin = () => {
         </div>
         
         <div
-          className={`absolute bottom-32 sm:bottom-40 right-20 sm:right-40 transition-all duration-1000 delay-500 transform ${areCloudsVisible ? 'opacity-30 translate-x-0' : 'opacity-0 translate-x-10'}`}
+          className={`absolute bottom-40 sm:bottom-48 right-24 sm:right-44 transition-all duration-1000 delay-500 transform ${areCloudsVisible ? 'opacity-30 translate-x-0' : 'opacity-0 translate-x-10'}`}
           style={{ 
             animation: areCloudsVisible ? 'float-x-reverse 8s infinite alternate ease-in-out' : 'none',
             animationDelay: '3s'
@@ -149,7 +148,7 @@ const CommunityJoin = () => {
         
         {/* Star elements - responsive and scroll-triggered */}
         <div
-          className={`absolute top-24 sm:top-32 left-20 sm:left-40 transition-all duration-1000 transform ${areStarsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+          className={`absolute top-32 sm:top-40 left-24 sm:left-44 transition-all duration-1000 transform ${areStarsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
           style={{ 
             animation: areStarsVisible ? 'twinkle 3s infinite ease-in-out' : 'none'
           }}
@@ -160,7 +159,7 @@ const CommunityJoin = () => {
         </div>
         
         <div
-          className={`absolute top-32 sm:top-44 right-18 sm:right-24 transition-all duration-1000 delay-200 transform ${areStarsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+          className={`absolute top-40 sm:top-52 right-20 sm:right-28 transition-all duration-1000 delay-200 transform ${areStarsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
           style={{ 
             animation: areStarsVisible ? 'twinkle 3s infinite ease-in-out' : 'none',
             animationDelay: '1.5s'
@@ -172,7 +171,7 @@ const CommunityJoin = () => {
         </div>
         
         <div
-          className={`absolute bottom-40 sm:bottom-52 left-10 sm:left-16 transition-all duration-1000 delay-300 transform ${areStarsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+          className={`absolute bottom-48 sm:bottom-60 left-14 sm:left-20 transition-all duration-1000 delay-300 transform ${areStarsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
           style={{ 
             animation: areStarsVisible ? 'twinkle 3s infinite ease-in-out' : 'none',
             animationDelay: '0.8s'
@@ -184,7 +183,7 @@ const CommunityJoin = () => {
         </div>
         
         <div
-          className={`absolute bottom-32 sm:bottom-44 right-24 sm:right-56 transition-all duration-1000 delay-400 transform ${areStarsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+          className={`absolute bottom-40 sm:bottom-52 right-28 sm:right-60 transition-all duration-1000 delay-400 transform ${areStarsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
           style={{ 
             animation: areStarsVisible ? 'twinkle 3s infinite ease-in-out' : 'none',
             animationDelay: '2.2s'
@@ -218,30 +217,30 @@ const CommunityJoin = () => {
         </div>
         
         {/* Cloud outlines at the bottom - responsive sizes */}
-        <div className="absolute bottom-5 sm:bottom-6 right-5 sm:right-10">
+        <div className="absolute bottom-8 sm:bottom-10 right-8 sm:right-14">
           <svg width="50" height="25" viewBox="0 0 100 50" className="sm:w-18 sm:h-9 md:w-22 md:h-11" fill="none" stroke="#8B5CF6" strokeWidth="1" opacity="0.4">
             <path d="M10,30 C15,10 35,10 40,20 C45,5 75,5 80,20 C85,10 95,15 95,25 C95,35 85,40 75,38 C70,45 55,45 50,38 C45,45 30,45 25,38 C15,40 5,35 5,25 C5,20 8,15 10,30 Z" />
           </svg>
         </div>
         
-        <div className="absolute bottom-8 sm:bottom-12 right-16 sm:right-32">
+        <div className="absolute bottom-12 sm:bottom-16 right-20 sm:right-36">
           <svg width="40" height="16" viewBox="0 0 80 30" className="sm:w-16 sm:h-6" fill="none" stroke="#8B5CF6" strokeWidth="1" opacity="0.3">
             <path d="M10,20 C15,5 35,5 40,15 C45,5 65,5 70,15 C75,10 78,15 75,20 C70,25 55,25 50,20 C45,25 30,25 25,20 C20,25 15,25 10,20 Z" />
           </svg>
         </div>
         
         {/* Content container with scroll-triggered animations */}
-        <div ref={contentRef} className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center text-center px-4 sm:px-5">
+        <div ref={contentRef} className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center text-center px-6 sm:px-8">
           <h1 
             ref={titleRef}
-            className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4 transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-5 sm:mb-6 transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
             Rejoignez la communauté
           </h1>
                   
           <p 
             ref={descriptionRef}
-            className={`text-gray-300 max-w-xl mx-auto mb-5 sm:mb-6 text-sm sm:text-base transition-all duration-700 delay-200 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            className={`text-gray-300 max-w-xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg transition-all duration-700 delay-200 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
             Rejoignez notre communauté de plus de 4 000 personnes et contribuez à un Internet plus privé et décentralisé. Commencez gratuitement.
           </p>
@@ -251,7 +250,7 @@ const CommunityJoin = () => {
             className={`transition-all duration-700 delay-400 transform ${isButtonVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-95'}`}
           >
             <button 
-              className="bg-transparent hover:bg-opacity-20 hover:bg-purple-800 text-white font-medium py-2 sm:py-2.5 px-6 sm:px-8 rounded-full border border-purple-500 transition duration-300 hover:scale-105 active:scale-95"
+              className="bg-transparent hover:bg-opacity-20 hover:bg-purple-800 text-white font-medium py-3 sm:py-3.5 px-8 sm:px-10 rounded-full border border-purple-500 transition duration-300 hover:scale-105 active:scale-95 text-base sm:text-lg"
             >
               Rejoignez
             </button>
@@ -260,14 +259,14 @@ const CommunityJoin = () => {
       </div>
 
       {/* Horizontal line OUTSIDE the content container */}
-      <div ref={lineRef} className="w-full max-w-6xl mt-6 sm:mt-7 md:mt-8 mb-4 sm:mb-5 md:mb-6">
-        <div 
-          className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
-        >
-          {/* Add subtle glow to the line */}
-          <div className="absolute inset-0 blur-sm bg-purple-400 opacity-50"></div>
-        </div>
-      </div>
+<div ref={lineRef} className="w-full max-w-6xl mt-24 sm:mt-28 md:mt-32 mb-8 sm:mb-10 md:mb-12">
+  <div 
+    className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
+  >
+    {/* Add subtle glow to the line */}
+    <div className="absolute inset-0 blur-sm bg-purple-400 opacity-50"></div>
+  </div>
+</div>
       
       {/* Add global keyframe animations */}
       <style jsx>{`

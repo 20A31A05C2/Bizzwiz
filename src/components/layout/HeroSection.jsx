@@ -60,6 +60,10 @@ const HeroSection = () => {
   useEffect(() => {
     // Initial check on mount
     setIsVisible(true);
+    
+    // Set badge to visible immediately on mobile
+    setAnimatedElements(prev => ({ ...prev, badge: true }));
+    
     setTimeout(() => {
       handleScroll();
     }, 100);
@@ -75,7 +79,7 @@ const HeroSection = () => {
   return (
     <div className="w-full overflow-hidden" ref={sectionRef}>
       {/* Dark blue-purple background with darker edges */}
-      <div className="relative min-h-screen bg-[#120821]">
+      <div className="relative bg-[#120821] py-6 sm:py-8 md:py-12">
         {/* Darker edge vignette effect */}
         <div 
           className="absolute inset-0 z-0 pointer-events-none"
@@ -101,29 +105,29 @@ const HeroSection = () => {
           }}
         />
         
-        {/* Header spacing - improved for small screens */}
-        <div className="h-12 xs:h-14 sm:h-16 md:h-20"></div>
+        {/* Header spacing - INCREASED for better mobile spacing */}
+        <div className="h-10 xs:h-12 sm:h-14 md:h-16"></div>
         
-        {/* Center badge with scroll animation */}
+        {/* Center badge with scroll animation - IMPROVED VISIBILITY */}
         <div 
           ref={badgeRef}
-          className={`flex justify-center pt-3 xs:pt-4 md:pt-6 pb-4 xs:pb-5 md:pb-8 transition-all duration-700 transform
+          className={`flex justify-center pt-4 xs:pt-5 md:pt-6 pb-5 xs:pb-6 md:pb-8 transition-all duration-700 transform
             ${animatedElements.badge ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
-          <div className="inline-flex items-center gap-1 xs:gap-2 bg-black rounded-full px-3 xs:px-4 sm:px-5 py-1 xs:py-1.5 border border-[#6c2bd9]/30 hover:border-[#6c2bd9]/70 transition-all duration-300">
-            <span className="text-black text-[10px] xs:text-xs font-semibold bg-[#c729dc] px-1.5 xs:px-2 py-0.5 rounded-full animate-pulse">NEW</span>
-            <span className="text-[#a88bc7] text-[10px] xs:text-xs sm:text-sm">BizzWiz - Boostez votre entreprise avec le numérique</span>
+          <div className="inline-flex items-center gap-2 xs:gap-3 bg-black rounded-full px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 border-2 border-[#6c2bd9]/50 hover:border-[#6c2bd9]/90 transition-all duration-300 shadow-lg shadow-[#6c2bd9]/30">
+            <span className="text-black text-xs xs:text-sm font-bold bg-[#c729dc] px-2 xs:px-2.5 py-0.5 xs:py-1 rounded-full animate-pulse">NEW</span>
+            <span className="text-[#a88bc7] text-xs xs:text-sm sm:text-base font-medium">BizzWiz - Boostez votre entreprise avec le numérique</span>
           </div>
         </div>
         
-        {/* Main Content Section - improved padding for small screens */}
-        <div className="relative z-10 px-3 xs:px-4 sm:px-5">
+        {/* Main Content Section - improved padding and spacing */}
+        <div className="relative z-10 px-4 xs:px-5 sm:px-6 mb-4">
           <div className="max-w-4xl mx-auto text-center">
             {/* Main Heading with scroll animations */}
             <h1>
               <div 
                 ref={heading1Ref}
-                className={`text-white text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold mb-1 xs:mb-2 md:mb-3 transition-all duration-700 transform 
+                className={`text-white text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold mb-3 xs:mb-4 md:mb-5 transition-all duration-700 transform 
                   ${animatedElements.heading1 ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
               >
                 Ne soyez plus spectateur du numérique,
@@ -146,19 +150,19 @@ const HeroSection = () => {
               </div>
             </h1>
             
-            {/* Description with scroll animation */}
+            {/* Description with scroll animation - INCREASED SPACING */}
             <p 
               ref={descriptionRef}
-              className={`max-w-xl mx-auto mt-3 xs:mt-4 md:mt-6 mb-4 xs:mb-5 md:mb-8 text-white/80 text-sm xs:text-base md:text-lg transition-all duration-700 transform 
+              className={`max-w-xl mx-auto mt-5 xs:mt-6 md:mt-8 mb-6 xs:mb-8 md:mb-10 text-white/80 text-sm xs:text-base md:text-lg transition-all duration-700 transform 
                 ${animatedElements.description ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
             >
-              Lancez votre entreprise et créez votre site web en quelques clics avec l'IA ! 🚀
+              Lancez votre entreprise et créez votre site web en quelques clics avec l'IA !🚀
             </p>
             
             {/* CTA Button with scroll animation */}
             <button
               ref={buttonRef}
-              className={`px-4 xs:px-5 sm:px-8 py-2 xs:py-2.5 sm:py-3 bg-white rounded-lg text-black text-sm xs:text-base font-medium shadow-md transition-all duration-500 transform hover:bg-gray-100 hover:shadow-lg hover:scale-105 
+              className={`px-5 xs:px-6 sm:px-8 py-2.5 xs:py-3 sm:py-4 bg-white rounded-lg text-black text-sm xs:text-base font-medium shadow-md transition-all duration-500 transform hover:bg-gray-100 hover:shadow-lg hover:scale-105 
                 ${animatedElements.button ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
               onClick={() => navigate("/userlogin")}
             >
@@ -167,10 +171,10 @@ const HeroSection = () => {
           </div>
         </div>
         
-        {/* Dashboard Preview Container with scroll animation */}
+        {/* Dashboard Preview Container - INCREASED SPACING */}
         <div 
           ref={dashboardRef}
-          className={`relative mt-8 xs:mt-10 md:mt-12 px-3 xs:px-4 mx-auto max-w-5xl transition-all duration-1000 transform 
+          className={`relative mt-8 xs:mt-10 md:mt-12 px-4 xs:px-6 mx-auto max-w-5xl transition-all duration-1000 transform pb-6 sm:pb-8 md:pb-10 
             ${animatedElements.dashboard ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
         >
           {/* Purple glow effect with pulse animation */}
@@ -247,17 +251,29 @@ const HeroSection = () => {
           }
         }
         
-        /* Add xs breakpoint for very small screens */
+        /* Add xs breakpoint for very small screens - ENHANCED WITH MORE STYLES */
         @media (min-width: 400px) {
-          .xs\\:px-4 {
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
-          .xs\\:text-xl {
-            font-size: 1.25rem;
-            line-height: 1.75rem;
-          }
-          /* Add other xs classes as needed */
+          .xs\\:px-4 { padding-left: 1rem; padding-right: 1rem; }
+          .xs\\:px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+          .xs\\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+          .xs\\:pt-5 { padding-top: 1.25rem; }
+          .xs\\:pb-6 { padding-bottom: 1.5rem; }
+          .xs\\:py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+          .xs\\:py-2.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+          .xs\\:py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+          .xs\\:mt-6 { margin-top: 1.5rem; }
+          .xs\\:mt-10 { margin-top: 2.5rem; }
+          .xs\\:mb-4 { margin-bottom: 1rem; }
+          .xs\\:mb-8 { margin-bottom: 2rem; }
+          .xs\\:gap-3 { gap: 0.75rem; }
+          .xs\\:text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+          .xs\\:text-base { font-size: 1rem; line-height: 1.5rem; }
+          .xs\\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+          .xs\\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
+          .xs\\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+          .xs\\:h-12 { height: 3rem; }
+          .xs\\:-inset-x-16 { left: -4rem; right: -4rem; }
+          .xs\\:-inset-y-10 { top: -2.5rem; bottom: -2.5rem; }
         }
       `}</style>
     </div>

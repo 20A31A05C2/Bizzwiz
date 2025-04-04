@@ -73,7 +73,7 @@ const KeyAdvantagesSection = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="w-full py-8 md:py-16 lg:py-20 bg-black relative overflow-hidden">
+    <div ref={sectionRef} className="w-full py-12 md:py-20 lg:py-24 bg-black relative overflow-hidden">
       {/* Background highlight effects with animation */}
       <div 
         className={`absolute top-1/4 left-1/4 w-24 sm:w-32 md:w-48 lg:w-64 h-24 sm:h-32 md:h-48 lg:h-64 bg-purple-700 opacity-0 rounded-full blur-3xl transition-all duration-1500 ease-in-out ${isVisible ? 'opacity-10' : ''}`}
@@ -100,20 +100,20 @@ const KeyAdvantagesSection = () => {
         {/* Section Title with animation */}
         <div 
           ref={titleRef}
-          className={`text-center mb-6 md:mb-10 lg:mb-16 transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+          className={`text-center mb-8 md:mb-12 lg:mb-16 transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-purple-500 mt-8 sm:mt-10 md:mt-10 mb-3 md:mb-4 lg:mb-6">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-purple-500 mt-10 sm:mt-12 md:mt-12 mb-4 md:mb-5 lg:mb-8">
             LES AVANTAGES CLÉS
           </h2>
           <div className={`w-0 h-1 bg-purple-500 mx-auto transition-all duration-1000 delay-300 ${isTitleVisible ? 'w-12 sm:w-16' : ''}`}></div>
         </div>
         
         {/* Top Row - Two Cards with staggered animations and responsive layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 mb-6 sm:mb-8 lg:mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-10 lg:mb-12">
           {/* Advantage 1 */}
           <div 
             ref={card1Ref}
-            className={`advantage-card bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg p-4 sm:p-5 md:p-6 border border-gray-800 relative overflow-hidden w-full h-auto sm:h-[220px] md:h-[240px] lg:h-[280px] transition-all duration-700 transform ${isFirstCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+            className={`advantage-card bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg p-6 border border-gray-800 relative overflow-hidden w-full h-auto transition-all duration-700 transform ${isFirstCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
             style={{ 
               boxShadow: "0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05)"
             }}
@@ -158,7 +158,7 @@ const KeyAdvantagesSection = () => {
           {/* Advantage 2 */}
           <div 
             ref={card2Ref}
-            className={`advantage-card bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg p-4 sm:p-5 md:p-6 border border-gray-800 relative overflow-hidden w-full h-auto sm:h-[220px] md:h-[240px] lg:h-[280px] transition-all duration-700 transform ${isSecondCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+            className={`advantage-card bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg p-6 border border-gray-800 relative overflow-hidden w-full h-auto transition-all duration-700 transform ${isSecondCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
             style={{ 
               boxShadow: "0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05)"
             }}
@@ -204,7 +204,7 @@ const KeyAdvantagesSection = () => {
         {/* Bottom Row - Wide Card with Tools and Code */}
         <div 
           ref={card3Ref}
-          className={`advantage-card bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg p-4 sm:p-5 md:p-6 border border-gray-800 relative overflow-hidden w-full h-auto md:h-[300px] lg:h-[360px] transition-all duration-700 transform ${isBottomCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+          className={`advantage-card bg-gray-900 bg-opacity-60 backdrop-blur-sm rounded-lg p-6 border border-gray-800 relative overflow-hidden w-full h-auto md:h-[300px] lg:h-[360px] transition-all duration-700 transform ${isBottomCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
           style={{ 
             boxShadow: "0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05)"
           }}
@@ -272,7 +272,7 @@ const KeyAdvantagesSection = () => {
         </div>
         
         {/* Horizontal Line at the end with animation */}
-        <div ref={lineRef} className="relative mt-12 sm:mt-16 md:mt-20 mb-6 sm:mb-8 md:mb-10">
+        <div ref={lineRef} className="relative mt-24 sm:mt-28 md:mt-32 mb-8 sm:mb-10 md:mb-12">
           <div 
             className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
           >

@@ -1,4 +1,3 @@
-// Footer.jsx
 import React, { useState, useEffect, useRef } from 'react';
 
 const Footer = () => {
@@ -61,8 +60,14 @@ const Footer = () => {
     // Add scroll event listener
     window.addEventListener('scroll', handleScroll);
     
+    // Force all links to be visible after a delay (ensures they show even if not in viewport)
+    const timer = setTimeout(() => {
+      setVisibleLinks(Array(7).fill(true));
+    }, 1000);
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -77,11 +82,11 @@ const Footer = () => {
   ];
 
   return (
-    <div ref={sectionRef} className="w-full bg-black py-6 sm:py-7 md:py-8">
+    <div ref={sectionRef} className="w-full bg-black py-8 sm:py-5 md:py-6">
       <div className="max-w-4xl mx-auto px-4 sm:px-5">
         <div 
           ref={containerRef}
-          className={`border border-gray-800 rounded-md p-5 sm:p-6 transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+          className={`border border-gray-800 rounded-md p-4 sm:p-5 transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           style={{
             boxShadow: isVisible ? '0 0 30px rgba(75, 0, 130, 0.1)' : 'none',
             transition: 'all 0.7s ease-out, box-shadow 1.5s ease'
@@ -89,12 +94,12 @@ const Footer = () => {
         >
           <h2 
             ref={titleRef}
-            className={`text-white text-lg font-medium mb-4 transition-all duration-700 delay-200 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'}`}
+            className={`text-white text-lg font-medium mb-3 transition-all duration-700 delay-200 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'}`}
           >
             Legal
           </h2>
           
-          <div className="space-y-2 sm:space-y-3">
+          <div className="flex flex-col space-y-2.5">
             {linkItems.map((item, index) => (
               <div 
                 key={index}

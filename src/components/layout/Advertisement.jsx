@@ -78,7 +78,7 @@ const Advertisement = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="relative bg-black text-white w-full py-6 sm:py-8 md:py-10 lg:py-12 flex flex-col justify-center items-center p-3 sm:p-4 md:p-5 overflow-hidden">
+    <div ref={sectionRef} className="relative bg-black text-white w-full py-4 sm:py-6 md:py-12 flex flex-col justify-center items-center p-3 sm:p-4 overflow-hidden">
       {/* Background dots pattern - now in top left corner with dark purple color */}
       <div className={`absolute top-0 left-0 w-28 sm:w-32 md:w-36 lg:w-40 h-28 sm:h-32 md:h-36 lg:h-40 overflow-hidden transition-opacity duration-1500 ${dotMatrixVisible ? 'opacity-100' : 'opacity-0'}`}>
         {Array.from({ length: 7 }).map((_, rowIndex) => (
@@ -98,12 +98,12 @@ const Advertisement = () => {
         ))}
       </div>
       
-      {/* Main content container */}
-      <div className="relative z-10 w-full max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
+      {/* Main content container - REDUCED margins */}
+      <div className="relative z-10 w-full max-w-6xl flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
         {/* Left side - image with initial animation only */}
         <div 
           ref={imageRef}
-          className={`flex-1 flex justify-center mb-5 md:mb-0 transition-all duration-700 transform ${isImageVisible ? 'translate-x-0 opacity-100' : '-translate-x-16 opacity-0'}`}
+          className={`flex-1 flex justify-center mb-4 md:mb-0 transition-all duration-700 transform ${isImageVisible ? 'translate-x-0 opacity-100' : '-translate-x-16 opacity-0'}`}
         >
           <img 
             src={leftside} 
@@ -123,14 +123,14 @@ const Advertisement = () => {
           
           <h1 
             ref={titleRef}
-            className={`text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 transition-all duration-700 delay-200 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+            className={`text-xl sm:text-2xl md:text-3xl font-bold mb-2 transition-all duration-700 delay-200 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
           >
             ADS IA - Votre publicité boostée par l'Intelligence Artificielle
           </h1>
           
           <p 
             ref={descriptionRef}
-            className={`mb-4 sm:mb-5 text-gray-300 text-sm sm:text-base transition-all duration-700 delay-400 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+            className={`mb-3 sm:mb-4 text-gray-300 text-sm sm:text-base transition-all duration-700 delay-400 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
           >
             Gagnez en visibilité et attirez plus de clients grâce à ADS IA, une IA spécialisée dans la création et l'optimisation de vos campagnes publicitaires.
           </p>
@@ -152,8 +152,8 @@ const Advertisement = () => {
         </div>
       </div>
       
-      {/* Horizontal Line */}
-      <div ref={lineRef} className="w-full max-w-6xl relative mt-6 sm:mt-8 md:mt-10 mb-4 sm:mb-5 md:mb-6">
+      {/* Horizontal Line - REDUCED margins */}
+      <div ref={lineRef} className="w-full max-w-6xl relative mt-24 sm:mt-28 md:mt-32 mb-2 sm:mb-3 md:mb-4">
         <div 
           className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
         >

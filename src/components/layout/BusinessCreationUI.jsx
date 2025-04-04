@@ -65,11 +65,11 @@ const BusinessCreationUI = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="w-full min-h-screen sm:h-screen bg-black flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 relative overflow-hidden">
-      {/* Main container with responsive sizing */}
+    <div ref={sectionRef} className="w-full bg-black flex flex-col items-center justify-center py-8 sm:py-10 md:py-7 px-4 sm:px-6 relative overflow-hidden">
+      {/* Main container with responsive sizing - USING PADDING INSTEAD OF FIXED HEIGHT */}
       <div 
         ref={contentRef}
-        className={`w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-5xl h-64 sm:h-80 md:h-96 rounded-lg border border-gray-700 relative overflow-hidden transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+        className={`w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-5xl py-10 sm:py-12 md:py-16 rounded-lg border border-gray-700 relative overflow-hidden transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
         style={{
           backgroundImage: `url(${grid})`,
           backgroundSize: 'cover',
@@ -86,18 +86,18 @@ const BusinessCreationUI = () => {
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black opacity-60"></div>
         <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-transparent to-black opacity-60"></div>
         
-        {/* Content with animated elements */}
+        {/* Content with animated elements - REDUCED VERTICAL SPACING */}
         <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 text-center">
           <h1 
             ref={titleRef}
-            className={`text-white text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 font-light transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            className={`text-white text-xl sm:text-2xl md:text-3xl mb-2 font-light transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
             Créez votre propre entreprise
           </h1>
           
           <p 
             ref={subtitleRef}
-            className={`text-white text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 md:mb-10 font-light transition-all duration-700 delay-200 transform ${isSubtitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            className={`text-white text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 md:mb-8 font-light transition-all duration-700 delay-200 transform ${isSubtitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
             gratuitement grâce à l'IA
           </p>
@@ -116,14 +116,14 @@ const BusinessCreationUI = () => {
             </button>
           </div>
           
-          <p className={`text-gray-400 text-xs sm:text-sm mt-4 sm:mt-6 transition-all duration-700 delay-600 transform ${isFormVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <p className={`text-gray-400 text-xs sm:text-sm mt-3 sm:mt-4 transition-all duration-700 delay-600 transform ${isFormVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             Aucune carte de crédit requise · c'est gratuit
           </p>
         </div>
       </div>
 
-      {/* Horizontal line below the main content - exactly as in KeyAdvantagesSection */}
-      <div ref={lineRef} className="w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-5xl mt-8 sm:mt-12 md:mt-16 mb-6 sm:mb-8 md:mb-10">
+      {/* Horizontal line below the main content - REDUCED MARGINS */}
+      <div ref={lineRef} className="w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-5xl mt-24 sm:mt-28 md:mt-32 mb-2 sm:mb-3 md:mb-4">
         <div 
           className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
         >

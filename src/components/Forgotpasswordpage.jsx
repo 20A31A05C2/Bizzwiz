@@ -1,8 +1,11 @@
-import { useState } from "react";
-import ApiService from "../Apiservice";
+import React, { useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import RingLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
+import ApiService from "../Apiservice";
+import Logo from '../assets/logo.png';
+import BlueBlob from '../assets/blueblob.png';
+import PurpleBlob from '../assets/Ellipse .png';
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -36,55 +39,113 @@ function ForgotPasswordPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen md:flex-row min-w-screen">
-      <div className="w-full md:w-1/2 bg-[var(--primary-bg)] responsive-padding flex items-center justify-center">
-        <div className="w-full max-w-md px-4">
-          <div className="mb-8">
-            <h1 className="mb-2 text-2xl font-semibold text-white md:text-3xl">Forgot Password?</h1>
-            <p className="text-sm text-gray-400 md:text-base">
-              Enter your email and we’ll send you a reset link.
-            </p>
+    <div 
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden"
+      style={{ backgroundColor: 'hsla(263, 55%, 16%, 1)' }}
+    >
+      {/* Top left purple circle blob */}
+      <div 
+        className="absolute -left-24 -top-24 h-[200px] w-[200px] md:-left-32 md:-top-32 md:h-[250px] md:w-[250px] lg:-left-40 lg:-top-40 lg:h-[300px] lg:w-[300px] rounded-full opacity-70"
+        style={{ backgroundColor: '#4A2A8A' }}
+      ></div>
+      
+      {/* Bottom left purple circle blob */}
+      <div 
+        className="absolute -bottom-24 -left-12 h-[200px] w-[200px] md:-bottom-32 md:-left-16 md:h-[250px] md:w-[250px] lg:-bottom-40 lg:-left-20 lg:h-[300px] lg:w-[300px] rounded-full opacity-70"
+        style={{ backgroundColor: '#4A2A8A' }}
+      ></div>
+      
+      {/* Right blue curved shape */}
+      <div className="absolute right-0 top-0 bottom-0 w-1/4 sm:w-1/3 md:w-1/3 lg:w-1/4 z-0 block">
+        <img 
+          src={BlueBlob} 
+          alt="Blue decorative shape" 
+          className="w-full h-full object-cover object-left"
+        />
+      </div>
+      
+      {/* Bottom right purple blob */}
+      <div className="absolute bottom-0 right-0 z-0 w-1/4 sm:w-1/4 md:w-1/4 lg:w-1/5 block">
+        <img 
+          src={PurpleBlob} 
+          alt="Purple decorative shape" 
+          className="w-full h-auto object-contain"
+        />
+      </div>
+      
+      <div className="z-10 flex w-full max-w-md flex-col items-center px-4 sm:px-6">
+        {/* Logo */}
+        <div className="mb-8 md:mb-12">
+          <div className="h-24 w-24 md:h-28 md:w-28 lg:h-32 lg:w-32 flex items-center justify-center">
+            <img src={Logo} alt="Logo" className="h-full w-full object-contain" />
           </div>
+        </div>
 
-          <form className="space-y-6" onSubmit={handleForgotPassword}>
-            <div className="space-y-2">
-              <label className="text-sm text-gray-400">Email address</label>
+        {/* Forgot Password text */}
+        <div className="w-full mb-6 text-center">
+          <h1 className="mb-2 text-xl font-semibold text-white md:text-2xl">Forgot Password?</h1>
+          <p className="text-xs text-white/70 md:text-sm">
+            Enter your email and we'll send you a reset link
+          </p>
+        </div>
+
+        {/* Form */}
+        <form className="w-full space-y-4" onSubmit={handleForgotPassword}>
+          <div className="space-y-3 md:space-y-4">
+            <div className="relative">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="ADRESSE EMAIL"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading || success}
-                className="w-full p-3 rounded-lg bg-[var(--primary-bg)] border border-gray-600 text-white 
-                  custom-input focus:outline-none focus:border-[var(--accent-turquoise)]
-                  disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-10 md:h-12 w-full bg-transparent border border-white/20 rounded text-white placeholder:text-white/50 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading || success}
-              className="w-full bg-[var(--accent-turquoise)] text-black font-medium p-3 rounded-lg 
-                hover:bg-[var(--accent-turquoise-hover)] transition-colors relative
-                disabled:opacity-50 disabled:cursor-not-allowed h-[50px]"
-            >
-              <div className="flex items-center justify-center">
-                {loading ? <RingLoader /> : success ? "Email Sent" : "Send Reset Link"}
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="md:w-[18px] md:h-[18px]"
+                >
+                  <path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v10z" />
+                  <path d="m2 7 10 7 10-7" />
+                </svg>
               </div>
-            </button>
+            </div>
+          </div>
 
-            <p className="mt-6 text-sm text-center text-gray-400">
-              Remember your password?{' '}
-              <Link to="/userlogin" className="text-[var(--accent-turquoise)] hover:underline">
-                Back to Login
-              </Link>
-            </p>
-          </form>
-        </div>
+          <button 
+            type="submit" 
+            disabled={loading || success}
+            className="w-full h-10 md:h-12 bg-white hover:bg-white/90 text-purple-900 font-medium rounded focus:outline-none text-sm md:text-base mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <RingLoader size={20} color="#4A2A8A" />
+              </div>
+            ) : success ? (
+              "EMAIL SENT"
+            ) : (
+              "SEND RESET LINK"
+            )}
+          </button>
+
+          <div className="text-center text-white/80 text-xs md:text-sm pt-6">
+            Remember your password?{" "}
+            <Link to="/userlogin" className="text-blue-400 hover:text-blue-300">
+              Back to login
+            </Link>
+          </div>
+        </form>
       </div>
-
-      <div className="hidden w-1/2 bg-black md:block"></div>
-      <ToastContainer draggable />
+      <ToastContainer />
     </div>
   );
 }

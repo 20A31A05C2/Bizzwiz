@@ -1,4 +1,3 @@
-// TestimonialSection.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, User } from 'lucide-react';
 
@@ -116,17 +115,17 @@ const TestimonialSection = () => {
   return (
     <div 
       ref={sectionRef} 
-      className="bg-black text-white py-6 sm:py-7 md:py-8 px-4 sm:px-5 mt-2 sm:mt-3 md:mt-4 relative overflow-hidden"
+      className="bg-black text-white py-12 sm:py-16 md:py-20 px-6 sm:px-8 mt-0 relative overflow-hidden"
     >
       {/* Background glow effects */}
       <div 
-        className={`absolute top-1/4 left-1/4 w-24 sm:w-32 md:w-48 lg:w-64 h-24 sm:h-32 md:h-48 lg:h-64 bg-purple-700 opacity-0 rounded-full blur-3xl transition-all duration-1500 ease-in-out ${isVisible ? 'opacity-10' : ''}`}
+        className={`absolute top-1/3 left-1/4 w-32 sm:w-40 md:w-56 lg:w-64 h-32 sm:h-40 md:h-56 lg:h-64 bg-purple-700 opacity-0 rounded-full blur-3xl transition-all duration-1500 ease-in-out ${isVisible ? 'opacity-10' : ''}`}
         style={{ 
           animation: isVisible ? 'pulse 8s infinite alternate ease-in-out' : 'none'
         }}
       ></div>
       <div 
-        className={`absolute bottom-1/3 right-1/4 w-32 sm:w-40 md:w-56 lg:w-72 h-32 sm:h-40 md:h-56 lg:h-72 bg-purple-600 opacity-0 rounded-full blur-3xl transition-all duration-1500 ease-in-out ${isVisible ? 'opacity-10' : ''}`}
+        className={`absolute bottom-1/3 right-1/4 w-40 sm:w-48 md:w-64 lg:w-72 h-40 sm:h-48 md:h-64 lg:h-72 bg-purple-600 opacity-0 rounded-full blur-3xl transition-all duration-1500 ease-in-out ${isVisible ? 'opacity-10' : ''}`}
         style={{ 
           animation: isVisible ? 'pulse 12s infinite alternate-reverse ease-in-out' : 'none',
           animationDelay: '1s'
@@ -134,31 +133,31 @@ const TestimonialSection = () => {
       ></div>
       
       <div className="container mx-auto max-w-6xl">
-        {/* Heading and description */}
+        {/* Heading and description - Increased margins */}
         <h2 
           ref={headingRef}
-          className={`text-xl sm:text-2xl md:text-3xl font-bold text-center mb-3 sm:mb-4 transition-all duration-700 transform ${isHeadingVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+          className={`text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 transition-all duration-700 transform ${isHeadingVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
           Ce que disent nos clients
         </h2>
         <p 
           ref={descriptionRef}
-          className={`text-center text-gray-300 text-xs sm:text-sm md:text-base max-w-3xl mx-auto mb-6 sm:mb-7 md:mb-8 transition-all duration-700 delay-200 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+          className={`text-center text-gray-300 text-sm sm:text-base md:text-lg max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 transition-all duration-700 delay-200 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
           Ne laissez plus votre publicité au hasard ! ADS IA génère des annonces 
           percutantes, les optimise en temps réel et maximise votre retour sur investissement. 
           Automatisez votre visibilité et attirez plus de clients sans effort.
         </p>
 
-        {/* Testimonials display - responsive grid layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Testimonials display - Increased gap */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-10">
           {testimonials.map((testimonial, index) => (
             <div 
               key={testimonial.id} 
               ref={el => testimonialsRefs.current[index] = el}
               className={`relative transition-all duration-700 transform 
                 ${areTestimonialsVisible[index] ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-16 opacity-0 scale-95'}
-                mb-4 sm:mb-5`}
+                mb-6 sm:mb-8`}
               style={{ 
                 transitionDelay: `${index * 200}ms`,
               }}
@@ -189,11 +188,11 @@ const TestimonialSection = () => {
                 }}
               ></div>
               
-              {/* Main content card - responsive sizing */}
-              <div className="relative bg-gray-900 rounded-xl px-4 sm:px-5 py-5 sm:py-6 h-full z-10 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20">
+              {/* Main content card - Increased padding */}
+              <div className="relative bg-gray-900 rounded-xl px-6 sm:px-8 py-6 sm:py-8 h-full z-10 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20">
                 {/* User info */}
-                <div className="flex items-center mb-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center mr-3 overflow-hidden border-2 border-gray-700">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-800 flex items-center justify-center mr-4 overflow-hidden border-2 border-gray-700">
                     {/* Background gradient with User icon */}
                     <div 
                       className={`w-full h-full bg-gradient-to-br ${testimonial.gradient} flex items-center justify-center`}
@@ -202,21 +201,21 @@ const TestimonialSection = () => {
                         animationDelay: `${index * 0.2}s`
                       }}
                     >
-                      <User size={18} color="white" className="sm:w-5 sm:h-5" />
+                      <User size={20} color="white" className="sm:w-6 sm:h-6" />
                     </div>
                   </div>
                   <div>
-                    <p className="font-bold text-sm sm:text-base">{testimonial.name}</p>
-                    <p className="text-xs text-gray-400">{testimonial.role}</p>
+                    <p className="font-bold text-base sm:text-lg">{testimonial.name}</p>
+                    <p className="text-sm text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
 
-                {/* Quote text - responsive sizing */}
-                <p className="text-gray-200 text-xs sm:text-sm leading-relaxed">{testimonial.quote}</p>
+                {/* Quote text - increased size */}
+                <p className="text-gray-200 text-base sm:text-lg leading-relaxed mb-4">{testimonial.quote}</p>
 
                 {/* Large quote mark - responsive positioning */}
                 <div 
-                  className="absolute top-4 sm:top-5 right-3 sm:right-4 text-4xl sm:text-5xl text-gray-700 opacity-30 font-serif"
+                  className="absolute top-6 sm:top-8 right-4 sm:right-6 text-4xl sm:text-5xl text-gray-700 opacity-30 font-serif"
                   style={{
                     animation: areTestimonialsVisible[index] ? 'fadeIn 1s ease-in-out' : 'none',
                     animationDelay: `${index * 0.5 + 0.5}s`
@@ -229,29 +228,29 @@ const TestimonialSection = () => {
           ))}
         </div>
 
-        {/* Navigation arrows - responsive sizing */}
+        {/* Navigation arrows - Increased spacing */}
         <div 
           ref={navigationRef}
-          className={`flex justify-center mt-6 sm:mt-7 md:mt-8 gap-3 transition-all duration-700 delay-600 transform ${isNavigationVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+          className={`flex justify-center mt-8 sm:mt-10 md:mt-12 gap-6 transition-all duration-700 delay-600 transform ${isNavigationVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
           <button 
             onClick={prevSlide}
-            className="p-1.5 sm:p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-all duration-300 hover:scale-110"
+            className="p-2 sm:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-all duration-300 hover:scale-110"
             aria-label="Previous testimonial"
           >
-            <ChevronLeft size={18} className="sm:w-5 sm:h-5" />
+            <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
           </button>
           <button 
             onClick={nextSlide}
-            className="p-1.5 sm:p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-all duration-300 hover:scale-110"
+            className="p-2 sm:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-all duration-300 hover:scale-110"
             aria-label="Next testimonial"
           >
-            <ChevronRight size={18} className="sm:w-5 sm:h-5" />
+            <ChevronRight size={20} className="sm:w-6 sm:h-6" />
           </button>
         </div>
         
-        {/* Horizontal Line */}
-        <div ref={lineRef} className="relative mt-6 sm:mt-7 md:mt-8 mb-3 sm:mb-4 md:mb-5 pt-4 sm:pt-5 md:pt-6">
+        {/* Horizontal Line - Increased margins */}
+        <div ref={lineRef} className="relative mt-24 sm:mt-28 md:mt-32 mb-4 sm:mb-6 pt-4 sm:pt-5">
           <div 
             className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
           >
