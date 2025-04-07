@@ -117,7 +117,7 @@ const HeroSection = () => {
             ${animatedElements.badge ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
           <div className="inline-flex items-center gap-2 xs:gap-3 bg-black rounded-full px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 border-2 border-[#6c2bd9]/50 hover:border-[#6c2bd9]/90 transition-all duration-300 shadow-lg shadow-[#6c2bd9]/30">
-            <span className="text-black text-xs xs:text-sm font-bold bg-[#c729dc] px-2 xs:px-2.5 py-0.5 xs:py-1 rounded-full animate-pulse">
+            <span className="text-white text-xs xs:text-sm font-bold bg-[#c729dc] px-2 xs:px-2.5 py-0.5 xs:py-1 rounded-full">
               {t('hero.new')}
             </span>
             <span className="text-[#a88bc7] text-xs xs:text-sm sm:text-base font-medium">
