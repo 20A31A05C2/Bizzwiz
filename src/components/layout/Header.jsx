@@ -28,9 +28,8 @@ const Header = () => {
 
   // Function to toggle language
   const toggleLanguage = () => {
-    const newLang = currentLang === 'en' ? 'fr' : 'en';
+    const newLang = i18n.language === 'en' ? 'fr' : 'en';
     i18n.changeLanguage(newLang);
-    setCurrentLang(newLang);
   };
 
   return (
