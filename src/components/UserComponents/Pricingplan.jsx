@@ -1,4 +1,3 @@
-// Existing imports
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -13,14 +12,15 @@ import {
   IoReceiptOutline,
   IoRefreshOutline,
 } from 'react-icons/io5';
+import { useTranslation } from 'react-i18next';
 import ApiService from '../../Apiservice';
 import LoadingPage from './userlayout/loader';
 import SideNavbar from './userlayout/sidebar';
 import CheckoutForm from './CheckoutForm';
 import SubscriptionManagement from './SubscriptionManagement';
 
-// Main Pricing Plan Component
 const Pricingplan = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [currentPlan, setCurrentPlan] = useState(null);
   const [currentPlanExpiry, setCurrentPlanExpiry] = useState(null);
@@ -31,10 +31,9 @@ const Pricingplan = () => {
   const [transactions, setTransactions] = useState([]);
   const [showTransactions, setShowTransactions] = useState(false);
   const [transactionsLoading, setTransactionsLoading] = useState(false);
-  const [showSubscriptions, setShowSubscriptions] = useState(false);
   const [activeSubscriptions, setActiveSubscriptions] = useState([]);
-  const [billingCycle, setBillingCycle] = useState('monthly'); // Default to monthly billing
-  const [view, setView] = useState('plans'); // 'plans', 'subscriptions'
+  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [view, setView] = useState('plans');
   
   const navigate = useNavigate();
 
@@ -43,43 +42,34 @@ const Pricingplan = () => {
       try {
         const token = localStorage.getItem('bizwizusertoken');
         if (!token) {
-          toast.error("Please login to continue");
+          toast.error(t('messages.loginRequired'));
           navigate('/userlogin');
           return;
         }
 
-        // Fetch pricing plans from backend
         const plansResponse = await ApiService("/pricing-plans", "GET");
         
         if (plansResponse.success && plansResponse.plans) {
-          // Direct access to the plans array, as the backend structure returns plans directly
-          const plansArray = Array.isArray(plansResponse.plans) 
-            ? plansResponse.plans 
-            : [];
-          
+          const plansArray = Array.isArray(plansResponse.plans) ? plansResponse.plans : [];
           setPricingPlans(plansArray);
           
-          // Select the popular plan by default if available
           if (plansArray.length > 0) {
             const defaultPlan = plansArray.find(plan => plan.is_popular) || plansArray[0];
             setSelectedPlan(defaultPlan);
           }
         } else {
-          toast.error("Could not load pricing plans. Please try again later.");
+          toast.error(t('messages.loadPlansError'));
         }
 
-        // Fetch Stripe config directly from stripe-config endpoint
         const stripeConfigResponse = await ApiService("/stripe-config", "GET");
         if (stripeConfigResponse.success && stripeConfigResponse.publishable_key) {
           setStripePromise(loadStripe(stripeConfigResponse.publishable_key));
         }
         
-        // Fetch active subscriptions
         const subscriptionsResponse = await ApiService("/active-subscriptions", "GET");
         if (subscriptionsResponse.success && subscriptionsResponse.subscriptions) {
           setActiveSubscriptions(subscriptionsResponse.subscriptions);
           
-          // If there are active subscriptions, get the current user's plan
           if (subscriptionsResponse.subscriptions.length > 0) {
             const activeSub = subscriptionsResponse.subscriptions[0];
             const planDetails = activeSub.plan;
@@ -91,9 +81,8 @@ const Pricingplan = () => {
             }
           }
         }
-        
       } catch (error) {
-        const errormessage = error?.response?.data?.message || "An error occurred";
+        const errormessage = error?.response?.data?.message || t('messages.genericError');
         
         if (errormessage.toLowerCase().includes('login') || 
             errormessage.toLowerCase().includes('token') || 
@@ -108,41 +97,33 @@ const Pricingplan = () => {
     };
     
     initialize();
-  }, [navigate]);
+  }, [navigate, t]);
 
-  // Function to handle plan selection
   const handlePlanSelect = (plan) => {
     setSelectedPlan(plan);
   };
 
-  // Toggle billing cycle
   const toggleBillingCycle = (cycle) => {
     setBillingCycle(cycle);
   };
 
-  // Toggle view between plans and subscriptions
   const toggleView = (newView) => {
     if (newView === 'subscriptions') {
-      // Navigate to manage plan URL instead of showing the component inline
       navigate('/manageplan');
     } else {
       setView(newView);
     }
   };
 
-  // Calculate remaining days for current plan
   const getRemainingDays = () => {
     if (!currentPlanExpiry) return 0;
-    
     const expiryDate = new Date(currentPlanExpiry);
     const today = new Date();
     const diffTime = expiryDate - today;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
     return diffDays > 0 ? diffDays : 0;
   };
 
-  // Function to fetch transaction history
   const fetchTransactions = async () => {
     setTransactionsLoading(true);
     try {
@@ -150,41 +131,38 @@ const Pricingplan = () => {
       if (response.success) {
         setTransactions(response.data || []);
         setShowTransactions(true);
+        toast.success(t('messages.transactionsLoaded'));
       } else {
-        toast.error(response.message || "Failed to fetch transaction history");
+        toast.error(response.message || t('messages.transactionsError'));
       }
     } catch (error) {
-      const errormessage = error?.response?.data?.message || "Failed to load transaction history";
+      const errormessage = error?.response?.data?.message || t('messages.transactionsError');
       toast.error(errormessage);
     } finally {
       setTransactionsLoading(false);
     }
   };
 
-  // Function to get the correct price based on billing cycle
   const getPrice = (plan) => {
     if (billingCycle === 'yearly') {
-      // Use yearly_price if available, otherwise fallback to annual_price
       const price = plan.yearly_price || plan.annual_price;
       return price ? Number(price).toFixed(2) : Number(plan.monthly_price * 10).toFixed(2);
     }
     return Number(plan.monthly_price).toFixed(2);
   };
 
-  // Calculate yearly savings
   const getYearlySavings = (plan) => {
     const yearlyPrice = Number(plan.yearly_price || plan.annual_price);
     const monthlyTotal = Number(plan.monthly_price) * 12;
     return (monthlyTotal - yearlyPrice).toFixed(2);
   };
 
-  // Format date for transaction history
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  if (loading) return <LoadingPage name="Loading Plans..." />;
+  if (loading) return <LoadingPage name={t('loading.loadingPlans')} />;
 
   return (
     <div className="flex min-h-screen bg-black">
@@ -192,7 +170,6 @@ const Pricingplan = () => {
       
       <main className="flex-1 px-4 py-8 md:px-8 lg:px-12 overflow-hidden">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
           <motion.header 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -200,62 +177,53 @@ const Pricingplan = () => {
             className="mb-8 text-center"
           >
             <h1 className="mb-3 text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
-              {view === 'plans' ? 'Select a Subscription Plan' : 'Manage Your Subscriptions'}
+              {t(`pricing.title.${view}`)}
             </h1>
             <p className="max-w-2xl mx-auto text-gray-400">
-              {view === 'plans' 
-                ? 'Choose the plan that best fits your needs and unlock premium features.' 
-                : 'View and manage your active subscriptions and auto-renewal settings.'}
+              {t(`pricing.subtitle.${view}`)}
               {currentPlan && view === 'plans' && (
                 <span className="block mt-2 text-sm">
                   <span className="text-cyan-400">
-                    Current plan: <strong>{currentPlan.name}</strong> • {getRemainingDays()} days remaining
+                    {t('pricing.currentPlan', { plan: currentPlan.name, days: getRemainingDays() })}
                   </span>
                   <span className="ml-2 text-xs">
                     {autoRenewEnabled ? (
                       <span className="text-green-400">
                         <IoRefreshOutline className="inline-block w-3 h-3 mr-1" />
-                        Auto-renewal enabled
+                        {t('pricing.autoRenewEnabled')}
                       </span>
                     ) : (
-                      <span className="text-yellow-400">Auto-renewal disabled</span>
+                      <span className="text-yellow-400">{t('pricing.autoRenewDisabled')}</span>
                     )}
                   </span>
                 </span>
               )}
             </p>
             
-            {/* View Toggle */}
             <div className="flex justify-center mt-6">
               <div className="p-1 bg-gray-900 rounded-lg inline-flex">
-                <button
-                  onClick={() => toggleView('plans')}
-                  className={`px-4 py-2 rounded-md text-sm transition-all ${
-                    view === 'plans'
-                      ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Browse Plans
-                </button>
-                
-                <button
-                  onClick={() => toggleView('subscriptions')}
-                  className={`px-4 py-2 rounded-md text-sm transition-all ${
-                    view === 'subscriptions'
-                      ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Manage Subscriptions {activeSubscriptions.length > 0 && `(${activeSubscriptions.length})`}
-                </button>
+                {['plans', 'subscriptions'].map((viewType) => (
+                  <button
+                    key={viewType}
+                    onClick={() => toggleView(viewType)}
+                    className={`px-4 py-2 rounded-md text-sm transition-all ${
+                      view === viewType
+                        ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white'
+                        : 'text-gray-400 hover:text-white'
+                    }`}
+                  >
+                    {t(`pricing.view.${viewType}`)}
+                    {viewType === 'subscriptions' && activeSubscriptions.length > 0 && (
+                      ` (${activeSubscriptions.length})`
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
           </motion.header>
 
           {view === 'plans' && (
             <>
-              {/* Billing Cycle Toggle */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -263,35 +231,28 @@ const Pricingplan = () => {
                 className="mb-8 flex justify-center"
               >
                 <div className="p-1 bg-gray-900 rounded-lg inline-flex">
-                  <button
-                    onClick={() => toggleBillingCycle('monthly')}
-                    className={`px-4 py-2 rounded-md text-sm transition-all ${
-                      billingCycle === 'monthly'
-                        ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white'
-                        : 'text-gray-400 hover:text-white'
-                    }`}
-                  >
-                    Monthly
-                  </button>
-                  
-                  <button
-                    onClick={() => toggleBillingCycle('yearly')}
-                    className={`px-4 py-2 rounded-md text-sm transition-all ${
-                      billingCycle === 'yearly'
-                        ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white'
-                        : 'text-gray-400 hover:text-white'
-                    }`}
-                  >
-                    Yearly
-                    {billingCycle !== 'yearly' && (
-                      <span className="ml-1 text-xs text-cyan-400">Save 20%</span>
-                    )}
-                  </button>
+                  {['monthly', 'yearly'].map((cycle) => (
+                    <button
+                      key={cycle}
+                      onClick={() => toggleBillingCycle(cycle)}
+                      className={`px-4 py-2 rounded-md text-sm transition-all ${
+                        billingCycle === cycle
+                          ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white'
+                          : 'text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      {t(`pricing.billing.${cycle}`)}
+                      {cycle === 'yearly' && billingCycle !== 'yearly' && (
+                        <span className="ml-1 text-xs text-cyan-400">
+                          {t('pricing.billing.save')}
+                        </span>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </motion.div>
 
               <div className="flex flex-col lg:flex-row gap-10">
-                {/* Plans Selection Section */}
                 <motion.div 
                   initial={{ opacity: 0, x: -40 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -299,7 +260,9 @@ const Pricingplan = () => {
                   className="lg:w-2/5 order-2 lg:order-1"
                 >
                   <div className="p-6 md:p-8 bg-black border border-gray-800 rounded-xl shadow-lg">
-                    <h2 className="mb-6 text-xl font-medium text-white">Available Plans</h2>
+                    <h2 className="mb-6 text-xl font-medium text-white">
+                      {t('pricing.availablePlans')}
+                    </h2>
                     
                     {pricingPlans.length > 0 ? (
                       <div className="space-y-4 mb-8">
@@ -310,36 +273,39 @@ const Pricingplan = () => {
                             whileTap={{ scale: 0.98 }}
                             onClick={() => handlePlanSelect(plan)}
                             className={`relative cursor-pointer p-4 rounded-lg border ${
-                              selectedPlan && selectedPlan.id === plan.id 
+                              selectedPlan?.id === plan.id 
                                 ? 'border-purple-500 bg-purple-500/10' 
                                 : 'border-gray-700 bg-gray-900/50'
                             }`}
                           >
                             {plan.is_popular && (
                               <div className="absolute -top-2 -right-2 text-xs px-2 py-0.5 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full text-white">
-                                Popular
+                                {t('pricing.popularBadge')}
                               </div>
                             )}
                             <div className="flex justify-between items-start">
                               <div>
                                 <div className="text-lg font-medium text-white">{plan.name}</div>
-                                <div className="text-sm text-gray-400">{plan.description || `${plan.name} Subscription`}</div>
+                                <div className="text-sm text-gray-400">
+                                  {plan.description || t('pricing.defaultPlanDescription', { plan: plan.name })}
+                                </div>
                               </div>
                               <div className="text-right">
                                 <div className="text-xl font-bold text-white">
-                                  ${getPrice(plan)}
+                                  {t('pricing.price', { price: getPrice(plan) })}
                                 </div>
-                                <div className="text-xs text-gray-400">{billingCycle}</div>
+                                <div className="text-xs text-gray-400">
+                                  {t(`pricing.billing.${billingCycle}`)}
+                                </div>
                                 {billingCycle === 'yearly' && (
                                   <div className="text-xs text-cyan-400">
-                                    Save ${getYearlySavings(plan)}
+                                    {t('pricing.yearlySavings', { amount: getYearlySavings(plan) })}
                                   </div>
                                 )}
                               </div>
                             </div>
                             
-                            {/* Show features */}
-                            {plan.features && plan.features.length > 0 && (
+                            {plan.features?.length > 0 && (
                               <div className="mt-3 grid grid-cols-1 gap-2">
                                 {plan.features.map((feature, index) => (
                                   <div key={index} className="flex items-center gap-2 text-sm text-gray-300">
@@ -357,7 +323,7 @@ const Pricingplan = () => {
                       </div>
                     ) : (
                       <div className="p-8 text-center text-gray-400 border border-gray-800 rounded-lg mb-8">
-                        <p>No plans available at the moment.</p>
+                        <p>{t('pricing.noPlansAvailable')}</p>
                       </div>
                     )}
 
@@ -366,24 +332,32 @@ const Pricingplan = () => {
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-2">
                             <IoStarOutline className="text-purple-400 w-5 h-5" />
-                            <span className="text-gray-300">Current Plan</span>
+                            <span className="text-gray-300">
+                              {t('pricing.currentPlanLabel')}
+                            </span>
                           </div>
                           <span className="text-white font-medium">{currentPlan.name}</span>
                         </div>
                         <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-800">
                           <div className="flex items-center gap-2">
                             <IoTimeOutline className="text-cyan-400 w-5 h-5" />
-                            <span className="text-gray-300">Expires In</span>
+                            <span className="text-gray-300">
+                              {t('pricing.expiresIn')}
+                            </span>
                           </div>
-                          <span className="text-white font-medium">{getRemainingDays()} days</span>
+                          <span className="text-white font-medium">
+                            {t('pricing.daysRemaining', { days: getRemainingDays() })}
+                          </span>
                         </div>
                         <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-800">
                           <div className="flex items-center gap-2">
                             <IoRefreshOutline className={`w-5 h-5 ${autoRenewEnabled ? 'text-green-400' : 'text-gray-500'}`} />
-                            <span className="text-gray-300">Auto-Renewal</span>
+                            <span className="text-gray-300">
+                              {t('pricing.autoRenewal')}
+                            </span>
                           </div>
                           <span className={`font-medium ${autoRenewEnabled ? 'text-green-400' : 'text-yellow-400'}`}>
-                            {autoRenewEnabled ? 'Enabled' : 'Disabled'}
+                            {t(autoRenewEnabled ? 'pricing.enabled' : 'pricing.disabled')}
                           </span>
                         </div>
                       </div>
@@ -391,37 +365,45 @@ const Pricingplan = () => {
 
                     {selectedPlan && (
                       <div className="p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border border-gray-800">
-                        <h3 className="text-lg font-medium text-white mb-2">Summary</h3>
+                        <h3 className="text-lg font-medium text-white mb-2">
+                          {t('pricing.summary')}
+                        </h3>
                         <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Selected Plan</span>
-                            <span className="text-white">{selectedPlan.name}</span>
-                          </div>
-                          
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Billing Cycle</span>
-                            <span className="text-white">{billingCycle === 'yearly' ? 'Yearly (365 days)' : 'Monthly (30 days)'}</span>
-                          </div>
-                          
-                          {selectedPlan.features && (
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">Features</span>
-                              <span className="text-white">{Array.isArray(selectedPlan.features) ? selectedPlan.features.length : 0}</span>
-                            </div>
-                          )}
+                          {[
+                            { label: 'selectedPlanLabel', value: selectedPlan.name },
+                            { 
+                              label: 'billingCycleLabel', 
+                              value: t(`pricing.duration.${billingCycle}`) 
+                            },
+                            { 
+                              label: 'featuresLabel', 
+                              value: selectedPlan.features?.length || 0,
+                              condition: selectedPlan.features
+                            },
+                          ].map((item, index) => (
+                            item.condition !== false && (
+                              <div key={index} className="flex justify-between">
+                                <span className="text-gray-400">
+                                  {t(`pricing.${item.label}`)}
+                                </span>
+                                <span className="text-white">{item.value}</span>
+                              </div>
+                            )
+                          ))}
                           
                           <div className="border-t border-gray-700 my-2 pt-2"></div>
                           <div className="flex justify-between">
-                            <span className="text-gray-300 font-medium">Total Amount</span>
+                            <span className="text-gray-300 font-medium">
+                              {t('pricing.totalAmount')}
+                            </span>
                             <span className="text-white font-bold">
-                              ${getPrice(selectedPlan)}
+                              {t('pricing.price', { price: getPrice(selectedPlan) })}
                             </span>
                           </div>
                         </div>
                       </div>
                     )}
                     
-                    {/* Transaction History Button */}
                     <div className="mt-6">
                       <motion.button
                         whileHover={{ scale: 1.02 }}
@@ -430,13 +412,14 @@ const Pricingplan = () => {
                         className="flex items-center justify-center w-full gap-2 px-4 py-2 text-gray-300 border border-gray-700 rounded-lg hover:border-purple-500 hover:text-purple-400 transition-all duration-200"
                       >
                         <IoReceiptOutline className="w-4 h-4" />
-                        <span>{showTransactions ? 'Refresh' : 'View'} Transaction History</span>
+                        <span>
+                          {t(showTransactions ? 'pricing.refreshTransactions' : 'pricing.viewTransactions')}
+                        </span>
                       </motion.button>
                     </div>
                   </div>
                 </motion.div>
 
-                {/* Payment Form Section */}
                 <motion.div 
                   initial={{ opacity: 0, x: 40 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -445,31 +428,36 @@ const Pricingplan = () => {
                 >
                   <div className="p-6 md:p-8 bg-black border border-gray-800 rounded-xl shadow-lg">
                     <div className="mb-6">
-                      <h2 className="text-xl font-medium text-white mb-3 sm:mb-0">Payment Details</h2>
+                      <h2 className="text-xl font-medium text-white mb-3 sm:mb-0">
+                        {t('pricing.paymentDetails')}
+                      </h2>
                     </div>
                     
                     {selectedPlan ? (
                       <>
-                        {/* Credit Card Payment Form */}
                         {stripePromise ? (
                           <Elements stripe={stripePromise}>
-                            <CheckoutForm selectedPlan={selectedPlan} billingCycle={billingCycle} />
+                            <CheckoutForm 
+                              selectedPlan={selectedPlan} 
+                              billingCycle={billingCycle} 
+                              successMessage={t('messages.paymentSuccess')}
+                              errorMessage={t('messages.paymentError')}
+                            />
                           </Elements>
                         ) : (
                           <div className="text-center py-10 text-gray-400">
                             <div className="animate-spin mb-4 mx-auto w-8 h-8 border-2 border-gray-500 border-t-purple-500 rounded-full"></div>
-                            <p>Loading payment system...</p>
+                            <p>{t('loading.loadingPayment')}</p>
                           </div>
                         )}
                       </>
                     ) : (
                       <div className="text-center py-10 text-gray-400">
-                        <p>Please select a plan to continue.</p>
+                        <p>{t('pricing.selectPlanPrompt')}</p>
                       </div>
                     )}
                   </div>
                   
-                  {/* Transaction History Section */}
                   <AnimatePresence>
                     {showTransactions && (
                       <motion.div
@@ -480,7 +468,9 @@ const Pricingplan = () => {
                         className="mt-8 p-6 md:p-8 bg-black border border-gray-800 rounded-xl shadow-lg"
                       >
                         <div className="flex justify-between items-center mb-6">
-                          <h2 className="text-xl font-medium text-white">Subscription Transactions</h2>
+                          <h2 className="text-xl font-medium text-white">
+                            {t('pricing.transactionHistory')}
+                          </h2>
                           <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -497,76 +487,68 @@ const Pricingplan = () => {
                           <div className="flex justify-center items-center py-8">
                             <div className="animate-spin w-8 h-8 border-2 border-gray-500 border-t-purple-500 rounded-full"></div>
                           </div>
+                        ) : transactions.filter(t => t.purchase_type === 'subscription').length > 0 ? (
+                          <div className="overflow-x-auto">
+                            <table className="w-full">
+                              <thead>
+                                <tr className="text-left border-b border-gray-800">
+                                  {['date', 'plan', 'amount', 'billingCycle', 'autoRenewal', 'status'].map((header) => (
+                                    <th key={header} className="pb-2 text-sm font-medium text-gray-400">
+                                      {t(`pricing.${header}`)}
+                                    </th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {transactions
+                                  .filter(t => t.purchase_type === 'subscription')
+                                  .map((transaction) => (
+                                    <tr key={transaction.id} className="border-b border-gray-800 hover:bg-gray-900/30">
+                                      <td className="py-3 text-sm text-gray-300">
+                                        {formatDate(transaction.created_at)}
+                                      </td>
+                                      <td className="py-3 text-sm text-gray-300">
+                                        {transaction.plan_name || t('pricing.subscription')}
+                                      </td>
+                                      <td className="py-3 text-sm text-gray-300">
+                                        {t('pricing.price', { price: Number(transaction.amount).toFixed(2), currency: transaction.currency?.toUpperCase() })}
+                                      </td>
+                                      <td className="py-3 text-sm text-gray-300">
+                                        {t(`pricing.billing.${transaction.billing_cycle || 'monthly'}`)}
+                                      </td>
+                                      <td className="py-3 text-sm">
+                                        {transaction.auto_renew !== null && (
+                                          <span className={`px-2 py-1 rounded-full text-xs ${
+                                            transaction.auto_renew 
+                                              ? 'bg-green-500/20 text-green-400' 
+                                              : 'bg-yellow-500/20 text-yellow-400'
+                                          }`}>
+                                            {t(transaction.auto_renew ? 'pricing.enabled' : 'pricing.disabled')}
+                                          </span>
+                                        )}
+                                      </td>
+                                      <td className="py-3 text-sm">
+                                        <span className={`px-2 py-1 rounded-full text-xs ${
+                                          transaction.status === 'completed' 
+                                            ? 'bg-green-500/20 text-green-400' 
+                                            : transaction.status === 'pending'
+                                              ? 'bg-yellow-500/20 text-yellow-400'
+                                              : transaction.status === 'failed'
+                                                ? 'bg-red-500/20 text-red-400'
+                                                : 'bg-gray-500/20 text-gray-400'
+                                        }`}>
+                                          {t(`pricing.stat.${transaction.status}`)}
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  ))}
+                              </tbody>
+                            </table>
+                          </div>
                         ) : (
-                          <>
-                            {/* Filter only subscription transactions */}
-                            {(() => {
-                              const subscriptionTransactions = transactions.filter(
-                                transaction => transaction.purchase_type === 'subscription'
-                              );
-                        
-                              return subscriptionTransactions.length > 0 ? (
-                                <div className="overflow-x-auto">
-                                  <table className="w-full">
-                                    <thead>
-                                      <tr className="text-left border-b border-gray-800">
-                                        <th className="pb-2 text-sm font-medium text-gray-400">Date</th>
-                                        <th className="pb-2 text-sm font-medium text-gray-400">Plan</th>
-                                        <th className="pb-2 text-sm font-medium text-gray-400">Amount</th>
-                                        <th className="pb-2 text-sm font-medium text-gray-400">Billing Cycle</th>
-                                        <th className="pb-2 text-sm font-medium text-gray-400">Auto-Renewal</th>
-                                        <th className="pb-2 text-sm font-medium text-gray-400">Status</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {subscriptionTransactions.map((transaction) => (
-                                        <tr key={transaction.id} className="border-b border-gray-800 hover:bg-gray-900/30">
-                                          <td className="py-3 text-sm text-gray-300">{formatDate(transaction.created_at)}</td>
-                                          <td className="py-3 text-sm text-gray-300">
-                                            {transaction.plan_name || 'Subscription'}
-                                          </td>
-                                          <td className="py-3 text-sm text-gray-300">
-                                            ${Number(transaction.amount).toFixed(2)} {transaction.currency?.toUpperCase()}
-                                          </td>
-                                          <td className="py-3 text-sm text-gray-300">
-                                            <span className="capitalize">{transaction.billing_cycle || 'Monthly'}</span>
-                                          </td>
-                                          <td className="py-3 text-sm">
-                                            {transaction.auto_renew !== null && (
-                                              <span className={`px-2 py-1 rounded-full text-xs ${
-                                                transaction.auto_renew 
-                                                  ? 'bg-green-500/20 text-green-400' 
-                                                  : 'bg-yellow-500/20 text-yellow-400'
-                                              }`}>
-                                                {transaction.auto_renew ? 'Enabled' : 'Disabled'}
-                                              </span>
-                                            )}
-                                          </td>
-                                          <td className="py-3 text-sm">
-                                            <span className={`px-2 py-1 rounded-full text-xs ${
-                                              transaction.status === 'completed' 
-                                                ? 'bg-green-500/20 text-green-400' 
-                                                : transaction.status === 'pending'
-                                                  ? 'bg-yellow-500/20 text-yellow-400'
-                                                  : transaction.status === 'failed'
-                                                    ? 'bg-red-500/20 text-red-400'
-                                                    : 'bg-gray-500/20 text-gray-400'
-                                            }`}>
-                                              {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
-                                            </span>
-                                          </td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
-                                </div>
-                              ) : (
-                                <div className="text-center py-8 text-gray-400">
-                                  <p>No subscription transactions found.</p>
-                                </div>
-                              );
-                            })()}
-                          </>
+                          <div className="text-center py-8 text-gray-400">
+                            <p>{t('pricing.noTransactionsFound')}</p>
+                          </div>
                         )}
                       </motion.div>
                     )}
@@ -576,14 +558,16 @@ const Pricingplan = () => {
             </>
           )}
           
-          {/* Subscription Management View - Note: This won't be rendered anymore since we're redirecting */}
           {view === 'subscriptions' && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <SubscriptionManagement />
+              <SubscriptionManagement 
+                successMessage={t('messages.subscriptionUpdateSuccess')}
+                errorMessage={t('messages.subscriptionUpdateError')}
+              />
             </motion.div>
           )}
         </div>

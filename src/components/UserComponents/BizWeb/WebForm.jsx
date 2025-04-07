@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import { 
   FileText, Upload, Code2, Calendar, X, CheckSquare, Loader2, 
   DollarSign
@@ -10,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const ProjectRequestForm = () => {
+  const { t } = useTranslation(); // Initialize translation hook
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -30,16 +32,16 @@ const ProjectRequestForm = () => {
     const checkLogin = async () => {
       if (!localStorage.getItem('bizwizusertoken')) {
         navigate('/userlogin');
-        toast.error("Please Login Again");
+        toast.error(t('projectForm.errors.pleaseLogin', "Please Login Again"));
         return;
       }
       
       try {
         await ApiService('/checklogin', 'POST');
       } catch (error) {
-        const errorMessage = error?.response?.data?.message || "Unknown error occurred";
+        const errorMessage = error?.response?.data?.message || t('projectForm.errors.unknown', "Unknown error occurred");
         
-        toast.error(errorMessage || "An unexpected error occurred");
+        toast.error(errorMessage || t('projectForm.errors.unexpected', "An unexpected error occurred"));
         
         if (errorMessage?.toLowerCase().includes('login') || 
             errorMessage?.toLowerCase().includes('token') || 
@@ -48,19 +50,19 @@ const ProjectRequestForm = () => {
           
         }
         navigate('/userlogin');
-        toast.error(errorMessage || "An unexpected error occurred");
+        toast.error(errorMessage || t('projectForm.errors.unexpected', "An unexpected error occurred"));
       }
     };
 
     checkLogin();
-  }, [navigate]);
+  }, [navigate, t]);
 
   const projectTypes = [
-    { value: 'web', label: 'Web Application' },
-    { value: 'mobile', label: 'Mobile App' },
-    { value: 'desktop', label: 'Desktop Software' },
-    { value: 'ecommerce', label: 'E-commerce Platform' },
-    { value: 'enterprise', label: 'Enterprise Solution' }
+    { value: 'web', label: t('projectForm.projectTypes.web', 'Web Application') },
+    { value: 'mobile', label: t('projectForm.projectTypes.mobile', 'Mobile App') },
+    { value: 'desktop', label: t('projectForm.projectTypes.desktop', 'Desktop Software') },
+    { value: 'ecommerce', label: t('projectForm.projectTypes.ecommerce', 'E-commerce Platform') },
+    { value: 'enterprise', label: t('projectForm.projectTypes.enterprise', 'Enterprise Solution') }
   ];
 
   const handleInputChange = (e) => {
@@ -72,7 +74,7 @@ const ProjectRequestForm = () => {
       const validFiles = Array.from(files).filter(file => {
         const maxSize = 10 * 1024 * 1024; // 10MB
         if (file.size > maxSize) {
-          toast.error(`File too large: ${file.name} (max 10MB)`);
+          toast.error(t('projectForm.errors.fileTooLarge', `File too large: ${file.name} (max 10MB)`));
           return false;
         }
         return true;
@@ -106,34 +108,34 @@ const ProjectRequestForm = () => {
     const newErrors = {};
     
     if (!formData.project_name?.trim()) {
-      newErrors.project_name = 'Project name is required';
+      newErrors.project_name = t('projectForm.validation.projectNameRequired', 'Project name is required');
     }
     if (!formData.project_type?.trim()) {
-      newErrors.project_type = 'Project type is required';
+      newErrors.project_type = t('projectForm.validation.projectTypeRequired', 'Project type is required');
     }
     if (!formData.project_description?.trim()) {
-      newErrors.project_description = 'Project description is required';
+      newErrors.project_description = t('projectForm.validation.descriptionRequired', 'Project description is required');
     }
     if (!formData.framework?.trim()) {
-      newErrors.framework = 'Framework details are required';
+      newErrors.framework = t('projectForm.validation.frameworkRequired', 'Framework details are required');
     }
     if (!formData.features?.trim()) {
-      newErrors.features = 'Features are required';
+      newErrors.features = t('projectForm.validation.featuresRequired', 'Features are required');
     }
     if (!formData.deadline) {
-      newErrors.deadline = 'Deadline is required';
+      newErrors.deadline = t('projectForm.validation.deadlineRequired', 'Deadline is required');
     }
     if (!formData.amount || formData.amount <= 0) {
-      newErrors.amount = 'Valid amount is required';
+      newErrors.amount = t('projectForm.validation.amountRequired', 'Valid amount is required');
     }
     if (!formData.terms_accepted) {
-      newErrors.terms_accepted = 'Terms acceptance is required';
+      newErrors.terms_accepted = t('projectForm.validation.termsRequired', 'Terms acceptance is required');
     }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
-      toast.error('Please fill all required fields correctly');
+      toast.error(t('projectForm.errors.fillAllFields', 'Please fill all required fields correctly'));
       return;
     }
 
@@ -160,7 +162,7 @@ const ProjectRequestForm = () => {
       const response = await ApiService('/bizwizai', 'POST', formDataToSend, true);
 
       if (response.status === 200) {
-        toast.success('Project request submitted successfully');
+        toast.success(t('projectForm.success.submitted', 'Project request submitted successfully'));
         // Reset form
         setFormData({
           project_name: '',
@@ -182,9 +184,9 @@ const ProjectRequestForm = () => {
           newErrors[key] = validationErrors[key][0];
         });
         setErrors(newErrors);
-        toast.error('Please correct the highlighted errors');
+        toast.error(t('projectForm.errors.correctHighlighted', 'Please correct the highlighted errors'));
       } else {
-        toast.error(error.message || 'Failed to submit project request');
+        toast.error(error.message || t('projectForm.errors.submissionFailed', 'Failed to submit project request'));
       }
     } finally {
       setIsSubmitting(false);
@@ -207,10 +209,10 @@ const ProjectRequestForm = () => {
             {/* Header */}
             <div className="p-3 text-center md:p-6 animate-fadeIn">
               <h1 className="mb-2 text-xl font-bold text-transparent md:text-3xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text">
-                Project Request Form
+                {t('projectForm.title', 'Project Request Form')}
               </h1>
               <p className="text-xs text-gray-400 md:text-sm">
-                Tell us about your project
+                {t('projectForm.subtitle', 'Tell us about your project')}
               </p>
             </div>
 
@@ -219,7 +221,7 @@ const ProjectRequestForm = () => {
               <div className="flex items-center mb-4 space-x-2">
                 <FileText className="w-4 h-4 md:w-5 md:h-5 text-cyan-400" />
                 <h2 className="text-base font-semibold text-white md:text-lg">
-                  Project Details
+                  {t('projectForm.sections.projectDetails', 'Project Details')}
                 </h2>
               </div>
               
@@ -228,7 +230,7 @@ const ProjectRequestForm = () => {
                   {/* Project Name */}
                   <div className="w-full">
                     <label className="block mb-1.5 text-xs font-medium text-gray-300 md:text-sm">
-                      Project Name
+                      {t('projectForm.fields.projectName', 'Project Name')}
                     </label>
                     <input
                       type="text"
@@ -239,7 +241,7 @@ const ProjectRequestForm = () => {
                         border rounded-lg bg-white/5 border-white/10 
                         focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 
                         hover:bg-white/10 p-2 md:p-2.5 ${errors.project_name ? 'border-red-500' : ''}`}
-                      placeholder="Enter project name"
+                      placeholder={t('projectForm.placeholders.projectName', 'Enter project name')}
                     />
                     {errors.project_name && (
                       <p className="mt-1 text-xs text-red-400">{errors.project_name}</p>
@@ -249,7 +251,7 @@ const ProjectRequestForm = () => {
                   {/* Project Type */}
                   <div className="w-full">
                     <label className="block mb-1.5 text-xs font-medium text-gray-300 md:text-sm">
-                      Project Type
+                      {t('projectForm.fields.projectType', 'Project Type')}
                     </label>
                     <select
                       name="project_type"
@@ -260,7 +262,9 @@ const ProjectRequestForm = () => {
                         focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 
                         hover:bg-white/10 ${errors.project_type ? 'border-red-500' : ''}`}
                     >
-                      <option value="" className="bg-gray-900">Select Project Type</option>
+                      <option value="" className="bg-gray-900">
+                        {t('projectForm.placeholders.selectProjectType', 'Select Project Type')}
+                      </option>
                       {projectTypes.map(type => (
                         <option 
                           key={type.value} 
@@ -280,7 +284,7 @@ const ProjectRequestForm = () => {
                 {/* Project Description */}
                 <div className="w-full">
                   <label className="block mb-1.5 text-xs font-medium text-gray-300 md:text-sm">
-                    Project Description
+                    {t('projectForm.fields.projectDescription', 'Project Description')}
                   </label>
                   <textarea
                     name="project_description"
@@ -290,7 +294,7 @@ const ProjectRequestForm = () => {
                       md:text-sm bg-white/5 border-white/10 focus:border-purple-500 focus:outline-none 
                       focus:ring-1 focus:ring-purple-500 hover:bg-white/10 ${errors.project_description ? 'border-red-500' : ''}`}
                     rows={5}
-                    placeholder="Describe your project in detail"
+                    placeholder={t('projectForm.placeholders.projectDescription', 'Describe your project in detail')}
                   />
                   {errors.project_description && (
                     <p className="mt-1 text-xs text-red-400">{errors.project_description}</p>
@@ -304,7 +308,7 @@ const ProjectRequestForm = () => {
               <div className="flex items-center mb-4 space-x-2">
                 <Code2 className="w-4 h-4 text-purple-400 md:w-5 md:h-5" />
                 <h2 className="text-base font-semibold text-white md:text-lg">
-                  Technical Requirements
+                  {t('projectForm.sections.technicalRequirements', 'Technical Requirements')}
                 </h2>
               </div>
               
@@ -312,7 +316,7 @@ const ProjectRequestForm = () => {
                 {/* Framework */}
                 <div className="w-full">
                   <label className="block mb-1.5 text-xs font-medium text-gray-300 md:text-sm">
-                    Framework Preferences
+                    {t('projectForm.fields.frameworkPreferences', 'Framework Preferences')}
                   </label>
                   <textarea
                     name="framework"
@@ -321,7 +325,7 @@ const ProjectRequestForm = () => {
                     className={`w-full p-3 text-xs text-white transition-all duration-200 border rounded-lg 
                       md:text-sm bg-white/5 border-white/10 focus:border-purple-500 focus:outline-none 
                       focus:ring-1 focus:ring-purple-500 hover:bg-white/10 ${errors.framework ? 'border-red-500' : ''}`}
-                    placeholder="List preferred frameworks or technologies"
+                    placeholder={t('projectForm.placeholders.framework', 'List preferred frameworks or technologies')}
                   />
                   {errors.framework && (
                     <p className="mt-1 text-xs text-red-400">{errors.framework}</p>
@@ -331,7 +335,7 @@ const ProjectRequestForm = () => {
                 {/* Features */}
                 <div className="w-full">
                   <label className="block mb-1.5 text-xs font-medium text-gray-300 md:text-sm">
-                    Key Features
+                    {t('projectForm.fields.keyFeatures', 'Key Features')}
                   </label>
                   <textarea
                     name="features"
@@ -340,7 +344,7 @@ const ProjectRequestForm = () => {
                     className={`w-full p-3 text-xs text-white transition-all duration-200 border rounded-lg 
                       md:text-sm bg-white/5 border-white/10 focus:border-purple-500 focus:outline-none 
                       focus:ring-1 focus:ring-purple-500 hover:bg-white/10 ${errors.features ? 'border-red-500' : ''}`}
-                    placeholder="List main features required"
+                    placeholder={t('projectForm.placeholders.features', 'List main features required')}
                   />
                   {errors.features && (
                     <p className="mt-1 text-xs text-red-400">{errors.features}</p>
@@ -350,12 +354,11 @@ const ProjectRequestForm = () => {
             </div>
 
             {/* Timeline & Budget */}
-            {/* Continuing from Timeline & Budget section */}
             <div className="p-3 transition-all duration-300 border md:p-4 rounded-xl bg-black/50 backdrop-blur-sm border-white/20 hover:border-cyan-500/50">
               <div className="flex items-center mb-4 space-x-2">
                 <Calendar className="w-4 h-4 md:w-5 md:h-5 text-cyan-400" />
                 <h2 className="text-base font-semibold text-white md:text-lg">
-                  Timeline & Budget
+                  {t('projectForm.sections.timelineBudget', 'Timeline & Budget')}
                 </h2>
               </div>
               
@@ -363,7 +366,7 @@ const ProjectRequestForm = () => {
                 {/* Deadline */}
                 <div className="w-full">
                   <label className="block mb-1.5 text-xs font-medium text-gray-300 md:text-sm">
-                    Project Deadline
+                    {t('projectForm.fields.projectDeadline', 'Project Deadline')}
                   </label>
                   <input
                     type="date"
@@ -384,7 +387,7 @@ const ProjectRequestForm = () => {
                 {/* Budget */}
                 <div className="w-full">
                   <label className="block mb-1.5 text-xs font-medium text-gray-300 md:text-sm">
-                    Budget Amount (USD)
+                    {t('projectForm.fields.budgetAmount', 'Budget Amount (USD)')}
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -399,7 +402,7 @@ const ProjectRequestForm = () => {
                         border rounded-lg bg-white/5 border-white/10 
                         focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 
                         hover:bg-white/10 ${errors.amount ? 'border-red-500' : ''}`}
-                      placeholder="Enter budget amount"
+                      placeholder={t('projectForm.placeholders.budget', 'Enter budget amount')}
                       min="0"
                       step="100"
                     />
@@ -410,13 +413,12 @@ const ProjectRequestForm = () => {
                 </div>
               </div>
             </div>
-
             {/* File Upload */}
             <div className="p-3 transition-all duration-300 border md:p-4 rounded-xl bg-black/50 backdrop-blur-sm border-white/20 hover:border-purple-500/50">
               <div className="flex items-center mb-4 space-x-2">
                 <Upload className="w-4 h-4 text-purple-400 md:w-5 md:h-5" />
                 <h2 className="text-base font-semibold text-white md:text-lg">
-                  Project Files
+                  {t('projectForm.sections.projectFiles', 'Project Files')}
                 </h2>
               </div>
 
@@ -431,10 +433,10 @@ const ProjectRequestForm = () => {
                 <div className="text-center">
                   <Upload className="w-8 h-8 mx-auto text-purple-400 transition-transform animate-bounce group-hover:scale-110 md:w-10 md:h-10" />
                   <p className="mt-3 text-xs text-gray-300 md:text-sm">
-                    Drop files here or click to browse
+                    {t('projectForm.fileUpload.dropFiles', 'Drop files here or click to browse')}
                   </p>
                   <p className="mt-1 text-xs text-gray-400">
-                    Supported: PDF, DOC, DOCX, TXT, CSV, XLS, XLSX (Max 10MB)
+                    {t('projectForm.fileUpload.supportedFormats', 'Supported: PDF, DOC, DOCX, TXT, CSV, XLS, XLSX (Max 10MB)')}
                   </p>
                 </div>
               </div>
@@ -457,7 +459,7 @@ const ProjectRequestForm = () => {
                         type="button"
                         onClick={() => removeFile(index)}
                         className="p-1 text-red-500 transition-colors rounded-full hover:bg-red-500/10"
-                        aria-label="Remove file"
+                        aria-label={t('projectForm.fileUpload.removeFile', 'Remove file')}
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -480,8 +482,7 @@ const ProjectRequestForm = () => {
                       focus:ring-purple-500 focus:ring-offset-0 ${errors.terms_accepted ? 'border-red-500' : ''}`}
                   />
                   <span className="text-xs text-gray-300 md:text-sm">
-                    I agree to the terms and conditions of the project request, including project timeline,
-                    deliverables, and payment terms as discussed.
+                    {t('projectForm.terms.agreement', 'I agree to the terms and conditions of the project request, including project timeline, deliverables, and payment terms as discussed.')}
                   </span>
                 </label>
                 {errors.terms_accepted && (
@@ -495,7 +496,7 @@ const ProjectRequestForm = () => {
                     <div className="w-1/2 h-full bg-gradient-to-r from-purple-500 to-cyan-500 animate-progress"></div>
                   </div>
                   <p className="text-xs text-center text-gray-400 md:text-sm">
-                    Processing your request...
+                    {t('projectForm.submission.processing', 'Processing your request...')}
                   </p>
                 </div>
               )}
@@ -508,18 +509,18 @@ const ProjectRequestForm = () => {
                 {isSubmitting ? (
                   <div className="flex items-center justify-center space-x-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Submitting...</span>
+                    <span>{t('projectForm.submission.submitting', 'Submitting...')}</span>
                   </div>
                 ) : (
                   <div className="flex items-center justify-center space-x-2">
-                    <span>Submit Request</span>
+                    <span>{t('projectForm.submission.submitButton', 'Submit Request')}</span>
                     <CheckSquare className="w-4 h-4 transition-transform md:w-5 md:h-5 group-hover:scale-110" />
                   </div>
                 )}
               </button>
 
               <p className="mt-4 text-xs text-center text-gray-400 md:text-sm">
-                Your request will be reviewed within 24-48 hours
+                {t('projectForm.submission.reviewTime', 'Your request will be reviewed within 24-48 hours')}
               </p>
             </div>
           </form>

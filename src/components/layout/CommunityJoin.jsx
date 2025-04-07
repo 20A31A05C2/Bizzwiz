@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const CommunityJoin = () => {
+  const { t } = useTranslation(); // Use translation hook
+  
   // Refs for scroll detection
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
@@ -235,14 +238,14 @@ const CommunityJoin = () => {
             ref={titleRef}
             className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-5 sm:mb-6 transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
-            Rejoignez la communauté
+            {t('community.heading')}
           </h1>
                   
           <p 
             ref={descriptionRef}
             className={`text-gray-300 max-w-xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg transition-all duration-700 delay-200 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
-            Rejoignez notre communauté de plus de 4 000 personnes et contribuez à un Internet plus privé et décentralisé. Commencez gratuitement.
+            {t('community.description')}
           </p>
                   
           <div 
@@ -252,7 +255,7 @@ const CommunityJoin = () => {
             <button 
               className="bg-transparent hover:bg-opacity-20 hover:bg-purple-800 text-white font-medium py-3 sm:py-3.5 px-8 sm:px-10 rounded-full border border-purple-500 transition duration-300 hover:scale-105 active:scale-95 text-base sm:text-lg"
             >
-              Rejoignez
+              {t('community.button')}
             </button>
           </div>
         </div>

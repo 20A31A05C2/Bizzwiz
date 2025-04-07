@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useTranslation } from 'react-i18next';
 import {
   IoCardOutline,
   IoCheckmarkCircle,
@@ -14,11 +15,12 @@ import ApiService from '../../Apiservice';
 const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {} }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const { t } = useTranslation();
   
   const [processing, setProcessing] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [autoRenew, setAutoRenew] = useState(true); // Default to auto-renewal enabled
+  const [autoRenew, setAutoRenew] = useState(true);
 
   // Get the correct price based on billing cycle
   const getPrice = () => {
@@ -45,7 +47,7 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
       const cardElement = elements.getElement(CardElement);
       
       if (!cardElement) {
-        throw new Error("Card element not found");
+        throw new Error(t('checkout.errors.cardElementNotFound'));
       }
       
       // First create a payment method from card details
@@ -59,7 +61,7 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
       }
       
       if (!paymentMethod || !paymentMethod.id) {
-        throw new Error("Failed to create payment method");
+        throw new Error(t('checkout.errors.paymentMethodCreation'));
       }
 
       // If auto-renewal is enabled and this is a subscription (not credits), use the recurring flow
@@ -70,11 +72,10 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
           billing_cycle: billingCycle,
           payment_method_id: paymentMethod.id,
           auto_renew: autoRenew
-          // Removed name, email, country fields
         });
         
         if (!subscriptionResponse.success) {
-          throw new Error(subscriptionResponse.message || "Failed to create subscription");
+          throw new Error(subscriptionResponse.message || t('checkout.errors.subscriptionCreation'));
         }
         
         const responseData = subscriptionResponse.data || {};
@@ -88,12 +89,12 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
           );
           
           if (confirmError) {
-            throw new Error(confirmError.message || "Payment confirmation failed");
+            throw new Error(confirmError.message || t('checkout.errors.paymentConfirmation'));
           }
         }
         
         setPaymentStatus('success');
-        toast.success(`Successfully subscribed to ${selectedPlan.name} plan with auto-renewal enabled!`);
+        toast.success(t('checkout.success.subscription', { planName: selectedPlan.name }));
         
         // Reload the page after a short delay
         setTimeout(() => {
@@ -116,7 +117,7 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
         });
         
         if (!intentResponse.success || !intentResponse.clientSecret) {
-          throw new Error(intentResponse.message || "Could not initialize payment. Please try again.");
+          throw new Error(intentResponse.message || t('checkout.errors.paymentInitialization'));
         }
         
         // Confirm payment with the payment method we just created
@@ -140,18 +141,17 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
             credits: apiOverrides.credits,
             billing_cycle: billingCycle,
             auto_renew: autoRenew,
-            // Removed email, name, country
             ...apiOverrides
           });
           
           if (!verifyResponse.success) {
-            throw new Error(verifyResponse.message || "Payment processed but verification failed");
+            throw new Error(verifyResponse.message || t('checkout.errors.paymentVerification'));
           }
           
           setPaymentStatus('success');
           const successMessage = apiOverrides.purchase_type === 'credits'
-            ? `Successfully purchased ${apiOverrides.credits} credits!`
-            : `Successfully subscribed to ${selectedPlan.name} plan!`;
+            ? t('checkout.success.credits', { credits: apiOverrides.credits })
+            : t('checkout.success.subscriptionWithoutAutoRenewal', { planName: selectedPlan.name });
           
           toast.success(successMessage);
           
@@ -160,11 +160,11 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
             window.location.reload();
           }, 2000);
         } else {
-          throw new Error(`Payment status: ${paymentIntent.status}. Please try again or contact support.`);
+          throw new Error(t('checkout.errors.paymentStatus', { status: paymentIntent.status }));
         }
       }
     } catch (error) {
-      const errorMsg = error.message || "Payment failed. Please try again.";
+      const errorMsg = error.message || t('checkout.errors.generic');
       setErrorMessage(errorMsg);
       toast.error(errorMsg);
       setPaymentStatus('error');
@@ -194,7 +194,7 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
 
   // Get duration based on billing cycle
   const getDuration = () => {
-    return billingCycle === 'yearly' ? '365 days' : '30 days';
+    return t(`checkout.duration.${billingCycle === 'yearly' ? 'yearly' : 'monthly'}`);
   };
 
   // Get button text based on billing cycle
@@ -202,22 +202,27 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
     const price = getPrice().toFixed(2);
     
     if (apiOverrides.purchase_type === 'credits') {
-      return `Pay $${price}`;
+      return t('checkout.form.button.pay', { price });
     }
     
     return autoRenew 
-      ? `Subscribe for $${price} with Auto-Renewal`
-      : `Subscribe for $${price}`;
+      ? t('checkout.form.button.subscribeWithAutoRenewal', { price })
+      : t('checkout.form.button.subscribe', { price });
   };
 
   // Only show auto-renewal for subscriptions, not credits
   const showAutoRenewal = !apiOverrides.purchase_type || apiOverrides.purchase_type === 'subscription';
 
+  // Get the auto-renewal cycle term (year/month)
+  const getAutoRenewalCycleTerm = () => {
+    return t(`checkout.form.autoRenewal.${billingCycle === 'yearly' ? 'year' : 'month'}`);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
       <div className="space-y-1">
         <label className="block text-sm font-medium text-gray-400">
-          Card Details
+          {t('checkout.form.cardDetails')}
         </label>
         <div className="p-4 bg-gray-900 border border-gray-700 rounded-lg">
           <CardElement options={cardElementOptions} />
@@ -230,7 +235,7 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <IoRefreshOutline className={`w-5 h-5 ${autoRenew ? 'text-cyan-400' : 'text-gray-500'}`} />
-              <span className="text-gray-200 font-medium">Enable Auto-Renewal</span>
+              <span className="text-gray-200 font-medium">{t('checkout.form.autoRenewal.title')}</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input 
@@ -247,8 +252,8 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
             <IoInformationCircleOutline className="w-4 h-4 flex-shrink-0 mt-0.5 text-cyan-400" />
             <p>
               {autoRenew
-                ? `Your subscription will automatically renew every ${billingCycle === 'yearly' ? 'year' : 'month'} until cancelled. You can cancel anytime in your account settings.`
-                : `Your subscription will expire after ${getDuration()} without renewal. You'll need to manually subscribe again.`}
+                ? t('checkout.form.autoRenewal.enabledInfo', { term: getAutoRenewalCycleTerm() })
+                : t('checkout.form.autoRenewal.disabledInfo', { duration: getDuration() })}
             </p>
           </div>
         </div>
@@ -259,12 +264,12 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
         <div className="flex items-center justify-between mb-3">
           {apiOverrides.purchase_type === 'credits' ? (
             <>
-              <span className="text-sm text-gray-400">Product:</span>
+              <span className="text-sm text-gray-400">{t('checkout.form.summary.product')}</span>
               <span className="text-white font-medium">{apiOverrides.credits} Credits</span>
             </>
           ) : (
             <>
-              <span className="text-sm text-gray-400">Plan:</span>
+              <span className="text-sm text-gray-400">{t('checkout.form.summary.plan')}</span>
               <span className="text-white font-medium">{selectedPlan.name}</span>
             </>
           )}
@@ -274,12 +279,12 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
         {(!apiOverrides.purchase_type || apiOverrides.purchase_type === 'subscription') && (
           <>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-gray-400">Billing Cycle:</span>
+              <span className="text-sm text-gray-400">{t('checkout.form.summary.billingCycle')}</span>
               <span className="text-white capitalize">{billingCycle}</span>
             </div>
             
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm text-gray-400">Duration:</span>
+              <span className="text-sm text-gray-400">{t('checkout.form.summary.duration')}</span>
               <span className="text-white">{getDuration()}</span>
             </div>
           </>
@@ -287,15 +292,15 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
         
         {showAutoRenewal && (
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm text-gray-400">Auto-Renewal:</span>
+            <span className="text-sm text-gray-400">{t('checkout.form.summary.autoRenewal')}</span>
             <span className={`text-white ${autoRenew ? 'text-green-400' : 'text-yellow-400'}`}>
-              {autoRenew ? 'Enabled' : 'Disabled'}
+              {t(`checkout.form.summary.${autoRenew ? 'enabled' : 'disabled'}`)}
             </span>
           </div>
         )}
         
         <div className="border-t border-gray-700 my-3 pt-3 flex items-center justify-between">
-          <span className="text-white font-medium">Total:</span>
+          <span className="text-white font-medium">{t('checkout.form.summary.total')}</span>
           <span className="text-lg font-bold text-white">${getPrice().toFixed(2)}</span>
         </div>
       </div>
@@ -318,7 +323,7 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Processing...
+              {t('checkout.form.button.processing')}
             </span>
           ) : (
             <>
@@ -349,9 +354,9 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
               <IoCheckmarkCircle className="w-5 h-5 flex-shrink-0" />
               <p className="text-sm">
                 {apiOverrides.purchase_type === 'credits'
-                  ? 'Payment successful! Credits have been added to your account.'
-                  : `Payment successful! Your ${selectedPlan.name} subscription is now active.`}
-                {!apiOverrides.purchase_type && autoRenew && ' Auto-renewal is enabled.'}
+                  ? t('checkout.status.successCredits')
+                  : t('checkout.status.successSubscription', { planName: selectedPlan.name })}
+                {!apiOverrides.purchase_type && autoRenew && ' ' + t('checkout.status.successAutoRenewal')}
               </p>
             </div>
           </motion.div>
@@ -367,18 +372,17 @@ const CheckoutForm = ({ selectedPlan, billingCycle = 'monthly', apiOverrides = {
           >
             <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/10 text-red-400">
               <IoCloseCircle className="w-5 h-5 flex-shrink-0" />
-              <p className="text-sm">Payment failed. Please check your card details and try again.</p>
+              <p className="text-sm">{t('checkout.status.error')}</p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <div className="text-xs text-center text-gray-500 mt-4">
-        Your payment is processed securely through Stripe. We do not store your card details.
+        {t('checkout.disclaimer.securityNotice')}
         {autoRenew && !apiOverrides.purchase_type && (
           <p className="mt-1">
-            By subscribing with auto-renewal, you authorize us to charge your card periodically according to the billing cycle
-            until you cancel your subscription.
+            {t('checkout.disclaimer.autoRenewalNotice')}
           </p>
         )}
       </div>

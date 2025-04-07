@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import mascot from '../../assets/man.png';
 import SideNavbar from './userlayout/sidebar';
 import { 
@@ -14,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import ApiService from '../../Apiservice';
 
 function Task() {
+  const { t } = useTranslation(); // Initialize translation hook
   const [isVisible, setIsVisible] = useState(false);
   const [hasActivePlan, setHasActivePlan] = useState(false);
   const [isPlanChecking, setIsPlanChecking] = useState(true);
@@ -115,17 +117,15 @@ function Task() {
         variants={itemVariants}
         className="mb-4 text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-center"
       >
-        Premium Feature Locked
+        {t('tasks.locked.title', 'Premium Feature Locked')}
       </motion.h2>
       
       <motion.p 
         variants={itemVariants}
         className="mb-6 text-base md:text-lg text-gray-300 text-center max-w-md"
       >
-        Unlock our powerful task management features to enhance your digital projects and streamline your workflow.
+        {t('tasks.locked.description', 'Unlock our powerful task management features to enhance your digital projects and streamline your workflow.')}
       </motion.p>
-
-      
       
       <motion.button 
         variants={buttonVariants}
@@ -136,7 +136,7 @@ function Task() {
         className="flex items-center gap-2 px-6 py-3 font-medium text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:shadow-lg hover:shadow-purple-500/25"
       >
         <IoCashOutline className="w-5 h-5" />
-        Upgrade to Premium
+        {t('tasks.locked.upgradeButton', 'Upgrade to Premium')}
       </motion.button>
     </motion.div>
   );
@@ -163,7 +163,7 @@ function Task() {
             <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/30 to-purple-500/30 blur-3xl rounded-full" />
             <img
               src={mascot}
-              alt="Mascot"
+              alt={t('tasks.mascotAlt', 'Mascot')}
               className="relative z-10 w-full h-auto transform hover:scale-105 transition-transform duration-500"
             />
           </div>
@@ -183,10 +183,10 @@ function Task() {
                 {/* Text content */}
                 <div>
                   <h1 className="mb-4 text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                    Coming Soon
+                    {t('tasks.coming.title', 'Coming Soon')}
                   </h1>
                   <p className="text-lg md:text-xl text-gray-300">
-                    Something amazing is in the works. Stay tuned for something special.
+                    {t('tasks.coming.description', 'Something amazing is in the works. Stay tuned for something special.')}
                   </p>
                 </div>
                   
@@ -195,24 +195,28 @@ function Task() {
                   <div className="flex flex-col sm:flex-row gap-3">
                     <input
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder={t('tasks.coming.emailPlaceholder', 'Enter your email')}
                       className="flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 transition-colors"
                     />
                     <button className="px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium hover:from-cyan-600 hover:to-purple-600 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 whitespace-nowrap">
-                      Notify Me
+                      {t('tasks.coming.notifyButton', 'Notify Me')}
                     </button>
                   </div>
                 </div>
                   
                 {/* Social links */}
                 <div className="flex gap-6 justify-center md:justify-start">
-                  {['Twitter', 'Discord', 'Instagram'].map((platform) => (
+                  {[
+                    { key: 'twitter', label: t('tasks.social.twitter', 'Twitter') },
+                    { key: 'discord', label: t('tasks.social.discord', 'Discord') },
+                    { key: 'instagram', label: t('tasks.social.instagram', 'Instagram') }
+                  ].map((platform) => (
                     <a
-                      key={platform}
+                      key={platform.key}
                       href="#"
                       className="text-gray-400 hover:text-white transition-colors"
                     >
-                      {platform}
+                      {platform.label}
                     </a>
                   ))}
                 </div>

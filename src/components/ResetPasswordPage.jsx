@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import RingLoader from "react-spinners/ClipLoader";
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import ApiService from "../Apiservice";
 import Logo from '../assets/logo.png';
 import BlueBlob from '../assets/blueblob.png';
@@ -32,6 +33,7 @@ const calculatePasswordStrength = (password) => {
 
 // Password strength meter component
 const PasswordStrengthMeter = ({ password }) => {
+  const { t } = useTranslation(); // Use translation hook
   const strength = calculatePasswordStrength(password);
   
   // Determine color and label based on strength
@@ -41,21 +43,21 @@ const PasswordStrengthMeter = ({ password }) => {
     case 0:
     case 1:
       color = "bg-red-500";
-      label = "Weak";
+      label = t('resetPassword.passwordStrength.weak', 'Weak');
       break;
     case 2:
     case 3:
       color = "bg-yellow-500";
-      label = "Medium";
+      label = t('resetPassword.passwordStrength.medium', 'Medium');
       break;
     case 4:
     case 5:
       color = "bg-green-500";
-      label = "Strong";
+      label = t('resetPassword.passwordStrength.strong', 'Strong');
       break;
     default:
       color = "bg-green-600";
-      label = "Very Strong";
+      label = t('resetPassword.passwordStrength.veryStrong', 'Very Strong');
   }
   
   // Calculate width percentage
@@ -75,6 +77,7 @@ const PasswordStrengthMeter = ({ password }) => {
 };
 
 function ResetPasswordPage() {
+  const { t } = useTranslation(); // Initialize translation hook
   const navigate = useNavigate();
   const location = useLocation();
   const [password, setPassword] = useState("");
@@ -89,32 +92,32 @@ function ResetPasswordPage() {
   
   useEffect(() => {
     if (!token || !email) {
-      toast.error("Invalid reset link!");
+      toast.error(t('resetPassword.invalidResetLink', 'Invalid reset link!'));
       navigate("/forgot-password"); // Redirect if the token is missing
     }
-  }, [token, email, navigate]);
+  }, [token, email, navigate, t]);
   
   const handleResetPassword = async (e) => {
     e.preventDefault();
     
     if (!password || !confirmPassword) {
-      toast.error("All fields are required!");
+      toast.error(t('resetPassword.allFieldsRequired', 'All fields are required!'));
       return;
     }
     
     // Check password strength
     const passwordStrength = calculatePasswordStrength(password);
     if (passwordStrength < 3) {
-      toast.error("Password is too weak. Include uppercase, lowercase, numbers, and special characters.");
+      toast.error(t('toasts.weakPassword', 'Password is too weak. Include uppercase, lowercase, numbers, and special characters.'));
       return;
     }
     
     if (password.length < 8) {
-      toast.error("Password must be at least 8 characters long.");
+      toast.error(t('resetPassword.passwordTooShort', 'Password must be at least 8 characters long.'));
       return;
     }
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match!");
+      toast.error(t('toasts.passwordsDoNotMatch', 'Passwords do not match!'));
       return;
     }
     
@@ -129,10 +132,10 @@ function ResetPasswordPage() {
       });
       
       setSuccess(true);
-      toast.success("Password reset successful! Redirecting to login...");
+      toast.success(t('resetPassword.successRedirecting', 'Password reset successful! Redirecting to login...'));
       setTimeout(() => navigate("/userlogin"), 2000);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to reset password.");
+      toast.error(error.response?.data?.message || t('resetPassword.failedReset', 'Failed to reset password.'));
     } finally {
       setLoading(false);
     }
@@ -183,9 +186,11 @@ function ResetPasswordPage() {
 
         {/* Reset Password text */}
         <div className="w-full mb-6 text-center">
-          <h1 className="mb-2 text-xl font-semibold text-white md:text-2xl">Reset Password</h1>
+          <h1 className="mb-2 text-xl font-semibold text-white md:text-2xl">
+            {t('resetPassword.title', 'Reset Password')}
+          </h1>
           <p className="text-xs text-white/70 md:text-sm">
-            Enter your new password below
+            {t('resetPassword.enterNewPassword', 'Enter your new password below')}
           </p>
         </div>
 
@@ -195,7 +200,7 @@ function ResetPasswordPage() {
             <div className="relative">
               <input
                 type="password"
-                placeholder="NEW PASSWORD"
+                placeholder={t('resetPassword.newPassword', 'NEW PASSWORD')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading || success}
@@ -222,13 +227,13 @@ function ResetPasswordPage() {
             </div>
 
             <div className="text-xs text-white/60 mt-1 mb-3">
-              Password should contain at least 8 characters with uppercase, lowercase, numbers and special characters.
+              {t('resetPassword.passwordRequirements', 'Password should contain at least 8 characters with uppercase, lowercase, numbers and special characters.')}
             </div>
             
             <div className="relative">
               <input
                 type="password"
-                placeholder="CONFIRM PASSWORD"
+                placeholder={t('resetPassword.confirmPassword', 'CONFIRM PASSWORD')}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 disabled={loading || success}
@@ -264,16 +269,16 @@ function ResetPasswordPage() {
                 <RingLoader size={20} color="#4A2A8A" />
               </div>
             ) : success ? (
-              "PASSWORD RESET"
+              t('resetPassword.passwordResetButton', 'PASSWORD RESET')
             ) : (
-              "RESET PASSWORD"
+              t('resetPassword.resetPasswordButton', 'RESET PASSWORD')
             )}
           </button>
 
           <div className="text-center text-white/80 text-xs md:text-sm pt-6">
-            Remember your password?{" "}
+            {t('resetPassword.rememberPassword', 'Remember your password?')}{" "}
             <Link to="/userlogin" className="text-blue-400 hover:text-blue-300">
-              Back to login
+              {t('resetPassword.backToLogin', 'Back to login')}
             </Link>
           </div>
         </form>

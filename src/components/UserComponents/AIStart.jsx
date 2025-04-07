@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import mascot from '../../assets/man.png';
 import SideNavbar from './userlayout/sidebar';
 import { 
@@ -14,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import ApiService from '../../Apiservice';
 
 const AIStart = () => {
+  const { t } = useTranslation(); // Initialize translation hook
   const [isVisible, setIsVisible] = useState(false);
   const [hasActivePlan, setHasActivePlan] = useState(false);
   const [isPlanChecking, setIsPlanChecking] = useState(true);
@@ -115,18 +117,16 @@ const AIStart = () => {
         variants={itemVariants}
         className="mb-4 text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-center"
       >
-        Premium Feature Locked
+        {t('aistart.locked.title', 'Premium Feature Locked')}
       </motion.h2>
       
       <motion.p 
         variants={itemVariants}
         className="mb-6 text-base md:text-lg text-gray-300 text-center max-w-md"
       >
-        Unlock our powerful AI features to enhance your digital projects and streamline your workflow.
+        {t('aistart.locked.description', 'Unlock our powerful AI features to enhance your digital projects and streamline your workflow.')}
       </motion.p>
 
-      
-      
       <motion.button 
         variants={buttonVariants}
         initial="rest"
@@ -136,7 +136,7 @@ const AIStart = () => {
         className="flex items-center gap-2 px-6 py-3 font-medium text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:shadow-lg hover:shadow-purple-500/25"
       >
         <IoCashOutline className="w-5 h-5" />
-        Upgrade to Premium
+        {t('aistart.locked.upgradeButton', 'Upgrade to Premium')}
       </motion.button>
     </motion.div>
   );
@@ -162,7 +162,7 @@ const AIStart = () => {
             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-cyan-500/30 to-purple-500/30 blur-3xl" />
             <img
               src={mascot}
-              alt="Mascot"
+              alt={t('aistart.mascotAlt', 'Mascot')}
               className="relative z-10 w-full h-auto transition-transform duration-500 transform hover:scale-105"
             />
           </div>
@@ -182,10 +182,10 @@ const AIStart = () => {
                 {/* Text content */}
                 <div>
                   <h1 className="mb-4 text-4xl font-bold text-transparent md:text-6xl lg:text-7xl bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 bg-clip-text">
-                    Coming Soon
+                    {t('aistart.coming.title', 'Coming Soon')}
                   </h1>
                   <p className="text-lg text-gray-300 md:text-xl">
-                    Something amazing is in the works. Stay tuned for something special.
+                    {t('aistart.coming.description', 'Something amazing is in the works. Stay tuned for something special.')}
                   </p>
                 </div>
 
@@ -194,24 +194,28 @@ const AIStart = () => {
                   <div className="flex flex-col gap-3 sm:flex-row">
                     <input
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder={t('aistart.coming.emailPlaceholder', 'Enter your email')}
                       className="flex-1 px-4 py-3 text-white placeholder-gray-400 transition-colors border rounded-lg bg-white/5 border-white/10 focus:outline-none focus:border-cyan-500"
                     />
                     <button className="px-6 py-3 font-medium text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 hover:shadow-lg hover:shadow-purple-500/25 whitespace-nowrap">
-                      Notify Me
+                      {t('aistart.coming.notifyButton', 'Notify Me')}
                     </button>
                   </div>
                 </div>
 
                 {/* Social links */}
                 <div className="flex justify-center gap-6 md:justify-start">
-                  {['Twitter', 'Discord', 'Instagram'].map((platform) => (
+                  {[
+                    { key: 'twitter', label: t('aistart.social.twitter', 'Twitter') },
+                    { key: 'discord', label: t('aistart.social.discord', 'Discord') },
+                    { key: 'instagram', label: t('aistart.social.instagram', 'Instagram') }
+                  ].map((platform) => (
                     <a
-                      key={platform}
+                      key={platform.key}
                       href="#"
                       className="text-gray-400 transition-colors hover:text-white"
                     >
-                      {platform}
+                      {platform.label}
                     </a>
                   ))}
                 </div>

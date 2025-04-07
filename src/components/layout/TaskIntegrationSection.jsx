@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import integrationIcons from '../../assets/task.png';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 
 const TaskIntegrationSection = () => {
+  const { t } = useTranslation(); // Use translation hook
+  
   // Refs for scroll detection
   const sectionRef = useRef(null);
   const labelRef = useRef(null);
@@ -189,28 +192,28 @@ const TaskIntegrationSection = () => {
             ref={labelRef}
             className={`uppercase text-blue-400 text-xs sm:text-sm font-medium tracking-wider mb-3 sm:mb-4 transition-all duration-700 transform ${isLabelVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
-            INTEGRATIONS
+            {t('task.label')}
           </div>
           
           <h2
             ref={headingRef}
             className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-5 md:mb-6 transition-all duration-700 delay-100 transform ${isHeadingVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
-            TASK - Votre assistant IA personnel
+            {t('task.heading')}
           </h2>
           
           <p
             ref={text1Ref}
             className={`text-gray-400 text-sm sm:text-base md:text-lg mb-2 sm:mb-3 transition-all duration-700 delay-200 transform ${isText1Visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
-            Ne perdez plus de temps sur les tâches répétitives !
+            {t('task.text1')}
           </p>
           
           <p
             ref={text2Ref}
             className={`text-gray-400 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 md:mb-10 transition-all duration-700 delay-300 transform ${isText2Visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
-            TASK est un agent IA conçu pour automatiser et gérer vos tâches en ligne.
+            {t('task.text2')}
           </p>
           
           <div
@@ -221,7 +224,7 @@ const TaskIntegrationSection = () => {
               href="#"
               className="inline-block bg-transparent text-white border border-purple-600 rounded-full px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base transition-all duration-300 hover:bg-purple-900/20 hover:scale-105 active:scale-95"
             >
-              Voir toutes les IA
+              {t('task.button')}
             </a>
           </div>
         </div>
@@ -234,7 +237,7 @@ const TaskIntegrationSection = () => {
           <div className="relative w-full h-48 sm:h-56 md:h-64 lg:h-72 px-4 sm:px-6 md:px-0">
             <img
               src={integrationIcons}
-              alt="Integration platforms and tools"
+              alt={t('task.imageAlt')}
               className="w-full h-full object-contain"
             />
           </div>

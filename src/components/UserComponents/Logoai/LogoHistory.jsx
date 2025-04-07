@@ -13,12 +13,16 @@ import {
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import SideNavbar from '../userlayout/sidebar';
 import ApiService from '../../../Apiservice';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingPage from '../userlayout/loader';
 
 const LogoHistory = () => {
+  // Initialize translation hook
+  const { t } = useTranslation();
+  
   // All state hooks must be called unconditionally at the top
   const [logos, setLogos] = useState([]);
   const [selectedLogo, setSelectedLogo] = useState(null);
@@ -46,7 +50,7 @@ const LogoHistory = () => {
   const fetchLogoHistory = useCallback(async () => {
     if (!userId) {
       setLoading(false);
-      setError("User not found. Please log in again.");
+      setError(t('logoHistory.errors.loginRequired', "User not found. Please log in again."));
       return;
     }
 
@@ -63,22 +67,22 @@ const LogoHistory = () => {
         setLogos(validLogos);
         console.log("Logos fetched:", validLogos.length);
       } else {
-        const errorMessage = response?.message || "Failed to fetch logo history";
+        const errorMessage = response?.message || t('logoHistory.errors.default', "Failed to fetch logo history");
         setError(errorMessage);
         console.error("Failed to fetch logo history:", errorMessage);
       }
     } catch (error) {
-      const errorMessage = error?.message || "Error connecting to server";
+      const errorMessage = error?.message || t('logoHistory.errors.default', "Error connecting to server");
       setError(errorMessage);
       console.error("Error fetching logo history:", error);
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, [userId, t]);
 
   // Format date helper function
   const formatDate = useCallback((dateString) => {
-    if (!dateString) return "Unknown date";
+    if (!dateString) return t('logoHistory.logoDetails.date', "Unknown date");
     
     try {
       const date = new Date(dateString);
@@ -89,9 +93,9 @@ const LogoHistory = () => {
       });
     } catch (error) {
       console.error("Date formatting error:", error);
-      return "Invalid date";
+      return t('logoHistory.logoDetails.invalidDate', "Invalid date");
     }
-  }, []);
+  }, [t]);
 
   // Optimized fetch logo data with request deduplication
   const fetchLogoData = useCallback(async (logoId) => {
@@ -142,14 +146,14 @@ const LogoHistory = () => {
       } else {
         console.error(`Failed to fetch logo data for logo ${logoId}`);
         if (selectedLogo && selectedLogo.id === logoId) {
-          toast.error("Failed to load logo image");
+          toast.error(t('logoHistory.errors.default', "Failed to load logo image"));
         }
         return null;
       }
     } catch (error) {
       console.error(`Error fetching logo data for logo ${logoId}:`, error);
       if (selectedLogo && selectedLogo.id === logoId) {
-        toast.error("Error loading logo image: " + (error?.message || "Unknown error"));
+        toast.error(t('logoHistory.errors.default', "Error loading logo image: ") + (error?.message || "Unknown error"));
       }
       return null;
     } finally {
@@ -164,7 +168,7 @@ const LogoHistory = () => {
         setLoadingImage(false);
       }
     }
-  }, [logoImageCache, selectedLogo, activeImageFetches]);
+  }, [logoImageCache, selectedLogo, activeImageFetches, t]);
 
   // Handle viewing logo details
   const handleViewDetails = useCallback((logo) => {
@@ -210,7 +214,7 @@ const LogoHistory = () => {
         
         toast.success("Download started!");
       } catch (error) {
-        toast.error("Failed to download logo: " + (error?.message || "Unknown error"));
+        toast.error(t('logoHistory.errors.default', "Failed to download logo: ") + (error?.message || "Unknown error"));
         console.error("Download error:", error);
       }
     } else {
@@ -220,7 +224,7 @@ const LogoHistory = () => {
       
       fetchLogoData(logo.id);
     }
-  }, [fetchLogoData, logoImageCache, selectedLogoData]);
+  }, [fetchLogoData, logoImageCache, selectedLogoData, t]);
 
   // Initial fetch of logo history - this must be separate from the batch loading effect
   useEffect(() => {
@@ -271,17 +275,17 @@ const LogoHistory = () => {
   const ErrorView = useCallback(() => (
     <div className="flex flex-col items-center justify-center p-8 text-center h-full">
       <IoCloseCircleOutline className="w-16 h-16 mb-4 text-red-500 opacity-70" />
-      <h2 className="mb-3 text-xl font-semibold text-white">Error Loading Logos</h2>
+      <h2 className="mb-3 text-xl font-semibold text-white">{t('logoHistory.errors.loadingError', 'Error Loading Logos')}</h2>
       <p className="mb-6 text-gray-400">{error}</p>
       <button 
         onClick={fetchLogoHistory}
         className="flex items-center gap-2 px-4 py-2 text-white transition-all duration-300 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 hover:scale-105 hover:shadow-lg"
       >
         <IoRefreshOutline size={20} />
-        Retry
+        {t('logoHistory.buttons.retry', 'Retry')}
       </button>
     </div>
-  ), [error, fetchLogoHistory]);
+  ), [error, fetchLogoHistory, t]);
 
   // Empty state view - defined unconditionally
   const EmptyStateView = useCallback(() => (
@@ -308,12 +312,11 @@ const LogoHistory = () => {
       </div>
       
       <h2 className="mb-3 sm:mb-4 text-xl sm:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-        No Logo Requests Yet
+        {t('logoHistory.emptyState.title', 'No Logo Requests Yet')}
       </h2>
       
       <p className="max-w-md mb-6 text-sm sm:text-base text-gray-400">
-        Start your branding journey by creating your first AI-generated logo request.
-        We'll help you create the perfect logo for your brand.
+        {t('logoHistory.emptyState.description', "Start your branding journey by creating your first AI-generated logo request. We'll help you create the perfect logo for your brand.")}
       </p>
       
       <motion.button 
@@ -323,10 +326,10 @@ const LogoHistory = () => {
         className="flex items-center gap-3 px-6 py-3 text-white transition-all duration-300 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
       >
         <IoAddCircleOutline size={24} />
-        Create First Logo
+        {t('logoHistory.buttons.createFirst', 'Create First Logo')}
       </motion.button>
     </motion.div>
-  ), [navigate]);
+  ), [navigate, t]);
 
   // Logo details modal component
   const LogoDetailsModal = useCallback(() => {
@@ -365,7 +368,7 @@ const LogoHistory = () => {
                 <IoChevronBackOutline size={22} />
               </motion.button>
               <h2 className="text-lg sm:text-xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
-                Logo Details
+                {t('logoHistory.logoDetails.title', 'Logo Details')}
               </h2>
               <div className="w-6"></div> {/* Empty div for centering */}
             </div>
@@ -382,7 +385,9 @@ const LogoHistory = () => {
                     ? 'bg-yellow-500/20 text-yellow-400' 
                     : 'bg-green-500/20 text-green-400'}`}
                 >
-                  {selectedLogo.status || 'completed'}
+                  {selectedLogo.status === 'pending' 
+                    ? t('logoHistory.status.pending', 'pending') 
+                    : t('logoHistory.status.completed', 'completed')}
                 </span>
               </div>
             </div>
@@ -408,7 +413,7 @@ const LogoHistory = () => {
                   <div className="relative">
                     <div className="w-16 h-16 border-4 border-l-cyan-400 border-r-purple-400 border-t-cyan-400 border-b-purple-400 rounded-full animate-spin"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-cyan-400 text-sm">Loading</div>
+                      <div className="text-cyan-400 text-sm">{t('logoHistory.imageStatus.loading', 'Loading')}</div>
                     </div>
                   </div>
                 </div>
@@ -423,8 +428,8 @@ const LogoHistory = () => {
               <div className="flex items-start">
                 <IoChatbubblesOutline size={18} className="mt-1 mr-2 flex-shrink-0 text-cyan-400" />
                 <div>
-                  <div className="font-medium text-sm sm:text-base">Prompt</div>
-                  <p className="text-xs sm:text-sm text-gray-400">{selectedLogo.prompt || 'No prompt available'}</p>
+                  <div className="font-medium text-sm sm:text-base">{t('logoHistory.logoDetails.prompt', 'Prompt')}</div>
+                  <p className="text-xs sm:text-sm text-gray-400">{selectedLogo.prompt || t('logoHistory.logoDetails.noPrompt', 'No prompt available')}</p>
                 </div>
               </div>
               
@@ -432,7 +437,7 @@ const LogoHistory = () => {
                 <div className="flex items-start">
                   <IoWalletOutline size={18} className="mt-1 mr-2 flex-shrink-0 text-cyan-400" />
                   <div>
-                    <div className="font-medium text-sm sm:text-base">Credits Used</div>
+                    <div className="font-medium text-sm sm:text-base">{t('logoHistory.logoDetails.creditsUsed', 'Credits Used')}</div>
                     <div className="text-xs sm:text-sm text-gray-400">{selectedLogo.credits_used}</div>
                   </div>
                 </div>
@@ -453,12 +458,12 @@ const LogoHistory = () => {
                   {loadingImage && !selectedLogoData ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white/50 border-t-white rounded-full animate-spin mr-1"></div>
-                      Preparing...
+                      {t('logoHistory.buttons.preparing', 'Preparing...')}
                     </>
                   ) : (
                     <>
                       <IoDownloadOutline size={16} />
-                      Download Logo
+                      {t('logoHistory.buttons.download', 'Download Logo')}
                     </>
                   )}
                 </motion.button>
@@ -468,7 +473,7 @@ const LogoHistory = () => {
         </motion.div>
       </AnimatePresence>
     );
-  }, [selectedLogo, selectedLogoData, loadingImage, formatDate, handleDownload]);
+  }, [selectedLogo, selectedLogoData, loadingImage, formatDate, handleDownload, t]);
 
   // Logo card component - defined here to avoid conditional hook usage
   const renderLogoCard = useCallback((logo, index) => {
@@ -491,13 +496,15 @@ const LogoHistory = () => {
               ? 'bg-yellow-500/20 text-yellow-400' 
               : 'bg-green-500/20 text-green-400'}`}
           >
-            {logo.status || 'completed'}
+            {logo.status === 'pending' 
+              ? t('logoHistory.status.pending', 'pending') 
+              : t('logoHistory.status.completed', 'completed')}
           </span>
           
           {logo.credits_used && (
             <div className="flex items-center text-xs text-gray-400">
               <IoWalletOutline size={14} className="mr-1 text-purple-400/70" />
-              <span>{logo.credits_used} credits</span>
+              <span>{logo.credits_used} {t('logoHistory.logoDetails.creditsUsed', 'credits')}</span>
             </div>
           )}
         </div>
@@ -517,7 +524,7 @@ const LogoHistory = () => {
           ) : activeImageFetches[logo.id] ? (
             <div className="relative w-full h-full flex items-center justify-center">
               <div className="w-10 h-10 border-4 border-l-cyan-400 border-r-purple-400 border-t-cyan-400 border-b-purple-400 rounded-full animate-spin"></div>
-              <div className="absolute text-sm text-cyan-300 mt-16">Loading image...</div>
+              <div className="absolute text-sm text-cyan-300 mt-16">{t('logoHistory.imageStatus.loading', 'Loading image...')}</div>
             </div>
           ) : (
             <div className="flex items-center justify-center h-full w-full">
@@ -552,7 +559,7 @@ const LogoHistory = () => {
 
         <div className="flex items-start mb-2">
           <IoChatbubblesOutline size={14} className="mt-1 mr-1 flex-shrink-0 text-cyan-400/70" />
-          <p className="text-xs text-gray-400 line-clamp-2">{logo.prompt || 'No prompt available'}</p>
+          <p className="text-xs text-gray-400 line-clamp-2">{logo.prompt || t('logoHistory.logoDetails.noPrompt', 'No prompt available')}</p>
         </div>
 
         <div className="flex items-center justify-between text-xs text-gray-400">
@@ -567,12 +574,12 @@ const LogoHistory = () => {
             whileTap={{ scale: 0.9 }}
             className="flex items-center gap-1 px-2 py-1 text-xs text-white rounded-md bg-cyan-500/30 hover:bg-cyan-500/50 transition-colors"
           >
-            Details
+            {t('logoHistory.buttons.details', 'Details')}
           </motion.button>
         </div>
       </motion.div>
     );
-  }, [logoImageCache, activeImageFetches, formatDate, handleViewDetails, handleDownload]);
+  }, [logoImageCache, activeImageFetches, formatDate, handleViewDetails, handleDownload, t]);
 
   // Create the LogoGrid component
   const renderLogoGrid = useCallback(() => {
@@ -589,7 +596,6 @@ const LogoHistory = () => {
         <div className="grid grid-cols-1 gap-4 sm:gap-5 p-3 sm:p-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {logos.map((logo, index) => renderLogoCard(logo, index))}
         </div>
-        
         <div className="flex justify-center p-4 sm:p-6">
           <motion.button 
             onClick={() => navigate('/logorequest')}
@@ -598,16 +604,16 @@ const LogoHistory = () => {
             className="flex items-center gap-3 px-6 py-3 text-white transition-all duration-300 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
           >
             <IoAddCircleOutline size={24} />
-            New Logo Request
+            {t('logoHistory.buttons.newRequest', 'New Logo Request')}
           </motion.button>
         </div>
       </div>
     );
-  }, [logos, error, navigate, renderLogoCard, ErrorView, EmptyStateView]);
+  }, [logos, error, navigate, renderLogoCard, ErrorView, EmptyStateView, t]);
 
   // Show loading screen
   if (loading) {
-    return <LoadingPage name="Loading Logos..." />;
+    return <LoadingPage name={t('logoHistory.loading', 'Loading Logos...')} />;
   }
 
   // Main render function
@@ -660,7 +666,7 @@ const LogoHistory = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text"
             >
-              LogoAI
+              {t('logoHistory.title', 'LogoAI')}
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, x: -20 }}
@@ -668,8 +674,7 @@ const LogoHistory = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="max-w-3xl mt-2 sm:mt-3 text-sm sm:text-base text-gray-300"
             >
-              Create stunning logos powered by AI. Generate, manage, and download 
-              unique logos tailored to your brand identity.
+              {t('logoHistory.subtitle', 'Create stunning logos powered by AI. Generate, manage, and download unique logos tailored to your brand identity.')}
             </motion.p>
           </motion.header>
 

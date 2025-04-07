@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import 'react-toastify/dist/ReactToastify.css';
 import { 
   IoMailOutline, 
@@ -19,6 +20,7 @@ import LoadingPage from './userlayout/loader';
 import SideNavbar from './userlayout/sidebar';
 
 const ContactUs = () => {
+  const { t } = useTranslation(); // Initialize translation hook
   const [contactInfo, setContactInfo] = useState(null);
   const [userForm, setUserForm] = useState({ name: '', email: '', message: '' });
   const [submissionStatus, setSubmissionStatus] = useState(null);
@@ -31,7 +33,7 @@ const ContactUs = () => {
       try {
         const token = localStorage.getItem('bizwizusertoken');
         if (!token) {
-          toast.error("Please login to continue");
+          toast.error(t('contact.errors.loginRequired', 'Please login to continue'));
           navigate('/userlogin');
           return;
         }
@@ -41,7 +43,7 @@ const ContactUs = () => {
           setContactInfo(response.contacts[0]);
         }
       } catch (error) {
-        const errormessage = error?.response?.data?.message || "An error occurred";
+        const errormessage = error?.response?.data?.message || t('contact.errors.default', 'An error occurred');
         
         if (errormessage.toLowerCase().includes('login') || 
             errormessage.toLowerCase().includes('token') || 
@@ -56,7 +58,7 @@ const ContactUs = () => {
     };
     
     fetchContactInfo();
-  }, [navigate]);
+  }, [navigate, t]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -70,7 +72,7 @@ const ContactUs = () => {
     try {
       const token = localStorage.getItem('bizwizusertoken');
       if (!token) {
-        toast.error("Please login to continue");
+        toast.error(t('contact.errors.loginRequired', 'Please login to continue'));
         navigate('/userlogin');
         return;
       }
@@ -79,19 +81,19 @@ const ContactUs = () => {
       if (response.success) {
         setSubmissionStatus('success');
         setUserForm({ name: '', email: '', message: '' });
-        toast.success("Your message has been sent successfully!");
+        toast.success(t('contact.success.messageSent', 'Your message has been sent successfully!'));
       } else {
         setSubmissionStatus('error');
-        toast.error(response.message || "Something went wrong. Please try again.");
+        toast.error(response.message || t('contact.errors.submitFailed', 'Something went wrong. Please try again.'));
       }
     } catch (error) {
-      const errorMessage = error?.response?.data?.message || error.message || "An error occurred";
+      const errorMessage = error?.response?.data?.message || error.message || t('contact.errors.default', 'An error occurred');
       toast.error(errorMessage);
       setSubmissionStatus('error');
     }
   };
 
-  if (loading) return <LoadingPage name="Loading Contact Info..." />;
+  if (loading) return <LoadingPage name={t('contact.loading', 'Loading Contact Info...')} />;
 
   return (
     <div className="flex min-h-screen bg-black">
@@ -107,10 +109,10 @@ const ContactUs = () => {
             className="mb-12 text-center"
           >
             <h1 className="mb-3 text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
-              Get In Touch
+              {t('contact.title', 'Get In Touch')}
             </h1>
             <p className="max-w-2xl mx-auto text-gray-400">
-              We would love to hear from you. Fill out the form below or use our contact information.
+              {t('contact.subtitle', 'We would love to hear from you. Fill out the form below or use our contact information.')}
             </p>
           </motion.header>
 
@@ -126,11 +128,13 @@ const ContactUs = () => {
                 className="p-6 md:p-8 bg-black border border-gray-800 rounded-xl shadow-lg"
                 whileHover={{ boxShadow: "0 8px 30px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(145, 145, 145, 0.05)" }}
               >
-                <h2 className="mb-6 text-xl font-medium text-white">Send us a Message</h2>
+                <h2 className="mb-6 text-xl font-medium text-white">
+                  {t('contact.form.title', 'Send us a Message')}
+                </h2>
                 
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <InputField 
-                    label="Full Name" 
+                    label={t('contact.form.fullName', 'Full Name')}
                     type="text" 
                     name="name" 
                     value={userForm.name} 
@@ -142,7 +146,7 @@ const ContactUs = () => {
                   />
                   
                   <InputField 
-                    label="Email Address" 
+                    label={t('contact.form.emailAddress', 'Email Address')}
                     type="email" 
                     name="email" 
                     value={userForm.email} 
@@ -154,7 +158,7 @@ const ContactUs = () => {
                   />
                   
                   <TextAreaField 
-                    label="Your Message" 
+                    label={t('contact.form.yourMessage', 'Your Message')}
                     name="message" 
                     value={userForm.message} 
                     onChange={handleInputChange}
@@ -182,12 +186,12 @@ const ContactUs = () => {
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
-                          Sending...
+                          {t('contact.form.sending', 'Sending...')}
                         </span>
                       ) : (
                         <>
                           <IoSendOutline className="w-5 h-5" />
-                          Send Message
+                          {t('contact.form.sendMessage', 'Send Message')}
                         </>
                       )}
                     </motion.button>
@@ -204,7 +208,7 @@ const ContactUs = () => {
                       >
                         <div className="flex items-center gap-3 p-3 rounded-lg bg-green-500/10 text-green-400">
                           <IoCheckmarkCircle className="w-5 h-5 flex-shrink-0" />
-                          <p className="text-sm">Your message has been sent successfully!</p>
+                          <p className="text-sm">{t('contact.success.messageSent', 'Your message has been sent successfully!')}</p>
                         </div>
                       </motion.div>
                     )}
@@ -219,7 +223,7 @@ const ContactUs = () => {
                       >
                         <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/10 text-red-400">
                           <IoCloseCircle className="w-5 h-5 flex-shrink-0" />
-                          <p className="text-sm">Something went wrong. Please try again.</p>
+                          <p className="text-sm">{t('contact.errors.submitFailed', 'Something went wrong. Please try again.')}</p>
                         </div>
                       </motion.div>
                     )}
@@ -236,32 +240,38 @@ const ContactUs = () => {
               className="lg:w-2/5 order-1 lg:order-2"
             >
               <div className="space-y-6">
-                <h2 className="text-xl font-medium text-white">Contact Information</h2>
+                <h2 className="text-xl font-medium text-white">
+                  {t('contact.info.title', 'Contact Information')}
+                </h2>
                 
                 <div className="space-y-4">
                   <ContactInfoCard 
                     icon={<IoCallOutline className="w-5 h-5 text-cyan-400" />} 
-                    title="Phone Number" 
+                    title={t('contact.info.phoneNumber', 'Phone Number')}
                     value={contactInfo?.phone} 
                     delay={0.1}
+                    notAvailable={t('contact.info.notAvailable', 'Not available')}
                   />
                   <ContactInfoCard 
                     icon={<IoMailOutline className="w-5 h-5 text-purple-400" />} 
-                    title="Email Address" 
+                    title={t('contact.info.emailAddress', 'Email Address')}
                     value={contactInfo?.email} 
                     delay={0.2}
+                    notAvailable={t('contact.info.notAvailable', 'Not available')}
                   />
                   <ContactInfoCard 
                     icon={<IoLocationOutline className="w-5 h-5 text-cyan-400" />} 
-                    title="Address" 
+                    title={t('contact.info.address', 'Address')}
                     value={contactInfo?.address} 
                     delay={0.3}
+                    notAvailable={t('contact.info.notAvailable', 'Not available')}
                   />
                   <ContactInfoCard 
                     icon={<IoTimeOutline className="w-5 h-5 text-purple-400" />} 
-                    title="Working Hours" 
+                    title={t('contact.info.workingHours', 'Working Hours')}
                     value={contactInfo?.working_hours} 
                     delay={0.4}
+                    notAvailable={t('contact.info.notAvailable', 'Not available')}
                   />
                 </div>
 
@@ -272,8 +282,7 @@ const ContactUs = () => {
                   className="p-5 mt-8 border border-gray-800 rounded-xl bg-gradient-to-br from-purple-500/5 to-cyan-500/5"
                 >
                   <p className="text-gray-400 text-sm">
-                    We aim to respond to all inquiries within 24 hours during business days. 
-                    For urgent matters, please contact us directly by phone.
+                    {t('contact.info.responseTime', 'We aim to respond to all inquiries within 24 hours during business days. For urgent matters, please contact us directly by phone.')}
                   </p>
                 </motion.div>
               </div>
@@ -294,7 +303,7 @@ const ContactUs = () => {
   );
 };
 
-const ContactInfoCard = ({ icon, title, value, delay = 0 }) => (
+const ContactInfoCard = ({ icon, title, value, delay = 0, notAvailable = 'Not available' }) => (
   <motion.div 
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
@@ -306,7 +315,7 @@ const ContactInfoCard = ({ icon, title, value, delay = 0 }) => (
     </div>
     <div>
       <h3 className="text-sm font-medium text-gray-300">{title}</h3>
-      <p className="text-gray-400 mt-1">{value || 'Not available'}</p>
+      <p className="text-gray-400 mt-1">{value || notAvailable}</p>
     </div>
   </motion.div>
 );

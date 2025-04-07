@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import { 
   FaHome, 
   FaCog, 
@@ -22,6 +23,9 @@ import logo from '../../../assets/logo.png';
 import ApiService from '../../../Apiservice';
 
 const SideNavbar = () => {
+  // Initialize translation hook
+  const { t } = useTranslation();
+  
   const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
@@ -31,17 +35,16 @@ const SideNavbar = () => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { id: 1, title: 'Home', icon: FaHome, path: '/UserDashboard' },
-    { id: 2, title: 'Profile', icon: CgProfile, path: '/UserProfile' },
-    { id: 3, title: 'LogoAI', icon: FaCog, path: '/Logoai' },
-    { id: 4, title: 'BizzPlan', icon: FaChartPie, path: '/BizzPlan' },
-    { id: 5, title: 'AI-Start', icon: FaCog, path: '/AIStart' },
-    { id: 6, title: 'BizWeb AI', icon: FaGlobe, path: '/Bizweb' },
-    { id: 7, title: 'Task', icon: FaFile, path: '/Task', badge: 2 },
-    { id: 8, title: 'BizFormation', icon: FaInfo, path: '/BizFormation' },
-    { id: 9, title: 'Credits Purchase', icon: FaCoins, path: '/creditpurchase' },
-    { id: 10, title: 'Subcription Purchase', icon: FaReceipt, path: '/pricingplan' },
-
+    { id: 1, title: t('sidebar.menuItems.home', 'Home'), icon: FaHome, path: '/UserDashboard' },
+    { id: 2, title: t('sidebar.menuItems.profile', 'Profile'), icon: CgProfile, path: '/UserProfile' },
+    { id: 3, title: t('sidebar.menuItems.logoAI', 'LogoAI'), icon: FaCog, path: '/Logoai' },
+    { id: 4, title: t('sidebar.menuItems.bizzPlan', 'BizzPlan'), icon: FaChartPie, path: '/BizzPlan' },
+    { id: 5, title: t('sidebar.menuItems.aiStart', 'AI-Start'), icon: FaCog, path: '/AIStart' },
+    { id: 6, title: t('sidebar.menuItems.bizWebAI', 'BizWeb AI'), icon: FaGlobe, path: '/Bizweb' },
+    { id: 7, title: t('sidebar.menuItems.task', 'Task'), icon: FaFile, path: '/Task', badge: 2 },
+    { id: 8, title: t('sidebar.menuItems.bizFormation', 'BizFormation'), icon: FaInfo, path: '/BizFormation' },
+    { id: 9, title: t('sidebar.menuItems.creditsPurchase', 'Credits Purchase'), icon: FaCoins, path: '/creditpurchase' },
+    { id: 10, title: t('sidebar.menuItems.subscriptionPurchase', 'Subscription Purchase'), icon: FaReceipt, path: '/pricingplan' },
   ];
 
   useEffect(() => {
@@ -75,9 +78,9 @@ const SideNavbar = () => {
       const response = await ApiService("/userlogout", "GET");
       localStorage.removeItem('bizwizusertoken');      
       navigate('/userlogin');
-      toast.success("Logout successfully");
+      toast.success(t('sidebar.notifications.logoutSuccess', "Logout successfully"));
     } catch (error) {
-      toast.error("something went wrong");
+      toast.error(t('sidebar.notifications.error', "Something went wrong"));
     }
   };
 
@@ -113,7 +116,7 @@ const SideNavbar = () => {
       <button
         onClick={toggleMobileMenu}
         className="fixed z-50 p-2 text-white bg-purple-500 rounded-lg top-4 left-4 lg:hidden shadow-md hover:bg-purple-600 transition-all duration-200"
-        aria-label={showMobileMenu ? "Close menu" : "Open menu"}
+        aria-label={showMobileMenu ? t('sidebar.aria.closeMenu', "Close menu") : t('sidebar.aria.openMenu', "Open menu")}
       >
         {showMobileMenu ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
       </button>
@@ -142,7 +145,7 @@ const SideNavbar = () => {
         <div className="flex items-center justify-center mt-4 h-28">
           <img 
             src={logo}
-            alt="Logo" 
+            alt={t('sidebar.logoAlt', 'Logo')} 
             className={`transition-all duration-300 ${isOpen ? 'h-32 max-w-full' : 'h-20 max-w-full'}`}
           />
         </div>
@@ -228,13 +231,13 @@ const SideNavbar = () => {
             >
               <FaCommentAlt className="w-5 h-5 min-w-[20px]" />
               <span className={`ml-4 whitespace-nowrap transition-all duration-200 ${!isOpen ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
-                Contact us
+                {t('sidebar.actions.contactUs', 'Contact us')}
               </span>
               
               {/* Tooltip for collapsed state */}
               {!isOpen && (
                 <div className="absolute left-full ml-2 px-2 py-1 bg-[#2a2435] text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50 pointer-events-none">
-                  Contact us
+                  {t('sidebar.actions.contactUs', 'Contact us')}
                 </div>
               )}
             </button>
@@ -245,13 +248,13 @@ const SideNavbar = () => {
             >
               <FaSignOutAlt className="w-5 h-5 min-w-[20px]" />
               <span className={`ml-4 whitespace-nowrap transition-all duration-200 ${!isOpen ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
-                Log out
+                {t('sidebar.actions.logout', 'Log out')}
               </span>
               
               {/* Tooltip for collapsed state */}
               {!isOpen && (
                 <div className="absolute left-full ml-2 px-2 py-1 bg-[#2a2435] text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50 pointer-events-none">
-                  Log out
+                  {t('sidebar.actions.logout', 'Log out')}
                 </div>
               )}
             </button>
@@ -262,7 +265,7 @@ const SideNavbar = () => {
         <button
           onClick={toggleSidebar}
           className="absolute p-1.5 text-white transition-transform duration-200 transform bg-purple-500 rounded-full -right-3 top-8 hover:bg-purple-600 hidden lg:block shadow-md"
-          aria-label={isOpen ? "Collapse sidebar" : "Expand sidebar"}
+          aria-label={isOpen ? t('sidebar.aria.collapseSidebar', "Collapse sidebar") : t('sidebar.aria.expandSidebar', "Expand sidebar")}
         >
           <svg
             className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : 'rotate-0'}`}

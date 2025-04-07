@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import grid from '../../assets/grid.png';
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const BusinessCreationUI = () => {
+  const { t } = useTranslation(); // Use translation hook
+  
   // Refs for scroll detection
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
@@ -92,14 +95,14 @@ const BusinessCreationUI = () => {
             ref={titleRef}
             className={`text-white text-xl sm:text-2xl md:text-3xl mb-2 font-light transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
-            Créez votre propre entreprise
+            {t('businessCreation.title')}
           </h1>
           
           <p 
             ref={subtitleRef}
             className={`text-white text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 md:mb-8 font-light transition-all duration-700 delay-200 transform ${isSubtitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
           >
-            gratuitement grâce à l'IA
+            {t('businessCreation.subtitle')}
           </p>
           
           <div 
@@ -108,16 +111,16 @@ const BusinessCreationUI = () => {
           >
             <input
               type="email"
-              placeholder="Your email"
+              placeholder={t('businessCreation.emailPlaceholder')}
               className="flex-1 px-3 sm:px-4 py-2 rounded-md bg-opacity-30 bg-purple-950 border border-purple-700 text-white text-sm sm:text-base mb-2 sm:mb-0"
             />
             <button className="bg-white text-purple-900 px-3 sm:px-4 py-2 rounded-md font-medium whitespace-nowrap text-sm sm:text-base hover:bg-gray-100 transition-colors duration-300">
-              Essayé gratuitement
+              {t('businessCreation.button')}
             </button>
           </div>
           
           <p className={`text-gray-400 text-xs sm:text-sm mt-3 sm:mt-4 transition-all duration-700 delay-600 transform ${isFormVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            Aucune carte de crédit requise · c'est gratuit
+            {t('businessCreation.noCreditCard')}
           </p>
         </div>
       </div>

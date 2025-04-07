@@ -3,8 +3,11 @@ import icon1 from '../../assets/icon1.png';
 import icon2 from '../../assets/icon2.png';
 import icon3 from '../../assets/icon3.png';
 import code from '../../assets/code.png';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 
 const KeyAdvantagesSection = () => {
+  const { t } = useTranslation(); // Use translation hook
+  
   // Refs for scroll detection
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
@@ -103,7 +106,7 @@ const KeyAdvantagesSection = () => {
           className={`text-center mb-8 md:mb-12 lg:mb-16 transition-all duration-700 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-purple-500 mt-10 sm:mt-12 md:mt-12 mb-4 md:mb-5 lg:mb-8">
-            LES AVANTAGES CLÉS
+            {t('advantages.title')}
           </h2>
           <div className={`w-0 h-1 bg-purple-500 mx-auto transition-all duration-1000 delay-300 ${isTitleVisible ? 'w-12 sm:w-16' : ''}`}></div>
         </div>
@@ -141,16 +144,16 @@ const KeyAdvantagesSection = () => {
                     animation: isFirstCardVisible ? 'glow 2s infinite alternate ease-in-out' : 'none'
                   }}
                 ></div>
-                <img src={icon1} alt="Business creation icon" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 relative z-10" />
+                <img src={icon1} alt={t('advantages.card1.altText')} className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 relative z-10" />
               </div>
               <h3 className={`text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-white mb-2 md:mb-3 transition-all duration-500 delay-300 transform ${isFirstCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
-                Création d'entreprise assistée par IA
+                {t('advantages.card1.title')}
               </h3>
               <a 
                 href="#" 
                 className={`text-xs sm:text-sm md:text-base text-gray-400 hover:text-purple-400 border-b border-transparent hover:border-purple-400 transition-all duration-500 delay-400 transform ${isFirstCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
               >
-                Voir l'offre
+                {t('advantages.viewOffer')}
               </a>
             </div>
           </div>
@@ -186,16 +189,16 @@ const KeyAdvantagesSection = () => {
                     animation: isSecondCardVisible ? 'glow 2.5s infinite alternate ease-in-out' : 'none'
                   }}
                 ></div>
-                <img src={icon2} alt="Web site icon" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 relative z-10" />
+                <img src={icon2} alt={t('advantages.card2.altText')} className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 relative z-10" />
               </div>
               <h3 className={`text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-white mb-2 md:mb-3 transition-all duration-500 delay-300 transform ${isSecondCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
-                Site web prêt en 24 heures
+                {t('advantages.card2.title')}
               </h3>
               <a 
                 href="#" 
                 className={`text-xs sm:text-sm md:text-base text-gray-400 hover:text-purple-400 border-b border-transparent hover:border-purple-400 transition-all duration-500 delay-400 transform ${isSecondCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
               >
-                Voir l'offre
+                {t('advantages.viewOffer')}
               </a>
             </div>
           </div>
@@ -234,16 +237,16 @@ const KeyAdvantagesSection = () => {
                     animation: isBottomCardVisible ? 'glow 3s infinite alternate ease-in-out' : 'none'
                   }}
                 ></div>
-                <img src={icon3} alt="Tools icon" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 relative z-10" />
+                <img src={icon3} alt={t('advantages.card3.altText')} className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 relative z-10" />
               </div>
               <h3 className={`text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-white mb-2 md:mb-3 transition-all duration-500 delay-300 transform ${isBottomCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
-                Outils intelligents pour automatiser votre activité
+                {t('advantages.card3.title')}
               </h3>
               <a 
                 href="#" 
                 className={`text-xs sm:text-sm md:text-base text-gray-400 hover:text-purple-400 border-b border-transparent hover:border-purple-400 transition-all duration-500 delay-400 transform ${isBottomCardVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
               >
-                Voir l'offre
+                {t('advantages.viewOffer')}
               </a>
             </div>
             
@@ -263,7 +266,7 @@ const KeyAdvantagesSection = () => {
                 ></div>
                 <img 
                   src={code}
-                  alt="Code snippet showing addNumbersToToken function" 
+                  alt={t('advantages.codeImage')} 
                   className="w-full h-full object-cover"
                 />
               </div>

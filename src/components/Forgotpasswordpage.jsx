@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import RingLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import ApiService from "../Apiservice";
 import Logo from '../assets/logo.png';
 import BlueBlob from '../assets/blueblob.png';
 import PurpleBlob from '../assets/Ellipse .png';
 
 function ForgotPasswordPage() {
+  const { t } = useTranslation(); // Initialize translation hook
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -16,12 +18,12 @@ function ForgotPasswordPage() {
     e.preventDefault();
 
     if (!email.trim()) {
-      toast.error("Email is required");
+      toast.error(t('forgotPassword.emailRequired', 'Email is required'));
       return;
     }
 
     if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
-      toast.error("Please enter a valid email address");
+      toast.error(t('forgotPassword.invalidEmail', 'Please enter a valid email address'));
       return;
     }
 
@@ -29,10 +31,10 @@ function ForgotPasswordPage() {
 
     try {
       await ApiService("/forgotpassword", "POST", { email });
-      toast.success("Password reset link sent! Check your email.");
+      toast.success(t('forgotPassword.resetLinkSent', 'Password reset link sent! Check your email.'));
       setSuccess(true);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to send reset link.");
+      toast.error(error.response?.data?.message || t('forgotPassword.resetLinkFailed', 'Failed to send reset link.'));
     } finally {
       setLoading(false);
     }
@@ -83,9 +85,11 @@ function ForgotPasswordPage() {
 
         {/* Forgot Password text */}
         <div className="w-full mb-6 text-center">
-          <h1 className="mb-2 text-xl font-semibold text-white md:text-2xl">Forgot Password?</h1>
+          <h1 className="mb-2 text-xl font-semibold text-white md:text-2xl">
+            {t('forgotPassword.title', 'Forgot Password?')}
+          </h1>
           <p className="text-xs text-white/70 md:text-sm">
-            Enter your email and we'll send you a reset link
+            {t('forgotPassword.instruction', 'Enter your email and we\'ll send you a reset link')}
           </p>
         </div>
 
@@ -95,7 +99,7 @@ function ForgotPasswordPage() {
             <div className="relative">
               <input
                 type="email"
-                placeholder="ADRESSE EMAIL"
+                placeholder={t('forgotPassword.emailAddress', 'EMAIL ADDRESS')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading || success}
@@ -131,16 +135,16 @@ function ForgotPasswordPage() {
                 <RingLoader size={20} color="#4A2A8A" />
               </div>
             ) : success ? (
-              "EMAIL SENT"
+              t('forgotPassword.emailSent', 'EMAIL SENT')
             ) : (
-              "SEND RESET LINK"
+              t('forgotPassword.sendResetLink', 'SEND RESET LINK')
             )}
           </button>
 
           <div className="text-center text-white/80 text-xs md:text-sm pt-6">
-            Remember your password?{" "}
+            {t('forgotPassword.rememberPassword', 'Remember your password?')}{" "}
             <Link to="/userlogin" className="text-blue-400 hover:text-blue-300">
-              Back to login
+              {t('forgotPassword.backToLogin', 'Back to login')}
             </Link>
           </div>
         </form>

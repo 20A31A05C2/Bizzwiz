@@ -21,6 +21,7 @@ import ResetPasswordPage from './components/ResetPasswordPage';
 import CreditPurchase from './components/UserComponents/CreditPurchase';
 import Pricingplan from './components/UserComponents/Pricingplan';
 import SubscriptionManagement from './components/UserComponents/SubscriptionManagement';
+import VerifyEmail from './components/VerifyEmail';
 
 
 
@@ -47,7 +48,7 @@ function App() {
       <Route path='/resetpassword' element={<ResetPasswordPage/>}/>
       <Route path='/creditpurchase' element={<CreditPurchase/>}/>
       <Route path='/manageplan' element={<SubscriptionManagement/>}/>
-
+      <Route path='/verify-email' element={<VerifyEmail/>}/>
 
       
       <Route path='/pricingplan' element={<Pricingplan/>}/>

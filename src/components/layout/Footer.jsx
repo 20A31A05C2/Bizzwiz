@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const Footer = () => {
+  const { t } = useTranslation(); // Use translation hook
+  
   // Refs for scroll detection
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
@@ -71,14 +74,15 @@ const Footer = () => {
     };
   }, []);
 
+  // Get link items from translations
   const linkItems = [
-    "Mentions Légales",
-    "Politique de Confidentialité",
-    "Conditions Générales d'Utilisation (CGU)",
-    "Conditions Générales de Vente (CGV)",
-    "Droits d'Auteur et Propriété Intellectuelle",
-    "Accessibilité",
-    "FAQ"
+    t('footer.legalNotice'),
+    t('footer.privacyPolicy'),
+    t('footer.termsOfUse'),
+    t('footer.termsOfSale'),
+    t('footer.copyright'),
+    t('footer.accessibility'),
+    t('footer.faq')
   ];
 
   return (
@@ -96,7 +100,7 @@ const Footer = () => {
             ref={titleRef}
             className={`text-white text-lg font-medium mb-3 transition-all duration-700 delay-200 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'}`}
           >
-            Legal
+            {t('footer.title')}
           </h2>
           
           <div className="flex flex-col space-y-2.5">

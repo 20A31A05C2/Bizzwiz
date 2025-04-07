@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import template from '../../assets/template.png';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 const HeroSection = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation(); // Use translation hook
   const [isVisible, setIsVisible] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [animatedElements, setAnimatedElements] = useState({
@@ -115,8 +117,12 @@ const HeroSection = () => {
             ${animatedElements.badge ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
           <div className="inline-flex items-center gap-2 xs:gap-3 bg-black rounded-full px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 border-2 border-[#6c2bd9]/50 hover:border-[#6c2bd9]/90 transition-all duration-300 shadow-lg shadow-[#6c2bd9]/30">
-            <span className="text-black text-xs xs:text-sm font-bold bg-[#c729dc] px-2 xs:px-2.5 py-0.5 xs:py-1 rounded-full animate-pulse">NEW</span>
-            <span className="text-[#a88bc7] text-xs xs:text-sm sm:text-base font-medium">BizzWiz - Boostez votre entreprise avec le numérique</span>
+            <span className="text-black text-xs xs:text-sm font-bold bg-[#c729dc] px-2 xs:px-2.5 py-0.5 xs:py-1 rounded-full animate-pulse">
+              {t('hero.new')}
+            </span>
+            <span className="text-[#a88bc7] text-xs xs:text-sm sm:text-base font-medium">
+              {t('hero.badge')}
+            </span>
           </div>
         </div>
         
@@ -130,7 +136,7 @@ const HeroSection = () => {
                 className={`text-white text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold mb-3 xs:mb-4 md:mb-5 transition-all duration-700 transform 
                   ${animatedElements.heading1 ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
               >
-                Ne soyez plus spectateur du numérique,
+                {t('hero.heading1')}
               </div>
               {/* Gradient text with scroll animation */}
               <div 
@@ -146,7 +152,7 @@ const HeroSection = () => {
                   animation: animatedElements.heading2 ? 'gradientShift 5s ease infinite' : 'none'
                 }}
               >
-                intégrez-le pleinement !
+                {t('hero.heading2')}
               </div>
             </h1>
             
@@ -156,7 +162,7 @@ const HeroSection = () => {
               className={`max-w-xl mx-auto mt-5 xs:mt-6 md:mt-8 mb-6 xs:mb-8 md:mb-10 text-white/80 text-sm xs:text-base md:text-lg transition-all duration-700 transform 
                 ${animatedElements.description ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
             >
-              Lancez votre entreprise et créez votre site web en quelques clics avec l'IA !🚀
+              {t('hero.description')}
             </p>
             
             {/* CTA Button with scroll animation */}
@@ -166,7 +172,7 @@ const HeroSection = () => {
                 ${animatedElements.button ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
               onClick={() => navigate("/userlogin")}
             >
-              Découvrir les outils IA
+              {t('hero.cta')}
             </button>
           </div>
         </div>

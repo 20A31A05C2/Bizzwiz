@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Added translation hook
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loadStripe } from '@stripe/stripe-js';
@@ -18,6 +19,7 @@ import CheckoutForm from './CheckoutForm';
 
 // Stripe will be initialized after fetching key from backend
 const CreditPurchase = () => {
+  const { t } = useTranslation(); // Initialize translation hook
   const [loading, setLoading] = useState(true);
   const [currentCredits, setCurrentCredits] = useState(0);
   const [selectedAmount, setSelectedAmount] = useState(null);
@@ -37,7 +39,7 @@ const CreditPurchase = () => {
       try {
         const token = localStorage.getItem('bizwizusertoken');
         if (!token) {
-          toast.error("Please login to continue");
+          toast.error(t('creditPurchase.pleaseLogin', "Please login to continue"));
           navigate('/userlogin');
           return;
         }
@@ -70,7 +72,7 @@ const CreditPurchase = () => {
             setSelectedDiscount(Number(defaultPackage.discount_percentage) || 0);
           }
         } else {
-          toast.error("Could not load credit packages. Please try again later.");
+          toast.error(t('creditPurchase.loadPackagesError', "Could not load credit packages. Please try again later."));
         }
 
         // Fetch Stripe configuration
@@ -82,10 +84,10 @@ const CreditPurchase = () => {
             setStripePromise(stripePromiseObj);
           }
         } catch (error) {
-          toast.error("Could not initialize payment system. Please try again later.");
+          toast.error(t('creditPurchase.paymentInitError', "Could not initialize payment system. Please try again later."));
         }
       } catch (error) {
-        const errormessage = error?.response?.data?.message || "An error occurred";
+        const errormessage = error?.response?.data?.message || t('creditPurchase.genericError', "An error occurred");
         
         if (errormessage.toLowerCase().includes('login') || 
             errormessage.toLowerCase().includes('token') || 
@@ -100,7 +102,7 @@ const CreditPurchase = () => {
     };
     
     initialize();
-  }, [navigate]);
+  }, [navigate, t]);
 
   // Function to handle package selection
   const handlePackageSelect = (amount, price, discount) => {
@@ -125,10 +127,10 @@ const CreditPurchase = () => {
         setTransactions(response.data || []);
         setShowTransactions(true);
       } else {
-        toast.error(response.message || "Failed to fetch transaction history");
+        toast.error(response.message || t('creditPurchase.fetchTransactionsError', "Failed to fetch transaction history"));
       }
     } catch (error) {
-      const errormessage = error?.response?.data?.message || "Failed to load transaction history";
+      const errormessage = error?.response?.data?.message || t('creditPurchase.loadHistoryError', "Failed to load transaction history");
       toast.error(errormessage);
     } finally {
       setTransactionsLoading(false);
@@ -141,7 +143,7 @@ const CreditPurchase = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  if (loading) return <LoadingPage name="Loading Credit Info..." />;
+  if (loading) return <LoadingPage name={t('creditPurchase.loading', "Loading Credit Info...")} />;
 
   return (
     <div className="flex min-h-screen bg-black">
@@ -157,10 +159,13 @@ const CreditPurchase = () => {
             className="mb-12 text-center"
           >
             <h1 className="mb-3 text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text">
-              Purchase Credits
+              {t('creditPurchase.title', "Purchase Credits")}
             </h1>
             <p className="max-w-2xl mx-auto text-gray-400">
-              Add more credits to your account. {basePricePerCredit !== 1.00 ? `1 credit = $${Number(basePricePerCredit).toFixed(2)}` : '1 credit = $1.00'}
+              {t('creditPurchase.subtitle', "Add more credits to your account.")} 
+              {basePricePerCredit !== 1.00 
+                ? t('creditPurchase.creditRate', "1 credit = ${{price}}", { price: Number(basePricePerCredit).toFixed(2) }) 
+                : t('creditPurchase.defaultRate', "1 credit = $1.00")}
             </p>
           </motion.header>
 
@@ -173,7 +178,9 @@ const CreditPurchase = () => {
               className="lg:w-2/5 order-2 lg:order-1"
             >
               <div className="p-6 md:p-8 bg-black border border-gray-800 rounded-xl shadow-lg">
-                <h2 className="mb-6 text-xl font-medium text-white">Select Credit Package</h2>
+                <h2 className="mb-6 text-xl font-medium text-white">
+                  {t('creditPurchase.selectPackage', "Select Credit Package")}
+                </h2>
                 
                 {creditPackages.length > 0 ? (
                   <div className="grid grid-cols-2 gap-4 mb-8">
@@ -191,7 +198,7 @@ const CreditPurchase = () => {
                       >
                         {pkg.popular && (
                           <div className="absolute -top-2 -right-2 text-xs px-2 py-0.5 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full text-white">
-                            Popular
+                            {t('creditPurchase.popular', "Popular")}
                           </div>
                         )}
                         <div className="text-lg font-medium text-white">{pkg.name}</div>
@@ -201,7 +208,7 @@ const CreditPurchase = () => {
                         {pkg.discount_percentage > 0 && (
                           <div className="text-xs mt-1 flex items-center gap-1 text-green-400">
                             <IoFlashOutline className="w-3 h-3" />
-                            <span>{pkg.discount_percentage.toFixed(0)}% off</span>
+                            <span>{t('creditPurchase.percentOff', "{{percent}}% off", { percent: pkg.discount_percentage.toFixed(0) })}</span>
                           </div>
                         )}
                       </motion.div>
@@ -209,7 +216,7 @@ const CreditPurchase = () => {
                   </div>
                 ) : (
                   <div className="p-8 text-center text-gray-400 border border-gray-800 rounded-lg mb-8">
-                    <p>No credit packages available at the moment.</p>
+                    <p>{t('creditPurchase.noPackages', "No credit packages available at the moment.")}</p>
                   </div>
                 )}
 
@@ -217,23 +224,25 @@ const CreditPurchase = () => {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
                       <IoWalletOutline className="text-cyan-400 w-5 h-5" />
-                      <span className="text-gray-300">Current Balance</span>
+                      <span className="text-gray-300">{t('creditPurchase.currentBalance', "Current Balance")}</span>
                     </div>
-                    <span className="text-white font-medium">{currentCredits} Credits</span>
+                    <span className="text-white font-medium">
+                      {t('creditPurchase.creditsCount', "{{count}} Credits", { count: currentCredits })}
+                    </span>
                   </div>
                 </div>
 
                 {selectedAmount && selectedPrice && (
                   <div className="p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border border-gray-800">
-                    <h3 className="text-lg font-medium text-white mb-2">Summary</h3>
+                    <h3 className="text-lg font-medium text-white mb-2">{t('creditPurchase.summary', "Summary")}</h3>
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Credits to Purchase</span>
+                        <span className="text-gray-400">{t('creditPurchase.creditsToPurchase', "Credits to Purchase")}</span>
                         <span className="text-white">{selectedAmount}</span>
                       </div>
                       
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Price Per Credit</span>
+                        <span className="text-gray-400">{t('creditPurchase.pricePerCredit', "Price Per Credit")}</span>
                         <span className="text-white">${(Number(selectedPrice) / Number(selectedAmount)).toFixed(2)}</span>
                       </div>
                       
@@ -241,19 +250,21 @@ const CreditPurchase = () => {
                       {selectedDiscount > 0 && (
                         <>
                           <div className="flex justify-between">
-                            <span className="text-gray-400">Standard Price</span>
+                            <span className="text-gray-400">{t('creditPurchase.standardPrice', "Standard Price")}</span>
                             <span className="text-gray-400 line-through">${calculateStandardPrice(selectedAmount)}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-green-400">Discount</span>
-                            <span className="text-green-400">{selectedDiscount.toFixed(0)}% off</span>
+                            <span className="text-green-400">{t('creditPurchase.discount', "Discount")}</span>
+                            <span className="text-green-400">
+                              {t('creditPurchase.percentOff', "{{percent}}% off", { percent: selectedDiscount.toFixed(0) })}
+                            </span>
                           </div>
                         </>
                       )}
                       
                       <div className="border-t border-gray-700 my-2 pt-2"></div>
                       <div className="flex justify-between">
-                        <span className="text-gray-300 font-medium">Total Amount</span>
+                        <span className="text-gray-300 font-medium">{t('creditPurchase.totalAmount', "Total Amount")}</span>
                         <span className="text-white font-bold">${Number(selectedPrice).toFixed(2)}</span>
                       </div>
                     </div>
@@ -272,12 +283,16 @@ const CreditPurchase = () => {
                     {transactionsLoading ? (
                       <>
                         <div className="w-4 h-4 border-2 border-gray-600 border-t-purple-500 rounded-full animate-spin"></div>
-                        <span>Loading...</span>
+                        <span>{t('creditPurchase.loading', "Loading...")}</span>
                       </>
                     ) : (
                       <>
                         <IoReceiptOutline className="w-4 h-4" />
-                        <span>{showTransactions ? 'Refresh' : 'View'} Credit Transaction History</span>
+                        <span>
+                          {showTransactions 
+                            ? t('creditPurchase.refreshHistory', "Refresh Credit Transaction History")
+                            : t('creditPurchase.viewHistory', "View Credit Transaction History")}
+                        </span>
                       </>
                     )}
                   </motion.button>
@@ -293,7 +308,7 @@ const CreditPurchase = () => {
               className="lg:w-3/5 order-1 lg:order-2"
             >
               <div className="p-6 md:p-8 bg-black border border-gray-800 rounded-xl shadow-lg">
-                <h2 className="text-xl font-medium text-white mb-6">Payment Details</h2>
+                <h2 className="text-xl font-medium text-white mb-6">{t('creditPurchase.paymentDetails', "Payment Details")}</h2>
                 
                 {selectedAmount && selectedPrice ? (
                   <>
@@ -308,13 +323,13 @@ const CreditPurchase = () => {
                     ) : (
                       <div className="text-center py-10 text-gray-400">
                         <div className="animate-spin mb-4 mx-auto w-8 h-8 border-2 border-gray-500 border-t-purple-500 rounded-full"></div>
-                        <p>Loading payment system...</p>
+                        <p>{t('creditPurchase.loadingPayment', "Loading payment system...")}</p>
                       </div>
                     )}
                   </>
                 ) : (
                   <div className="text-center py-10 text-gray-400">
-                    <p>Please select a credit package to continue.</p>
+                    <p>{t('creditPurchase.selectToContinue', "Please select a credit package to continue.")}</p>
                   </div>
                 )}
               </div>
@@ -330,7 +345,9 @@ const CreditPurchase = () => {
                     className="mt-8 p-6 md:p-8 bg-black border border-gray-800 rounded-xl shadow-lg"
                   >
                     <div className="flex justify-between items-center mb-6">
-                      <h2 className="text-xl font-medium text-white">Credit Transactions History</h2>
+                      <h2 className="text-xl font-medium text-white">
+                        {t('creditPurchase.transactionHistory', "Credit Transactions History")}
+                      </h2>
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -358,12 +375,24 @@ const CreditPurchase = () => {
                               <table className="w-full">
                                 <thead>
                                   <tr className="text-left border-b border-gray-800">
-                                    <th className="pb-2 text-sm font-medium text-gray-400">Date</th>
-                                    <th className="pb-2 text-sm font-medium text-gray-400">Transaction ID</th>
-                                    <th className="pb-2 text-sm font-medium text-gray-400">Amount</th>
-                                    <th className="pb-2 text-sm font-medium text-gray-400">Credits</th>
-                                    <th className="pb-2 text-sm font-medium text-gray-400">Method</th>
-                                    <th className="pb-2 text-sm font-medium text-gray-400">Status</th>
+                                    <th className="pb-2 text-sm font-medium text-gray-400">
+                                      {t('creditPurchase.date', "Date")}
+                                    </th>
+                                    <th className="pb-2 text-sm font-medium text-gray-400">
+                                      {t('creditPurchase.transactionId', "Transaction ID")}
+                                    </th>
+                                    <th className="pb-2 text-sm font-medium text-gray-400">
+                                      {t('creditPurchase.amount', "Amount")}
+                                    </th>
+                                    <th className="pb-2 text-sm font-medium text-gray-400">
+                                      {t('creditPurchase.credits', "Credits")}
+                                    </th>
+                                    <th className="pb-2 text-sm font-medium text-gray-400">
+                                      {t('creditPurchase.method', "Method")}
+                                    </th>
+                                    <th className="pb-2 text-sm font-medium text-gray-400">
+                                      {t('creditPurchase.status', "Status")}
+                                    </th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -384,7 +413,9 @@ const CreditPurchase = () => {
                                         {transaction.credits_purchased}
                                       </td>
                                       <td className="py-3 text-sm text-gray-300">
-                                        {transaction.payment_type === 'card' ? 'Credit Card' : transaction.payment_type}
+                                        {transaction.payment_type === 'card' 
+                                          ? t('creditPurchase.creditCard', "Credit Card") 
+                                          : transaction.payment_type}
                                       </td>
                                       <td className="py-3 text-sm">
                                         <span className={`px-2 py-1 rounded-full text-xs ${
@@ -396,7 +427,8 @@ const CreditPurchase = () => {
                                                 ? 'bg-red-500/20 text-red-400'
                                                 : 'bg-gray-500/20 text-gray-400'
                                         }`}>
-                                          {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
+                                          {t(`creditPurchase.statusTypes.${transaction.status}`, 
+                                            transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1))}
                                         </span>
                                       </td>
                                     </tr>
@@ -406,7 +438,7 @@ const CreditPurchase = () => {
                             </div>
                           ) : (
                             <div className="text-center py-8 text-gray-400">
-                              <p>No credit transaction history found.</p>
+                              <p>{t('creditPurchase.noTransactions', "No credit transaction history found.")}</p>
                             </div>
                           );
                         })()}
@@ -434,9 +466,11 @@ const CreditPurchase = () => {
 
 // Wrapper for Credit Card checkout to handle credit-specific logic
 const CreditCheckoutWrapper = ({ selectedAmount, selectedPrice }) => {
+  const { t } = useTranslation(); // Add translation support to the wrapper component
+  
   // Create a plan object to match the structure expected by CheckoutForm
   const creditPlan = {
-    name: `${selectedAmount} Credits`,
+    name: t('creditPurchase.creditAmount', "{{amount}} Credits", { amount: selectedAmount }),
     monthly_price: selectedPrice
   };
 

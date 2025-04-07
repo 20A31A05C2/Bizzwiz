@@ -32,22 +32,40 @@ const ApiService = async (endpoint, method, data = null, isFormData = false) => 
                 handleAuthError();
                 throw { response: { status: 401, data: responseData } };
             }
-            if (response.status === 500) {
-                throw new Error("Server error, please try again later.");
+            
+            // Instead of throwing a generic error for 500 status,
+            // pass along the detailed error information from the server
+            if (responseData.errors) {
+                throw { 
+                    response: { 
+                        status: response.status, 
+                        data: responseData 
+                    },
+                    message: responseData.message || "Validation failed"
+                };
             }
-            throw new Error(responseData.message || "Something went wrong!");
+            
+            // For other errors, use the message from the server if available
+            throw { 
+                response: { 
+                    status: response.status, 
+                    data: responseData 
+                },
+                message: responseData.message || "Something went wrong!"
+            };
         }
         
         return responseData;
     } catch (error) {
+        // If we already created a structured error with response data, pass it through
+        if (error.response) {
+            throw error;
+        }
+        
         if (error.message === "Failed to fetch") {
             throw new Error("Network error, please check your internet connection.");
         }
-        if (error.response?.status === 401) {
-            // Handle authentication errors
-            handleAuthError();
-            throw error;
-        }
+        
         throw new Error(error.message || "An unexpected error occurred");
     }
 };

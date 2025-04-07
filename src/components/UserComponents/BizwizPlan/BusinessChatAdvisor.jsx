@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { 
   IoChatbubbleEllipsesOutline, 
   IoSendOutline,
-  IoReloadOutline,
   IoArrowBackOutline,
   IoWalletOutline
 } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 
 import SideNavbar from '../userlayout/sidebar';
 import ApiService from '../../../Apiservice';
@@ -31,22 +31,26 @@ const TypingIndicator = memo(() => (
 ));
 
 // Optimized message bubble with better text alignment
-const MessageBubble = memo(({ message, role, timestamp }) => (
-  <div className={`flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`}>
-    <div 
-      className={`max-w-[85%] sm:max-w-[75%] px-3 sm:px-4 py-2 sm:py-3 rounded-2xl shadow-md ${
-        role === 'user' 
-          ? 'bg-gradient-to-r from-purple-600 to-indigo-500 text-white animate-slide-left hover:shadow-purple-500/20 hover:shadow-md transition-all' 
-          : 'bg-gray-800 text-white animate-slide-right hover:shadow-cyan-500/20 hover:shadow-md transition-all'
-      }`}
-    >
-      <div className="text-xs sm:text-sm md:text-base break-words whitespace-pre-wrap">{message}</div>
-      <div className="text-[10px] sm:text-xs opacity-60 mt-1 text-right">
-        {new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+const MessageBubble = memo(({ message, role, timestamp }) => {
+  const { t } = useTranslation();
+  
+  return (
+    <div className={`flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`}>
+      <div 
+        className={`max-w-[85%] sm:max-w-[75%] px-3 sm:px-4 py-2 sm:py-3 rounded-2xl shadow-md ${
+          role === 'user' 
+            ? 'bg-gradient-to-r from-purple-600 to-indigo-500 text-white animate-slide-left hover:shadow-purple-500/20 hover:shadow-md transition-all' 
+            : 'bg-gray-800 text-white animate-slide-right hover:shadow-cyan-500/20 hover:shadow-md transition-all'
+        }`}
+      >
+        <div className="text-xs sm:text-sm md:text-base break-words whitespace-pre-wrap">{message}</div>
+        <div className="text-[10px] sm:text-xs opacity-60 mt-1 text-right">
+          {new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+        </div>
       </div>
     </div>
-  </div>
-));
+  );
+});
 
 // Active Chat Component - Simplified and optimized
 const ActiveChat = memo(({ 
@@ -63,6 +67,8 @@ const ActiveChat = memo(({
   userCredits,
   chatCreditCost
 }) => {
+  const { t } = useTranslation();
+  
   const insufficientCredits = userCredits !== null && 
                              chatCreditCost !== null && 
                              userCredits < chatCreditCost;
@@ -80,9 +86,11 @@ const ActiveChat = memo(({
               <IoChatbubbleEllipsesOutline size={32} className="sm:hidden text-purple-300" />
               <IoChatbubbleEllipsesOutline size={48} className="hidden sm:block text-purple-300" />
             </div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 sm:mb-3 animate-shimmer">BizzPlan AI</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 sm:mb-3 animate-shimmer">
+              {t('businessChat.title', 'BizzPlan AI')}
+            </h3>
             <p className="text-gray-300 max-w-md px-4 text-xs sm:text-sm">
-              Ask me questions about marketing, branding, business strategy, and growth. I'm here to help you succeed!
+              {t('businessChat.welcome', 'Ask me questions about marketing, branding, business strategy, and growth. I\'m here to help you succeed!')}
             </p>
             
             {chatHistory.length > 0 && (
@@ -91,7 +99,7 @@ const ActiveChat = memo(({
                 className="mt-4 sm:mt-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 text-white text-xs sm:text-sm rounded-lg hover:bg-white/20 transition-all flex items-center"
               >
                 <IoChatbubbleEllipsesOutline size={14} className="mr-1 sm:mr-2" />
-                View Previous Conversations
+                {t('businessChat.viewPreviousConversations', 'View Previous Conversations')}
               </button>
             )}
           </div>
@@ -125,10 +133,10 @@ const ActiveChat = memo(({
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Ask about business strategy, marketing, or growth..."
+            placeholder={t('businessChat.inputPlaceholder', 'Ask about business strategy, marketing, or growth...')}
             className="flex-grow bg-transparent text-white outline-none text-xs sm:text-sm md:text-base py-1.5 sm:py-2"
             disabled={loading || isTyping || insufficientCredits}
-            aria-label="Message input"
+            aria-label={t('businessChat.messageInput', 'Message input')}
           />
           <button
             onClick={handleSendMessage}
@@ -138,13 +146,13 @@ const ActiveChat = memo(({
                 ? 'bg-gray-700 text-gray-400' 
                 : 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white hover:shadow-md hover:shadow-purple-500/20'
             } px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-medium transition-all ml-2 flex items-center justify-center min-w-[50px] sm:min-w-[60px]`}
-            aria-label="Send message"
+            aria-label={t('businessChat.sendMessage', 'Send message')}
           >
             {loading ? (
               <LoadingSpinner size="small" />
             ) : (
               <>
-                <span className="hidden sm:inline text-xs sm:text-sm mr-1">Send</span>
+                <span className="hidden sm:inline text-xs sm:text-sm mr-1">{t('businessChat.send', 'Send')}</span>
                 <IoSendOutline size={14} className="sm:hidden" />
                 <IoSendOutline size={16} className="hidden sm:block" />
               </>
@@ -153,7 +161,7 @@ const ActiveChat = memo(({
         </div>
         {insufficientCredits && (
           <div className="mt-2 text-red-400 text-xs sm:text-sm text-center animate-fade-in-up">
-            Insufficient credits. You need ${chatCreditCost} to send a message.
+            {t('businessChat.insufficientCredits', 'Insufficient credits. You need ${{cost}} to send a message.', { cost: chatCreditCost })}
           </div>
         )}
       </div>
@@ -163,6 +171,8 @@ const ActiveChat = memo(({
 
 // Main component - Optimized for performance
 const BusinessChatAdvisor = () => {
+  const { t } = useTranslation();
+  
   // State variables with optimized defaults
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -192,9 +202,9 @@ const BusinessChatAdvisor = () => {
         year: 'numeric'
       });
     } catch (error) {
-      return 'Invalid date';
+      return t('businessChat.invalidDate', 'Invalid date');
     }
-  }, []);
+  }, [t]);
 
   // Optimized scroll function - smoother scrolling
   const scrollToBottom = useCallback(() => {
@@ -265,15 +275,15 @@ const BusinessChatAdvisor = () => {
         
         setChatHistory(processedHistory);
       } else {
-        toast.error(response.message || "Failed to load chat history");
+        toast.error(t('businessChat.errors.chatHistoryFailed', 'Failed to load chat history'));
       }
     } catch (error) {
-      toast.error("Failed to load chat history");
+      toast.error(t('businessChat.errors.chatHistoryFailed', 'Failed to load chat history'));
     } finally {
       setLoadingHistory(false);
       setInitialLoading(false);
     }
-  }, [userId]);
+  }, [userId, t]);
 
   // Load data on component mount - optimized with better error handling
   useEffect(() => {
@@ -335,7 +345,7 @@ const BusinessChatAdvisor = () => {
     
     // Credit check
     if (userCredits !== null && chatCreditCost !== null && userCredits < chatCreditCost) {
-      toast.error(`Insufficient credits. You need $${chatCreditCost} to send a message.`);
+      toast.error(t('businessChat.errors.insufficientCredits', 'Insufficient credits. You need ${{cost}} to send a message.', { cost: chatCreditCost }));
       return;
     }
     
@@ -392,10 +402,10 @@ const BusinessChatAdvisor = () => {
         });
       } else {
         // Handle error response
-        toast.error(response.message || "Failed to get response");
-        simulateTyping("I'm sorry, I couldn't process your request at this time.", () => {
+        toast.error(response.message || t('businessChat.errors.responseFailure', 'Failed to get response'));
+        simulateTyping(t('businessChat.errors.processingError', "I'm sorry, I couldn't process your request at this time."), () => {
           const errorResponse = {
-            content: "I'm sorry, I couldn't process your request at this time.",
+            content: t('businessChat.errors.processingError', "I'm sorry, I couldn't process your request at this time."),
             role: 'assistant',
             timestamp: new Date().toISOString()
           };
@@ -404,7 +414,7 @@ const BusinessChatAdvisor = () => {
       }
     } catch (error) {
       // Better error handling
-      const errorMessage = "I'm having trouble connecting. Please try again in a moment.";
+      const errorMessage = t('businessChat.errors.connectionError', "I'm having trouble connecting. Please try again in a moment.");
       simulateTyping(errorMessage, () => {
         const errorResponse = {
           content: errorMessage,
@@ -416,7 +426,7 @@ const BusinessChatAdvisor = () => {
     } finally {
       setLoading(false);
     }
-  }, [message, userId, currentConversationId, simulateTyping, fetchChatHistory, fetchCreditsInfo, userCredits, chatCreditCost]);
+  }, [message, userId, currentConversationId, simulateTyping, fetchChatHistory, fetchCreditsInfo, userCredits, chatCreditCost, t]);
 
   // Handle key press - simplified
   const handleKeyPress = useCallback((e) => {
@@ -431,7 +441,7 @@ const BusinessChatAdvisor = () => {
     e.stopPropagation();
     
     // Confirm deletion
-    if (!window.confirm("Are you sure you want to delete this conversation?")) {
+    if (!window.confirm(t('businessChat.confirmDelete', 'Are you sure you want to delete this conversation?'))) {
       return;
     }
     
@@ -443,19 +453,19 @@ const BusinessChatAdvisor = () => {
       
       if (response.success) {
         setChatHistory(prev => prev.filter(conv => conv.id !== conversationId));
-        toast.success("Conversation deleted");
+        toast.success(t('businessChat.deleteSuccess', 'Conversation deleted'));
         
         // Reset if current conversation was deleted
         if (currentConversationId === conversationId) {
           startNewConversation();
         }
       } else {
-        toast.error(response.message || "Failed to delete conversation");
+        toast.error(response.message || t('businessChat.errors.deleteFailed', 'Failed to delete conversation'));
       }
     } catch (error) {
-      toast.error("Failed to delete conversation");
+      toast.error(t('businessChat.errors.deleteFailed', 'Failed to delete conversation'));
     }
-  }, [userId, currentConversationId, startNewConversation]);
+  }, [userId, currentConversationId, startNewConversation, t]);
 
   // Toggle history view - simplified
   const toggleHistory = useCallback(() => {
@@ -464,7 +474,7 @@ const BusinessChatAdvisor = () => {
 
   // Show loading during initial data fetch
   if (initialLoading) {
-    return <LoadingPage name="Loading BizzPlan AI..." />;
+    return <LoadingPage name={t('businessChat.loading', 'Loading BizzPlan AI...')} />;
   }
 
   return (
@@ -492,52 +502,44 @@ const BusinessChatAdvisor = () => {
         <div className="relative z-20 flex flex-col h-screen px-2 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
           <div className="flex flex-col max-w-4xl mx-auto w-full h-full">
             {/* Header with controls - fixed positioning for better text alignment */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 mt-4 sm:mt-0">
               <div className="flex items-center">
                 {showHistory && (
                   <button 
                     onClick={() => setShowHistory(false)}
                     className="mr-2 sm:mr-3 p-1.5 sm:p-2 rounded-full bg-white/5 text-white hover:bg-white/10 transition-colors"
-                    aria-label="Back"
+                    aria-label={t('businessChat.back', 'Back')}
                   >
                     <IoArrowBackOutline size={16} className="sm:hidden" />
                     <IoArrowBackOutline size={18} className="hidden sm:block" />
                   </button>
                 )}
-                <h1 className="text-base sm:text-lg md:text-xl font-bold text-white text-center">
-                  {showHistory ? 'Chat History' : 'BizzPlan AI'}
+                <h1 className="text-base pl-16 sm:text-lg md:text-xl font-bold text-white text-center sm:text-left">
+                  {showHistory ? t('businessChat.chatHistory', 'Chat History') : t('businessChat.title', 'BizzPlan AI')}
                 </h1>
               </div>
               
-              {/* Optimized credit display - better alignment */}
-              <div className="flex items-center px-3 py-1 sm:px-4 sm:py-2 bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg">
-                <IoWalletOutline size={16} className="text-cyan-400 mr-1 sm:mr-2" />
-                <span className="text-white text-xs sm:text-sm">
-                  Credits: <span className="font-bold text-cyan-400">${userCredits !== null ? userCredits : '...'}</span>
-                  {chatCreditCost !== null && (
-                    <span className="ml-1 sm:ml-2 text-gray-400 text-xs">
-                      (Chat Cost: <span className="text-cyan-300">${chatCreditCost}</span>)
-                    </span>
-                  )}
-                </span>
-              </div>
-              
-              <div className="flex space-x-1 sm:space-x-2">
-                <button
-                  onClick={fetchChatHistory}
-                  className="p-1.5 sm:p-2 rounded-full bg-white/5 text-white hover:bg-white/10 transition-colors"
-                  title="Refresh History"
-                  aria-label="Refresh History"
-                  disabled={loadingHistory}
-                >
-                  <IoReloadOutline size={16} className={`sm:hidden ${loadingHistory ? 'animate-spin' : ''}`} />
-                  <IoReloadOutline size={18} className={`hidden sm:block ${loadingHistory ? 'animate-spin' : ''}`} />
-                </button>
+              <div className="flex items-center space-x-2">
+                {/* Optimized credit display - better alignment for mobile */}
+                <div className="flex items-center px-3 py-1 sm:px-4 sm:py-2 bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg">
+                  <IoWalletOutline size={16} className="text-cyan-400 mr-1 sm:mr-2" />
+                  <span className="text-white text-xs sm:text-sm">
+                    <span className="hidden sm:inline">{t('businessChat.credits', 'Credits')}: </span>
+                    <span className="font-bold text-cyan-400">${userCredits !== null ? userCredits : '...'}</span>
+                    {chatCreditCost !== null && (
+                      <span className="ml-1 sm:ml-2 text-gray-400 text-xs">
+                        ({t('businessChat.chat', 'Chat')}: <span className="text-cyan-300">${chatCreditCost}</span>)
+                      </span>
+                    )}
+                  </span>
+                </div>
+                
+                {/* History toggle button */}
                 <button
                   onClick={toggleHistory}
                   className={`p-1.5 sm:p-2 rounded-full ${showHistory ? 'bg-cyan-500/20 text-cyan-400' : 'bg-white/5 text-white hover:bg-white/10'} transition-colors`}
-                  title="Chat History"
-                  aria-label="Toggle Chat History"
+                  title={t('businessChat.chatHistory', 'Chat History')}
+                  aria-label={t('businessChat.toggleChatHistory', 'Toggle Chat History')}
                 >
                   <IoChatbubbleEllipsesOutline size={16} className="sm:hidden" />
                   <IoChatbubbleEllipsesOutline size={18} className="hidden sm:block" />

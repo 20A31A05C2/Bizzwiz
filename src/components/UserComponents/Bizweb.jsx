@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import { 
   IoAddCircleOutline, 
   IoDocumentTextOutline, 
@@ -20,6 +21,7 @@ import ApiService from '../../Apiservice';
 import LoadingPage from './userlayout/loader';
 
 const WebsiteRequestDashboard = () => {
+  const { t, i18n } = useTranslation(); // Initialize translation hook
   const [requests, setRequests] = useState([]);
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -52,7 +54,7 @@ const WebsiteRequestDashboard = () => {
         const response = await ApiService("/viewwebforms", "GET");
         setRequests(response.forms);
       } catch (error) {
-        const errorMessage = error?.response?.data?.message || "Unknown error occurred";
+        const errorMessage = error?.response?.data?.message || t('websiteDashboard.errors.unknown', "Unknown error occurred");
         console.error("Error fetching website requests:", errorMessage);
       } finally {
         setIsLoading(false);
@@ -62,7 +64,7 @@ const WebsiteRequestDashboard = () => {
     if (!isPlanChecking) {
       fetchRequests();
     }
-  }, [isPlanChecking]);
+  }, [isPlanChecking, t]);
 
   const filteredRequests = requests.filter(request => {
     const matchesSearch = 
@@ -76,11 +78,18 @@ const WebsiteRequestDashboard = () => {
   });
 
   if (isLoading || isPlanChecking) {
-    return <LoadingPage name="Loading..." />;
+    return <LoadingPage name={t('websiteDashboard.loading', "Loading...")} />;
   }
   
   const handleViewDetails = (request) => {
     setSelectedRequest(request);
+  };
+
+  // Format date based on the current language
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString(i18n.language || 'en-US');
   };
 
   const containerVariants = {
@@ -142,7 +151,7 @@ const WebsiteRequestDashboard = () => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="mb-3 sm:mb-4 text-xl sm:text-2xl font-semibold text-white"
         >
-          No Website Requests Yet
+          {t('websiteDashboard.emptyState.title', 'No Website Requests Yet')}
         </motion.h2>
         
         <motion.p 
@@ -151,8 +160,7 @@ const WebsiteRequestDashboard = () => {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="max-w-md mb-4 sm:mb-6 text-sm sm:text-base text-gray-400"
         >
-          Start your digital journey by creating your first website request. 
-          We will help you bring your online vision to life.
+          {t('websiteDashboard.emptyState.description', 'Start your digital journey by creating your first website request. We will help you bring your online vision to life.')}
         </motion.p>
         
         <motion.button 
@@ -164,7 +172,7 @@ const WebsiteRequestDashboard = () => {
           className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 text-white transition-all duration-300 shadow-xl rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 hover:shadow-cyan-500/50"
         >
           <IoAddCircleOutline className="w-5 h-5 sm:w-6 sm:h-6" />
-          Create First Website Request
+          {t('websiteDashboard.buttons.createFirst', 'Create First Website Request')}
         </motion.button>
       </motion.div>
     );
@@ -211,7 +219,7 @@ const WebsiteRequestDashboard = () => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="mb-3 sm:mb-4 text-xl sm:text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-red-400 to-purple-400 bg-clip-text"
         >
-          Feature Locked
+          {t('websiteDashboard.locked.title', 'Feature Locked')}
         </motion.h2>
         
         <motion.p 
@@ -220,8 +228,7 @@ const WebsiteRequestDashboard = () => {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="max-w-md mb-6 sm:mb-8 text-sm sm:text-base text-gray-300"
         >
-          The Website Request Dashboard is available exclusively for premium users. 
-          Upgrade your plan to access custom website development services and manage your project requests.
+          {t('websiteDashboard.locked.description', 'The Website Request Dashboard is available exclusively for premium users. Upgrade your plan to access custom website development services and manage your project requests.')}
         </motion.p>
         
         <motion.button 
@@ -233,10 +240,8 @@ const WebsiteRequestDashboard = () => {
           className="flex items-center gap-2 px-6 py-3 text-white transition-all duration-300 shadow-xl rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-purple-500/50"
         >
           <IoCashOutline className="w-5 h-5" />
-          Upgrade Now
+          {t('websiteDashboard.locked.upgradeButton', 'Upgrade Now')}
         </motion.button>
-        
-
       </motion.div>
     );
   };
@@ -261,10 +266,10 @@ const WebsiteRequestDashboard = () => {
         >
           <IoDocumentTextOutline className="w-16 h-16 mb-4 text-gray-500 opacity-50" />
           <h2 className="mb-3 text-xl font-semibold text-white">
-            No Matching Requests Found
+            {t('websiteDashboard.noResults.title', 'No Matching Requests Found')}
           </h2>
           <p className="max-w-md mb-6 text-gray-400">
-            Try adjusting your search terms or filters to find what you're looking for.
+            {t('websiteDashboard.noResults.description', "Try adjusting your search terms or filters to find what you're looking for.")}
           </p>
           <button 
             onClick={() => {
@@ -273,7 +278,7 @@ const WebsiteRequestDashboard = () => {
             }}
             className="px-4 py-2 text-sm text-white transition-all bg-gray-700 rounded-lg hover:bg-gray-600"
           >
-            Clear Filters
+            {t('websiteDashboard.buttons.clearFilters', 'Clear Filters')}
           </button>
         </motion.div>
       );
@@ -286,7 +291,7 @@ const WebsiteRequestDashboard = () => {
           <div className="relative w-full sm:w-64 lg:w-80">
             <input
               type="text"
-              placeholder="Search projects..."
+              placeholder={t('websiteDashboard.filters.searchPlaceholder', 'Search projects...')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full py-2 pl-3 pr-10 text-sm text-white bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
@@ -305,11 +310,11 @@ const WebsiteRequestDashboard = () => {
             onChange={(e) => setFilterStatus(e.target.value)}
             className="w-full sm:w-auto py-2 px-3 text-sm text-white bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all appearance-none"
           >
-            <option value="all">All Statuses</option>
-            <option value="pending">Pending</option>
-            <option value="in_progress">In Progress</option>
-            <option value="completed">Completed</option>
-            <option value="rejected">Rejected</option>
+            <option value="all">{t('websiteDashboard.filters.allStatuses', 'All Statuses')}</option>
+            <option value="pending">{t('websiteDashboard.status.pending', 'Pending')}</option>
+            <option value="in_progress">{t('websiteDashboard.status.inProgress', 'In Progress')}</option>
+            <option value="completed">{t('websiteDashboard.status.completed', 'Completed')}</option>
+            <option value="rejected">{t('websiteDashboard.status.rejected', 'Rejected')}</option>
           </select>
           
           <div className="hidden sm:block flex-grow"></div>
@@ -323,7 +328,7 @@ const WebsiteRequestDashboard = () => {
             className="hidden sm:flex items-center gap-2 px-4 py-2 text-white transition-all bg-gradient-to-r from-cyan-500 to-purple-500 rounded-lg shadow-lg hover:shadow-cyan-500/30"
           >
             <IoAddCircleOutline className="w-5 h-5" />
-            New Request
+            {t('websiteDashboard.buttons.newRequest', 'New Request')}
           </motion.button>
         </div>
 
@@ -360,7 +365,7 @@ const WebsiteRequestDashboard = () => {
               {/* Project Name and Status */}
               <div className="mb-3 sm:mb-4 mt-6 sm:mt-0">
                 <h3 className="text-lg sm:text-xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text truncate pr-2">
-                  {request.project_name || 'Untitled Project'}
+                  {request.project_name || t('websiteDashboard.untitledProject', 'Untitled Project')}
                 </h3>
                 <span
                   className={`inline-block px-2 py-0.5 sm:px-3 sm:py-1 mt-1 sm:mt-2 text-xs font-semibold rounded-full ${
@@ -375,7 +380,7 @@ const WebsiteRequestDashboard = () => {
                       : 'bg-gray-300/20 text-gray-500' // Default color if status doesn't match
                   }`}
                 >
-                  {request.status.replace('_', ' ').toUpperCase()}
+                  {t(`websiteDashboard.status.${request.status.replace('_', '')}`, request.status.replace('_', ' ').toUpperCase())}
                 </span>
               </div>
 
@@ -405,7 +410,7 @@ const WebsiteRequestDashboard = () => {
                       transition={{ delay: 0.6 }}
                       className="px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs rounded-md bg-cyan-500/20 text-cyan-300"
                     >
-                      +{request.framework.split(',').length - 3} more
+                      +{request.framework.split(',').length - 3} {t('websiteDashboard.more', 'more')}
                     </motion.span>
                   )}
                 </div>
@@ -420,7 +425,7 @@ const WebsiteRequestDashboard = () => {
                   </div>
                   <div className="flex items-center gap-1 text-xs mt-1">
                     <IoTimeOutline className="text-purple-400" />
-                    <span>Due: {new Date(request.deadline).toLocaleDateString()}</span>
+                    <span>{t('websiteDashboard.due', 'Due')}: {formatDate(request.deadline)}</span>
                   </div>
                 </div>
                 <motion.button 
@@ -428,7 +433,7 @@ const WebsiteRequestDashboard = () => {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleViewDetails(request)}
                   className="p-1.5 sm:p-2 transition-all duration-300 rounded-full hover:bg-cyan-500/20 group"
-                  title="View Details"
+                  title={t('websiteDashboard.buttons.viewDetails', 'View Details')}
                 >
                   <IoEyeOutline className="w-5 h-5 sm:w-6 sm:h-6 transition-transform text-cyan-400 group-hover:scale-110" />
                 </motion.button>
@@ -447,7 +452,7 @@ const WebsiteRequestDashboard = () => {
             className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 text-white transition-all shadow-xl rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 hover:shadow-cyan-500/50"
           >
             <IoAddCircleOutline className="w-5 h-5 sm:w-6 sm:h-6" />
-            New Website Request
+            {t('websiteDashboard.buttons.newWebsiteRequest', 'New Website Request')}
           </motion.button>
         </div>
       </div>
@@ -544,7 +549,7 @@ const WebsiteRequestDashboard = () => {
                       : 'bg-gray-300/20 text-gray-500' // Default color if status doesn't match
                   }`}
                 >
-                  {selectedRequest.status.replace('_', ' ').toUpperCase()}
+                  {t(`websiteDashboard.status.${selectedRequest.status.replace('_', '')}`, selectedRequest.status.replace('_', ' ').toUpperCase())}
                 </span>
               </div>
             </div>
@@ -557,7 +562,9 @@ const WebsiteRequestDashboard = () => {
               >
                 <div className="flex items-center gap-2 mb-1 sm:mb-2">
                   <IoDocumentTextOutline className="text-purple-400" />
-                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400">Project Description</h3>
+                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400">
+                    {t('websiteDashboard.modal.projectDescription', 'Project Description')}
+                  </h3>
                 </div>
                 <p className="text-sm sm:text-base text-gray-200 ml-6">{selectedRequest.project_description}</p>
               </motion.div>
@@ -569,7 +576,9 @@ const WebsiteRequestDashboard = () => {
               >
                 <div className="flex items-center gap-2 mb-1 sm:mb-2">
                   <IoDocumentTextOutline className="text-cyan-400" />
-                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400">Message</h3>
+                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400">
+                    {t('websiteDashboard.modal.message', 'Message')}
+                  </h3>
                 </div>
                 <p className="text-sm sm:text-base text-gray-200 ml-6">{selectedRequest.message}</p>
               </motion.div>
@@ -581,7 +590,9 @@ const WebsiteRequestDashboard = () => {
               >
                 <div className="flex items-center gap-2 mb-1 sm:mb-2">
                   <IoCodeSlashOutline className="text-blue-400" />
-                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400">Technologies</h3>
+                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400">
+                    {t('websiteDashboard.modal.technologies', 'Technologies')}
+                  </h3>
                 </div>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2 ml-6">
                   {selectedRequest.framework?.split(',').map((tech, index) => (
@@ -599,14 +610,16 @@ const WebsiteRequestDashboard = () => {
               </motion.div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <motion.div
+              <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
                 >
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <IoWalletOutline className="text-green-400" />
-                    <h3 className="text-xs sm:text-sm font-semibold text-gray-400">Budget</h3>
+                    <h3 className="text-xs sm:text-sm font-semibold text-gray-400">
+                      {t('websiteDashboard.modal.budget', 'Budget')}
+                    </h3>
                   </div>
                   <p className="text-lg sm:text-xl font-medium text-cyan-400 ml-6">${selectedRequest.amount}</p>
                 </motion.div>
@@ -618,9 +631,11 @@ const WebsiteRequestDashboard = () => {
                 >
                   <div className="flex items-center gap-2 mb-1 sm:mb-2">
                     <IoTimeOutline className="text-yellow-400" />
-                    <h3 className="text-xs sm:text-sm font-semibold text-gray-400">Deadline</h3>
+                    <h3 className="text-xs sm:text-sm font-semibold text-gray-400">
+                      {t('websiteDashboard.modal.deadline', 'Deadline')}
+                    </h3>
                   </div>
-                  <p className="text-sm sm:text-base text-gray-200 ml-6">{new Date(selectedRequest.deadline).toLocaleDateString()}</p>
+                  <p className="text-sm sm:text-base text-gray-200 ml-6">{formatDate(selectedRequest.deadline)}</p>
                 </motion.div>
               </div>
 
@@ -631,7 +646,9 @@ const WebsiteRequestDashboard = () => {
               >
                 <div className="flex items-center gap-2 mb-1 sm:mb-2">
                   <IoLayersOutline className="text-pink-400" />
-                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400">Features</h3>
+                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400">
+                    {t('websiteDashboard.modal.features', 'Features')}
+                  </h3>
                 </div>
                 <p className="text-sm sm:text-base text-gray-200 ml-6">{selectedRequest.features}</p>
               </motion.div>
@@ -651,7 +668,7 @@ const WebsiteRequestDashboard = () => {
                 onClick={() => setSelectedRequest(null)}
                 className="px-4 py-2 text-sm bg-gradient-to-r from-gray-700 to-gray-800 text-white rounded-lg"
               >
-                Close
+                {t('websiteDashboard.buttons.close', 'Close')}
               </motion.button>
             </motion.div>
           </motion.div>
@@ -691,11 +708,10 @@ const WebsiteRequestDashboard = () => {
             className="mb-4 sm:mb-6 lg:mb-8"
           >
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text ml-0 sm:ml-2 md:ml-10">
-              BizWeb
+              {t('websiteDashboard.title', 'BizWeb')}
             </h1>
             <p className="max-w-full mt-2 sm:mt-3 text-sm sm:text-base text-gray-300">
-              Transform your digital presence with custom website solutions. 
-              Track, manage, and create website requests tailored to your business needs.
+              {t('websiteDashboard.subtitle', 'Transform your digital presence with custom website solutions. Track, manage, and create website requests tailored to your business needs.')}
             </p>
           </motion.header>
 

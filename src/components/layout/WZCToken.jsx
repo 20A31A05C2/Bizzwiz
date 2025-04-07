@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Globe } from 'lucide-react';
 import tokenLogo from '../../assets/token.png';
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const WZCToken = () => {
+  const { t } = useTranslation(); // Use translation hook
+  
   // Refs for scroll detection
   const sectionRef = useRef(null);
   const firstSectionRef = useRef(null);
@@ -111,15 +114,11 @@ const WZCToken = () => {
         {/* Left side - Text content */}
         <div className={`md:w-3/5 mb-8 sm:mb-10 md:mb-0 md:pr-6 lg:pr-10 transition-all duration-700 transform ${isFirstSectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-            Le Token WZC - Une crypto du futur pour les entrepreneurs
+            {t('token.heading')}
           </h1>
           
           <p className="text-base sm:text-lg leading-relaxed text-gray-200 mb-6">
-            WZC n'est pas seulement un jeton, c'est une opportunité pour les entrepreneurs de 
-            se positionner dès aujourd'hui dans l'écosystème numérique de demain. En tant 
-            que crypto-monnaie de la plateforme BizzWiz, le token WZC offre des avantages 
-            exclusifs aux utilisateurs, tout en ayant un potentiel de croissance dans l'univers de 
-            la blockchain et des cryptos.
+            {t('token.description')}
           </p>
         </div>
         
@@ -127,7 +126,7 @@ const WZCToken = () => {
         <div className={`md:w-2/5 flex justify-center md:justify-end md:pl-6 lg:pl-10 transition-all duration-700 delay-300 transform ${isFirstSectionVisible ? 'translate-x-0 opacity-100 rotate-0' : 'translate-x-10 opacity-0 rotate-12'}`}>
           <img 
             src={tokenLogo} 
-            alt="WZC Token Logo" 
+            alt={t('token.logoAlt')} 
             className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain"
             style={{
               animation: isFirstSectionVisible ? 'float 6s infinite ease-in-out' : 'none'
@@ -146,7 +145,7 @@ const WZCToken = () => {
       >
         {/* Section title with animation */}
         <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12 transition-all duration-700 transform ${isSecondSectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          Pourquoi choisir WZC ?
+          {t('token.whyChoose')}
         </h2>
         
         {/* Three features in cards */}
@@ -168,9 +167,9 @@ const WZCToken = () => {
               }}
             ></div>
             
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-4">Offres et Réductions Exclusives</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-4">{t('token.card1.title')}</h3>
             <p className="text-center text-gray-300 text-sm sm:text-base px-4">
-              Utilisez le token WZC pour bénéficier de réductions sur nos services et d'offres spéciales réservées à nos membres.
+              {t('token.card1.description')}
             </p>
           </div>
           
@@ -191,9 +190,9 @@ const WZCToken = () => {
               }}
             ></div>
             
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-4">Accès à des fonctionnalités premium</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-4">{t('token.card2.title')}</h3>
             <p className="text-center text-gray-300 text-sm sm:text-base px-4">
-              Le token vous permet d'accéder à des outils et des fonctionnalités avancées sur notre plateforme pour faire croître votre entreprise.
+              {t('token.card2.description')}
             </p>
           </div>
           
@@ -214,9 +213,9 @@ const WZCToken = () => {
               }}
             ></div>
             
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-4">Participez à l'avenir de la crypto</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-center mb-4">{t('token.card3.title')}</h3>
             <p className="text-center text-gray-300 text-sm sm:text-base px-4">
-              Investissez dans le token WZC et faites partie de notre projet ambitieux qui vise à révolutionner l'univers numérique et les petites entreprises.
+              {t('token.card3.description')}
             </p>
           </div>
         </div>
@@ -237,15 +236,15 @@ const WZCToken = () => {
                 animation: isFutureSectionVisible ? 'spin 10s linear infinite' : 'none'
               }}
             />
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold">Le WZC, une crypto qui a de l'avenir</h3>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold">{t('token.future.title')}</h3>
           </div>
           
           <p className={`text-base sm:text-lg mb-6 pl-12 sm:pl-14 pr-4 sm:pr-6 transition-all duration-700 delay-200 transform ${isFutureSectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            BizzWiz investit dans l'innovation blockchain pour que le token WZC devienne un acteur clé dans l'écosystème numérique.
+            {t('token.future.description')}
           </p>
           
           <p className={`text-base sm:text-lg mb-8 flex items-center pl-12 sm:pl-14 pr-4 sm:pr-6 transition-all duration-700 delay-400 transform ${isFutureSectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            <span className="mr-3 text-xl sm:text-2xl">👉</span> Ne laissez pas passer cette chance de vous préparer à l'avenir. Commencez dès aujourd'hui avec WZC !
+            <span className="mr-3 text-xl sm:text-2xl">👉</span> {t('token.future.callToAction')}
           </p>
           
           {/* Updated Button from Advertisement Component */}
@@ -260,7 +259,7 @@ const WZCToken = () => {
                 transition: 'all 0.3s ease-out, box-shadow 1.5s ease'
               }}
             >
-              En savoir +
+              {t('token.button')}
             </button>
           </div>
         </div>
@@ -268,15 +267,15 @@ const WZCToken = () => {
       
       {/* Horizontal Line - Enhanced with responsive styling */}
       <div ref={lineRef} className="relative w-full mt-8 sm:mt-10 md:mt-12 mb-4 sm:mb-6 md:mb-8">
-  <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
-    <div 
-      className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
-    >
-      {/* Add subtle glow to the line */}
-      <div className="absolute inset-0 blur-sm bg-purple-400 opacity-50"></div>
-    </div>
-  </div>
-</div>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
+          <div 
+            className={`w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent relative transition-all duration-1000 transform ${isHorizontalLineVisible ? 'opacity-60 scale-x-100' : 'opacity-0 scale-x-0'}`}
+          >
+            {/* Add subtle glow to the line */}
+            <div className="absolute inset-0 blur-sm bg-purple-400 opacity-50"></div>
+          </div>
+        </div>
+      </div>
 
       {/* Add global keyframe animations */}
       <style jsx>{`

@@ -3,6 +3,7 @@ import SideNavbar from './userlayout/sidebar';
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import 'react-toastify/dist/ReactToastify.css';
 import ApiService from '../../Apiservice';
 import LoadingPage from './userlayout/loader';
@@ -15,6 +16,7 @@ import {
 } from 'react-icons/fi';
 
 const Dashboard = () => {
+  const { t } = useTranslation(); // Initialize translation hook
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: "",
@@ -43,7 +45,7 @@ const Dashboard = () => {
         const token = localStorage.getItem('bizwizusertoken');
         if (!token) {
           navigate('/userlogin');
-          toast.error("Please login to continue");
+          toast.error(t('dashboard.errors.loginRequired', "Please login to continue"));
           return;
         }
 
@@ -74,7 +76,7 @@ const Dashboard = () => {
           throw new Error("Invalid response data");
         }
       } catch (error) {
-        const errorMessage = error?.response?.data?.message || "Unknown error occurred";
+        const errorMessage = error?.response?.data?.message || t('dashboard.errors.unknown', "Unknown error occurred");
         console.log(errorMessage);
         navigate('/userlogin', { replace: true });
         toast.error(errorMessage);
@@ -88,11 +90,11 @@ const Dashboard = () => {
     return () => {
       // Cleanup
     };
-  }, [navigate]);
+  }, [navigate, t]);
 
   // Format date for display
   const formatDate = (dateString) => {
-    if (!dateString) return 'Not available';
+    if (!dateString) return t('dashboard.notAvailable', 'Not available');
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   };
@@ -170,16 +172,16 @@ const Dashboard = () => {
   // Prepare data for usage stats pie chart
   const pieData = useMemo(() => {
     const usageData = [
-      { name: 'Logo Requests', value: userData.usageStats.logo_requests, fill: '#8b5cf6' },
-      { name: 'Chat History', value: userData.usageStats.chat_history, fill: '#3b82f6' },
-      { name: 'BizWebAI', value: userData.usageStats.bizwebai, fill: '#06b6d4' }
+      { name: t('dashboard.usageStats.logoRequests', 'Logo Requests'), value: userData.usageStats.logo_requests, fill: '#8b5cf6' },
+      { name: t('dashboard.usageStats.chatHistory', 'Chat History'), value: userData.usageStats.chat_history, fill: '#3b82f6' },
+      { name: t('dashboard.usageStats.bizWebAI', 'BizWebAI'), value: userData.usageStats.bizwebai, fill: '#06b6d4' }
     ];
 
     // If all values are 0, add a placeholder for better visualization
     return usageData.every(item => item.value === 0) 
-      ? [...usageData, { name: 'No Usage Yet', value: 1, fill: '#4b5563' }]
+      ? [...usageData, { name: t('dashboard.usageStats.noUsageYet', 'No Usage Yet'), value: 1, fill: '#4b5563' }]
       : usageData;
-  }, [userData.usageStats]);
+  }, [userData.usageStats, t]);
 
   // Animation variants
   const containerVariants = {
@@ -200,7 +202,7 @@ const Dashboard = () => {
   return (
     <div className="font-inter">
       {loading ? (
-        <LoadingPage name="Loading Dashboard" />
+        <LoadingPage name={t('dashboard.loading', "Loading Dashboard")} />
       ) : (
         <div className="flex min-h-screen bg-gradient-to-br from-black to-purple-900/20">
           <SideNavbar />
@@ -232,9 +234,13 @@ const Dashboard = () => {
                   <div className="w-10 h-10 rounded-full bg-purple-700/30 flex items-center justify-center mr-3">
                     <FiUser className="text-purple-300" />
                   </div>
-                  <h1 className="text-2xl font-bold text-white">Welcome, {userData.fname}</h1>
+                  <h1 className="text-2xl font-bold text-white">
+                    {t('dashboard.welcome', 'Welcome')}, {userData.fname}
+                  </h1>
                 </div>
-                <p className="text-gray-400">Here's an overview of your account status and activity</p>
+                <p className="text-gray-400">
+                  {t('dashboard.overview', "Here's an overview of your account status and activity")}
+                </p>
               </motion.div>
 
               {/* Status Cards */}
@@ -251,7 +257,9 @@ const Dashboard = () => {
                 >
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-400">Available Credits</h3>
+                      <h3 className="text-sm font-medium text-gray-400">
+                        {t('dashboard.cards.availableCredits', 'Available Credits')}
+                      </h3>
                       <p className="text-2xl font-bold text-white mt-1">{userData.credits.toFixed(2)}</p>
                     </div>
                     <div className="p-2 rounded-lg bg-purple-600/20">
@@ -264,7 +272,7 @@ const Dashboard = () => {
                     className="w-full mt-2 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
                     onClick={() => navigate('/creditpurchase')}
                   >
-                    Add Credits
+                    {t('dashboard.buttons.addCredits', 'Add Credits')}
                   </motion.button>
                 </motion.div>
 
@@ -275,8 +283,12 @@ const Dashboard = () => {
                 >
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-400">Current Plan</h3>
-                      <p className="text-2xl font-bold text-white mt-1">{userData.activePlan?.name || "No Active Plan"}</p>
+                      <h3 className="text-sm font-medium text-gray-400">
+                        {t('dashboard.cards.currentPlan', 'Current Plan')}
+                      </h3>
+                      <p className="text-2xl font-bold text-white mt-1">
+                        {userData.activePlan?.name || t('dashboard.cards.noActivePlan', 'No Active Plan')}
+                      </p>
                     </div>
                     <div className="p-2 rounded-lg bg-purple-600/20">
                       <FiAward className="text-purple-400" />
@@ -289,7 +301,7 @@ const Dashboard = () => {
                       className="flex-1 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
                       onClick={() => navigate('/pricingplan')}
                     >
-                      Upgrade Plan
+                      {t('dashboard.buttons.upgradePlan', 'Upgrade Plan')}
                     </motion.button>
                     {userData.activePlan && (
                       <motion.button
@@ -299,7 +311,7 @@ const Dashboard = () => {
                         onClick={() => navigate('/manageplan')}
                       >
                         <FiSettings className="mr-1 w-4 h-4" />
-                        Manage
+                        {t('dashboard.buttons.manage', 'Manage')}
                       </motion.button>
                     )}
                   </div>
@@ -312,8 +324,12 @@ const Dashboard = () => {
                 >
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-400">Plan Expires</h3>
-                      <p className="text-2xl font-bold text-white mt-1">{getDaysRemaining()} Days</p>
+                      <h3 className="text-sm font-medium text-gray-400">
+                        {t('dashboard.cards.planExpires', 'Plan Expires')}
+                      </h3>
+                      <p className="text-2xl font-bold text-white mt-1">
+                        {getDaysRemaining()} {t('dashboard.cards.days', 'Days')}
+                      </p>
                     </div>
                     <div className="p-2 rounded-lg bg-purple-600/20">
                       <FiCalendar className="text-purple-400" />
@@ -321,7 +337,9 @@ const Dashboard = () => {
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between mb-1 text-xs">
-                      <span className="text-gray-400">Expires {formatDate(userData.planExpiresAt)}</span>
+                      <span className="text-gray-400">
+                        {t('dashboard.cards.expires', 'Expires')} {formatDate(userData.planExpiresAt)}
+                      </span>
                       <span className="text-gray-400">{calculatePlanTimePercentage().toFixed(0)}%</span>
                     </div>
                     <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden">
@@ -336,7 +354,9 @@ const Dashboard = () => {
                       <div className="mt-2 flex items-center justify-end">
                         <FiRefreshCw className={`w-3 h-3 mr-1 ${userData.autoRenew ? 'text-green-400' : 'text-gray-500'}`} />
                         <span className={`text-xs ${userData.autoRenew ? 'text-green-400' : 'text-gray-500'}`}>
-                          {userData.autoRenew ? 'Auto-renewal enabled' : 'Auto-renewal disabled'}
+                          {userData.autoRenew 
+                            ? t('dashboard.cards.autoRenewEnabled', 'Auto-renewal enabled')
+                            : t('dashboard.cards.autoRenewDisabled', 'Auto-renewal disabled')}
                         </span>
                       </div>
                     )}
@@ -361,7 +381,9 @@ const Dashboard = () => {
                       <FiPenTool className="text-purple-400" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-gray-400">Logo Requests</h3>
+                      <h3 className="text-sm font-medium text-gray-400">
+                        {t('dashboard.usageStats.logoRequests', 'Logo Requests')}
+                      </h3>
                       <p className="text-xl font-bold text-white">{userData.usageStats.logo_requests}</p>
                     </div>
                   </div>
@@ -387,7 +409,9 @@ const Dashboard = () => {
                       <FiMessageSquare className="text-blue-400" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-gray-400">Chat History</h3>
+                      <h3 className="text-sm font-medium text-gray-400">
+                        {t('dashboard.usageStats.chatHistory', 'Chat History')}
+                      </h3>
                       <p className="text-xl font-bold text-white">{userData.usageStats.chat_history}</p>
                     </div>
                   </div>
@@ -413,7 +437,9 @@ const Dashboard = () => {
                       <FiCode className="text-cyan-400" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-gray-400">BizWebAI</h3>
+                      <h3 className="text-sm font-medium text-gray-400">
+                        {t('dashboard.usageStats.bizWebAI', 'BizWebAI')}
+                      </h3>
                       <p className="text-xl font-bold text-white">{userData.usageStats.bizwebai}</p>
                     </div>
                   </div>
@@ -440,7 +466,9 @@ const Dashboard = () => {
                   className="lg:col-span-1 p-6 rounded-xl bg-gradient-to-br from-[#2a2435] to-[#231e2e] border border-purple-900/20 shadow-lg hover:shadow-purple-900/10 hover:border-purple-800/30 transition-all duration-300"
                 >
                   <div className="flex items-center justify-between mb-5">
-                    <h3 className="text-lg font-semibold text-white">Plan Features</h3>
+                    <h3 className="text-lg font-semibold text-white">
+                      {t('dashboard.planDetails.title', 'Plan Features')}
+                    </h3>
                     <div className="h-8 w-8 rounded-lg bg-purple-800/30 flex items-center justify-center">
                       <FiAward className="text-purple-300" />
                     </div>
@@ -450,11 +478,15 @@ const Dashboard = () => {
                     <div className="space-y-5">
                       <div className="flex justify-between">
                         <div>
-                          <p className="text-sm text-gray-400">Plan Name</p>
+                          <p className="text-sm text-gray-400">
+                            {t('dashboard.planDetails.planName', 'Plan Name')}
+                          </p>
                           <p className="text-lg font-bold text-white">{userData.activePlan.name}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-400">Price</p>
+                          <p className="text-sm text-gray-400">
+                            {t('dashboard.planDetails.price', 'Price')}
+                          </p>
                           {/* We need to directly check the transaction amount */}
                           {userData.transactions && userData.transactions.some(t => 
                             t.purchase_type === 'subscription' && 
@@ -477,7 +509,9 @@ const Dashboard = () => {
                               t.purchase_type === 'subscription' && 
                               t.plan_name === userData.activePlan.name && 
                               parseFloat(t.amount) === parseFloat(userData.activePlan.annual_price)
-                            ) ? 'Annual Subscription' : 'Monthly Subscription'}
+                            ) ? 
+                              t('dashboard.planDetails.annualSubscription', 'Annual Subscription') : 
+                              t('dashboard.planDetails.monthlySubscription', 'Monthly Subscription')}
                           </span>
                         </div>
                       </div>
@@ -485,23 +519,33 @@ const Dashboard = () => {
                       {/* Plan dates and auto-renewal status */}
                       <div className="mt-1 py-2 px-3 bg-gray-800/40 rounded-lg space-y-2">
                         <div className="flex justify-between items-center text-sm">
-                          <span className="text-gray-400">Activated:</span>
+                          <span className="text-gray-400">
+                            {t('dashboard.planDetails.activated', 'Activated:')}
+                          </span>
                           <span className="text-gray-300">{formatDate(userData.planActivatedAt)}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm">
-                          <span className="text-gray-400">Expires:</span>
+                          <span className="text-gray-400">
+                            {t('dashboard.planDetails.expires', 'Expires:')}
+                          </span>
                           <span className="text-gray-300">{formatDate(userData.planExpiresAt)}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm">
-                          <span className="text-gray-400">Auto-renewal:</span>
+                          <span className="text-gray-400">
+                            {t('dashboard.planDetails.autoRenewal', 'Auto-renewal:')}
+                          </span>
                           <span className={userData.autoRenew ? 'text-green-400' : 'text-yellow-400'}>
-                            {userData.autoRenew ? 'Enabled' : 'Disabled'}
+                            {userData.autoRenew ? 
+                              t('dashboard.planDetails.enabled', 'Enabled') : 
+                              t('dashboard.planDetails.disabled', 'Disabled')}
                           </span>
                         </div>
                       </div>
 
                       <div className="pt-4 border-t border-purple-900/30">
-                        <h4 className="text-sm font-medium text-gray-300 mb-3">Features Included:</h4>
+                        <h4 className="text-sm font-medium text-gray-300 mb-3">
+                          {t('dashboard.planDetails.featuresIncluded', 'Features Included:')}
+                        </h4>
                         {userData.activePlan.raw_features && Array.isArray(userData.activePlan.raw_features) ? (
                           <ul className="space-y-4">
                             {userData.activePlan.raw_features.map((feature, index) => (
@@ -518,19 +562,23 @@ const Dashboard = () => {
                             ))}
                           </ul>
                         ) : (
-                          <p className="text-gray-400">No features available</p>
+                          <p className="text-gray-400">
+                            {t('dashboard.planDetails.noFeatures', 'No features available')}
+                          </p>
                         )}
                       </div>
 
                       <div className="pt-4 text-center space-y-2">
-                        <p className="text-xs text-gray-400 mb-2">Plan Expires: {formatDate(userData.planExpiresAt)}</p>
+                        <p className="text-xs text-gray-400 mb-2">
+                          {t('dashboard.planDetails.planExpires', 'Plan Expires:')} {formatDate(userData.planExpiresAt)}
+                        </p>
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           className="w-full px-6 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
                           onClick={() => navigate('/pricingplan')}
                         >
-                          Upgrade Plan
+                          {t('dashboard.buttons.upgradePlan', 'Upgrade Plan')}
                         </motion.button>
                         <motion.button
                           whileHover={{ scale: 1.02 }}
@@ -539,20 +587,22 @@ const Dashboard = () => {
                           onClick={() => navigate('/manageplan')}
                         >
                           <FiSettings className="mr-2 w-4 h-4" />
-                          Manage Subscription
+                          {t('dashboard.buttons.manageSubscription', 'Manage Subscription')}
                         </motion.button>
                       </div>
                     </div>
                   ) : (
                     <div className="py-6 text-center">
-                      <p className="text-gray-400 mb-4">No active plan</p>
+                      <p className="text-gray-400 mb-4">
+                        {t('dashboard.planDetails.noActivePlan', 'No active plan')}
+                      </p>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         className="px-6 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
                         onClick={() => navigate('/pricingplan')}
                       >
-                        View Plans
+                        {t('dashboard.buttons.viewPlans', 'View Plans')}
                       </motion.button>
                     </div>
                   )}
@@ -564,7 +614,9 @@ const Dashboard = () => {
                       <div className="h-7 w-7 rounded-lg bg-purple-800/30 flex items-center justify-center mr-2">
                         <FiBarChart2 className="text-purple-300" />
                       </div>
-                      <h3 className="text-md font-medium text-white">Usage Breakdown</h3>
+                      <h3 className="text-md font-medium text-white">
+                        {t('dashboard.usageBreakdown.title', 'Usage Breakdown')}
+                      </h3>
                     </div>
                     
                     <div className="h-48 flex items-center justify-center">
@@ -600,15 +652,21 @@ const Dashboard = () => {
                     <div className="grid grid-cols-1 gap-2 mt-3">
                       <div className="flex items-center text-xs">
                         <div className="w-2 h-2 rounded-full bg-purple-500 mr-2"></div>
-                        <span className="text-gray-400">Logo Requests: {userData.usageStats.logo_requests}</span>
+                        <span className="text-gray-400">
+                          {t('dashboard.usageBreakdown.logoRequests', 'Logo Requests')}: {userData.usageStats.logo_requests}
+                        </span>
                       </div>
                       <div className="flex items-center text-xs">
                         <div className="w-2 h-2 rounded-full bg-blue-500 mr-2"></div>
-                        <span className="text-gray-400">Chat History: {userData.usageStats.chat_history}</span>
+                        <span className="text-gray-400">
+                          {t('dashboard.usageBreakdown.chatHistory', 'Chat History')}: {userData.usageStats.chat_history}
+                        </span>
                       </div>
                       <div className="flex items-center text-xs">
                         <div className="w-2 h-2 rounded-full bg-cyan-500 mr-2"></div>
-                        <span className="text-gray-400">BizWebAI: {userData.usageStats.bizwebai}</span>
+                        <span className="text-gray-400">
+                          {t('dashboard.usageBreakdown.bizWebAI', 'BizWebAI')}: {userData.usageStats.bizwebai}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -626,7 +684,9 @@ const Dashboard = () => {
                       <div className="h-8 w-8 rounded-lg bg-blue-500/20 flex items-center justify-center mr-3">
                         <FiDollarSign className="text-blue-400" />
                       </div>
-                      <h3 className="text-lg font-semibold text-white">Transaction History</h3>
+                      <h3 className="text-lg font-semibold text-white">
+                        {t('dashboard.transactionHistory.title', 'Transaction History')}
+                      </h3>
                     </div>
                   </div>
 
@@ -647,7 +707,8 @@ const Dashboard = () => {
                                   <div className="flex items-center">
                                     {getStatusIcon(transaction.status)}
                                     <span className="ml-2 text-sm font-medium text-gray-300 capitalize">
-                                      {transaction.payment_type || transaction.purchase_type || 'Transaction'}
+                                      {t(`dashboard.transactionHistory.types.${transaction.payment_type || transaction.purchase_type || 'transaction'}`, 
+                                        transaction.payment_type || transaction.purchase_type || 'Transaction')}
                                     </span>
                                     {transaction.plan_name && (
                                       <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-purple-500/20 text-purple-200">
@@ -663,7 +724,9 @@ const Dashboard = () => {
                                 <div className="flex items-center space-x-4">
                                   {transaction.credits_purchased ? (
                                     <div className="text-center">
-                                      <p className="text-xs text-gray-400">Credits</p>
+                                      <p className="text-xs text-gray-400">
+                                        {t('dashboard.transactionHistory.credits', 'Credits')}
+                                      </p>
                                       <p className="text-sm font-semibold text-blue-400">
                                         {transaction.credits_purchased}
                                       </p>
@@ -694,8 +757,12 @@ const Dashboard = () => {
                           <div className="flex justify-center mb-3">
                             <FiDollarSign className="text-gray-500 text-4xl" />
                           </div>
-                          <p className="text-gray-400">No transactions found</p>
-                          <p className="text-gray-500 text-sm mt-2">Your recent transactions will appear here</p>
+                          <p className="text-gray-400">
+                            {t('dashboard.transactionHistory.noTransactions', 'No transactions found')}
+                          </p>
+                          <p className="text-gray-500 text-sm mt-2">
+                            {t('dashboard.transactionHistory.willAppearHere', 'Your recent transactions will appear here')}
+                          </p>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -709,7 +776,7 @@ const Dashboard = () => {
                         className="px-4 py-2 text-sm font-medium bg-purple-600/30 text-purple-200 rounded-lg hover:bg-purple-600/40 transition-colors"
                         onClick={() => navigate('/transactions')}
                       >
-                        View All Transactions
+                        {t('dashboard.buttons.viewAllTransactions', 'View All Transactions')}
                       </motion.button>
                     </div>
                   )}

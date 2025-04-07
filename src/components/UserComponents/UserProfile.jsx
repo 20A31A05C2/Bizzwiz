@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import 'react-toastify/dist/ReactToastify.css';
 import { FaEdit, FaCheck, FaTimes, FaUser, FaCalendar, FaEnvelope, FaUserCircle } from 'react-icons/fa';
 import { BeatLoader } from 'react-spinners';
@@ -10,6 +11,7 @@ import SideNavbar from './userlayout/sidebar';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+  const { t, i18n } = useTranslation(); // Initialize translation hook
   const [pageLoading, setPageLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -29,13 +31,13 @@ const Profile = () => {
         const token = localStorage.getItem('bizwizusertoken');
         if (!token) {
           navigate('/userlogin', { replace: true });
-          toast.error("Please login to continue");
+          toast.error(t('profile.errors.loginRequired', 'Please login to continue'));
           return;
         }
         const response = await ApiService("/userprofile", "GET");
         setProfile(response.userdata);
       } catch (error) {
-        const errorMessage = error?.response?.data?.message || "Unknown error occurred";
+        const errorMessage = error?.response?.data?.message || t('profile.errors.unknown', 'Unknown error occurred');
         
         if (errorMessage.toLowerCase().includes('login') || 
             errorMessage.toLowerCase().includes('token') || 
@@ -49,16 +51,16 @@ const Profile = () => {
       }
     };
     fetchProfile();
-  }, [navigate]);
+  }, [navigate, t]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (submitLoading) return;
 
     try {
-      const token = localStorage.getItem('bizwizusertoken'); // Fixed token name
+      const token = localStorage.getItem('bizwizusertoken');
       if (!token) {
-        toast.error("Please login to continue");
+        toast.error(t('profile.errors.loginRequired', 'Please login to continue'));
         navigate('/userlogin');
         return;
       }
@@ -67,16 +69,23 @@ const Profile = () => {
       const response = await ApiService("/userupdate", "POST", profile);
       setProfile(response.userdata);
       setEditMode(false);
-      toast.success("Profile updated successfully");
+      toast.success(t('profile.success.profileUpdated', 'Profile updated successfully'));
     } catch (error) {
-      const errorMessage = error?.response?.data?.message || error.message || "Failed to update profile";
+      const errorMessage = error?.response?.data?.message || error.message || t('profile.errors.updateFailed', 'Failed to update profile');
       toast.error(errorMessage);
     } finally {
       setSubmitLoading(false);
     }
   };
 
-  if (pageLoading) return <LoadingPage name="Loading Profile..." />;
+  // Format date based on current language
+  const formatDate = (dateString) => {
+    if (!dateString) return t('profile.notAvailable', 'N/A');
+    const date = new Date(dateString);
+    return date.toLocaleDateString(i18n.language || 'en-US');
+  };
+
+  if (pageLoading) return <LoadingPage name={t('profile.loading', 'Loading Profile...')} />;
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-black via-purple-900/10 to-black">
@@ -91,10 +100,12 @@ const Profile = () => {
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
-            <h1 className="text-3xl  font-bold text-transparent md:text-4xl ml-10 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">
-              Profile Settings
+            <h1 className="text-3xl font-bold text-transparent md:text-4xl ml-10 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">
+              {t('profile.title', 'Profile Settings')}
             </h1>
-            <p className="mt-2 text-gray-400">Manage your account preferences and information</p>
+            <p className="mt-2 text-gray-400">
+              {t('profile.subtitle', 'Manage your account preferences and information')}
+            </p>
           </motion.div>
 
           {/* Profile Card with animation */}
@@ -134,11 +145,11 @@ const Profile = () => {
                 >
                   {editMode ? (
                     <>
-                      <FaTimes className="w-4 h-4" /> Cancel
+                      <FaTimes className="w-4 h-4" /> {t('profile.buttons.cancel', 'Cancel')}
                     </>
                   ) : (
                     <>
-                      <FaEdit className="w-4 h-4" /> Edit Profile
+                      <FaEdit className="w-4 h-4" /> {t('profile.buttons.editProfile', 'Edit Profile')}
                     </>
                   )}
                 </motion.button>
@@ -156,7 +167,9 @@ const Profile = () => {
                       transition={{ duration: 0.3 }}
                       className="space-y-2"
                     >
-                      <label className="block text-sm font-medium text-gray-400">First Name</label>
+                      <label className="block text-sm font-medium text-gray-400">
+                        {t('profile.fields.firstName', 'First Name')}
+                      </label>
                       <input
                         type="text"
                         value={profile.fname || ''}
@@ -172,7 +185,9 @@ const Profile = () => {
                       transition={{ duration: 0.3, delay: 0.1 }}
                       className="space-y-2"
                     >
-                      <label className="block text-sm font-medium text-gray-400">Last Name</label>
+                      <label className="block text-sm font-medium text-gray-400">
+                        {t('profile.fields.lastName', 'Last Name')}
+                      </label>
                       <input
                         type="text"
                         value={profile.lname || ''}
@@ -188,7 +203,9 @@ const Profile = () => {
                       transition={{ duration: 0.3, delay: 0.2 }}
                       className="space-y-2 md:col-span-2"
                     >
-                      <label className="block text-sm font-medium text-gray-400">Email Address</label>
+                      <label className="block text-sm font-medium text-gray-400">
+                        {t('profile.fields.emailAddress', 'Email Address')}
+                      </label>
                       <input
                         type="email"
                         value={profile.email || ''}
@@ -217,7 +234,7 @@ const Profile = () => {
                         <BeatLoader size={8} color="#ffffff" />
                       ) : (
                         <>
-                          <FaCheck className="w-4 h-4" /> Save Changes
+                          <FaCheck className="w-4 h-4" /> {t('profile.buttons.saveChanges', 'Save Changes')}
                         </>
                       )}
                     </motion.button>
@@ -232,7 +249,9 @@ const Profile = () => {
                     transition={{ duration: 0.3 }}
                     className="p-4 md:p-6 transition-all border rounded-xl bg-purple-500/5 border-purple-500/10 hover:border-purple-500/20 hover:bg-purple-500/10 hover:shadow-lg hover:shadow-purple-500/5"
                   >
-                    <p className="text-sm font-medium text-gray-400">First Name</p>
+                    <p className="text-sm font-medium text-gray-400">
+                      {t('profile.fields.firstName', 'First Name')}
+                    </p>
                     <p className="mt-2 text-lg text-white">{profile.fname}</p>
                   </motion.div>
                   <motion.div 
@@ -242,7 +261,9 @@ const Profile = () => {
                     transition={{ duration: 0.3, delay: 0.1 }}
                     className="p-4 md:p-6 transition-all border rounded-xl bg-purple-500/5 border-purple-500/10 hover:border-purple-500/20 hover:bg-purple-500/10 hover:shadow-lg hover:shadow-purple-500/5"
                   >
-                    <p className="text-sm font-medium text-gray-400">Last Name</p>
+                    <p className="text-sm font-medium text-gray-400">
+                      {t('profile.fields.lastName', 'Last Name')}
+                    </p>
                     <p className="mt-2 text-lg text-white">{profile.lname}</p>
                   </motion.div>
                   <motion.div 
@@ -252,7 +273,9 @@ const Profile = () => {
                     transition={{ duration: 0.3, delay: 0.2 }}
                     className="p-4 md:p-6 transition-all border rounded-xl bg-purple-500/5 border-purple-500/10 hover:border-purple-500/20 hover:bg-purple-500/10 hover:shadow-lg hover:shadow-purple-500/5"
                   >
-                    <p className="text-sm font-medium text-gray-400">Email Address</p>
+                    <p className="text-sm font-medium text-gray-400">
+                      {t('profile.fields.emailAddress', 'Email Address')}
+                    </p>
                     <p className="mt-2 text-lg text-white break-all">{profile.email}</p>
                   </motion.div>
                   <motion.div 
@@ -262,11 +285,13 @@ const Profile = () => {
                     transition={{ duration: 0.3, delay: 0.3 }}
                     className="p-4 md:p-6 transition-all border rounded-xl bg-purple-500/5 border-purple-500/10 hover:border-purple-500/20 hover:bg-purple-500/10 hover:shadow-lg hover:shadow-purple-500/5"
                   >
-                    <p className="text-sm font-medium text-gray-400">Member Since</p>
+                    <p className="text-sm font-medium text-gray-400">
+                      {t('profile.fields.memberSince', 'Member Since')}
+                    </p>
                     <div className="flex items-center gap-2 mt-2">
                       <FaCalendar className="w-4 h-4 text-purple-400" />
                       <p className="text-lg text-white">
-                        {profile.created_at ? new Date(profile.created_at).toLocaleDateString() : 'N/A'}
+                        {formatDate(profile.created_at)}
                       </p>
                     </div>
                   </motion.div>

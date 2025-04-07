@@ -1,0 +1,933 @@
+{
+    "navigation": {
+      "home": "Accueil",
+      "services": "Nos services",
+      "createBusiness": "Créer mon entreprise",
+      "createWebsite": "Créer mon site web",
+      "contact": "Contact"
+    },
+    "buttons": {
+      "login": "SE CONNECTER"
+    },
+
+    "hero": {
+    "new": "Nouveau",
+    "badge": "BizzWiz - Boostez votre entreprise avec le numérique",
+    "heading1": "Ne soyez plus spectateur du numérique,",
+    "heading2": "intégrez-le pleinement !",
+    "description": "Lancez votre entreprise et créez votre site web en quelques clics avec l'IA!🚀",
+    "cta": "Découvrir les outils IA"
+  },
+  
+  "advantages": {
+    "title": "LES AVANTAGES CLÉS",
+    "viewOffer": "Voir l'offre",
+    "card1": {
+      "title": "Création d'entreprise assistée par IA",
+      "altText": "Icône de création d'entreprise"
+    },
+    "card2": {
+      "title": "Site web prêt en 24 heures",
+      "altText": "Icône de site web"
+    },
+    "card3": {
+      "title": "Outils intelligents pour automatiser votre activité",
+      "altText": "Icône d'outils"
+    },
+    "codeImage": "Extrait de code montrant la fonction addNumbersToToken"
+  },
+
+  "task": {
+    "label": "INTEGRATIONS",
+    "heading": "TASK - Votre assistant IA personnel",
+    "text1": "Ne perdez plus de temps sur les tâches répétitives !",
+    "text2": "TASK est un agent IA conçu pour automatiser et gérer vos tâches en ligne.",
+    "button": "Voir toutes les IA",
+    "imageAlt": "Plateformes et outils d'intégration"
+  },
+  "ads": {
+    "label": "PUBLICITÉ",
+    "title": "ADS IA - Votre publicité boostée par l'Intelligence Artificielle",
+    "description": "Gagnez en visibilité et attirez plus de clients grâce à ADS IA, une IA spécialisée dans la création et l'optimisation de vos campagnes publicitaires.",
+    "button": "En savoir +",
+    "imageAlt": "ADS IA Logo et Certifications"
+  },"token": {
+    "heading": "Le Token WZC - Une crypto du futur pour les entrepreneurs",
+    "description": "WZC n'est pas seulement un jeton, c'est une opportunité pour les entrepreneurs de se positionner dès aujourd'hui dans l'écosystème numérique de demain. En tant que crypto-monnaie de la plateforme BizzWiz, le token WZC offre des avantages exclusifs aux utilisateurs, tout en ayant un potentiel de croissance dans l'univers de la blockchain et des cryptos.",
+    "logoAlt": "Logo du Token WZC",
+    "whyChoose": "Pourquoi choisir WZC ?",
+    "card1": {
+      "title": "Offres et Réductions Exclusives",
+      "description": "Utilisez le token WZC pour bénéficier de réductions sur nos services et d'offres spéciales réservées à nos membres."
+    },
+    "card2": {
+      "title": "Accès à des fonctionnalités premium",
+      "description": "Le token vous permet d'accéder à des outils et des fonctionnalités avancées sur notre plateforme pour faire croître votre entreprise."
+    },
+    "card3": {
+      "title": "Participez à l'avenir de la crypto",
+      "description": "Investissez dans le token WZC et faites partie de notre projet ambitieux qui vise à révolutionner l'univers numérique et les petites entreprises."
+    },
+    "future": {
+      "title": "Le WZC, une crypto qui a de l'avenir",
+      "description": "BizzWiz investit dans l'innovation blockchain pour que le token WZC devienne un acteur clé dans l'écosystème numérique.",
+      "callToAction": "Ne laissez pas passer cette chance de vous préparer à l'avenir. Commencez dès aujourd'hui avec WZC !"
+    },
+    "button": "En savoir +"
+  },
+  "testimonials": {
+    "heading": "Ce que disent nos clients",
+    "description": "Ne laissez plus votre publicité au hasard ! ADS IA génère des annonces percutantes, les optimise en temps réel et maximise votre retour sur investissement. Automatisez votre visibilité et attirez plus de clients sans effort.",
+    "previousAriaLabel": "Témoignage précédent",
+    "nextAriaLabel": "Témoignage suivant",
+    "testimonial1": {
+      "name": "Jean M",
+      "role": "Entrepreneur",
+      "quote": "Grâce à ADS IA, j'ai multiplié mes ventes en ligne sans toucher aux publicités. L'IA optimise tout toute seule, c'est bluffant !"
+    },
+    "testimonial2": {
+      "name": "Sophie L",
+      "role": "Fondatrice d'une boutique en ligne",
+      "quote": "Je n'y connaissais rien en publicité, mais avec ADS IA, mon trafic a explosé en quelques semaines ! Une vraie révolution pour mon business."
+    },
+    "testimonial3": {
+      "name": "David R",
+      "role": "Consultant indépendant",
+      "quote": "Je passais des heures à ajuster mes campagnes. Maintenant, ADS IA le fait pour moi et avec de meilleurs résultats. Un must-have !"
+    }
+  },
+  "community": {
+    "heading": "Rejoignez la communauté",
+    "description": "Rejoignez notre communauté de plus de 4 000 personnes et contribuez à un Internet plus privé et décentralisé. Commencez gratuitement.",
+    "button": "Rejoignez"
+  },
+  "businessCreation": {
+    "title": "Créez votre propre entreprise",
+    "subtitle": "gratuitement grâce à l'IA",
+    "emailPlaceholder": "Votre email",
+    "button": "Essayez gratuitement",
+    "noCreditCard": "Aucune carte de crédit requise · c'est gratuit"
+  },
+  "footer": {
+    "title": "Legal",
+    "legalNotice": "Mentions Légales",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfUse": "Conditions Générales d'Utilisation (CGU)",
+    "termsOfSale": "Conditions Générales de Vente (CGV)",
+    "copyright": "Droits d'Auteur et Propriété Intellectuelle",
+    "accessibility": "Accessibilité",
+    "faq": "FAQ"
+  },
+  "register": {
+  "title": "Créer un compte",
+  "subtitle": "Entrez vos informations pour créer votre compte",
+  "altTexts": {
+    "logo": "Logo",
+    "blueShape": "Forme décorative bleue",
+    "purpleShape": "Forme décorative violette"
+  },
+  "form": {
+    "firstName": "PRÉNOM",
+    "lastName": "NOM DE FAMILLE",
+    "email": "ADRESSE E-MAIL",
+    "password": "MOT DE PASSE",
+    "confirmPassword": "CONFIRMER LE MOT DE PASSE",
+    "passwordRequirements": "Le mot de passe doit contenir au moins 8 caractères, avec des majuscules, des minuscules, des chiffres et des caractères spéciaux.",
+    "termsAgreement": "J'accepte les Conditions d'utilisation et la Politique de confidentialité",
+    "createAccount": "CRÉER UN COMPTE",
+    "orSignUpWith": "ou inscrivez-vous avec",
+    "signInWithGoogle": "Se connecter avec Google",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "signIn": "Se connecter"
+  },
+  "passwordStrength": {
+    "weak": "Faible",
+    "medium": "Moyen",
+    "strong": "Fort",
+    "veryStrong": "Très fort"
+  },
+  "verification": {
+    "title": "E-mail de vérification envoyé !",
+    "message": "Nous avons envoyé un e-mail de vérification à",
+    "instruction": "Veuillez vérifier votre boîte de réception et cliquer sur le lien de vérification pour activer votre compte.",
+    "important": "Important :",
+    "checkSpam": "Si vous ne voyez pas l'e-mail dans votre boîte de réception, veuillez vérifier votre dossier spam ou courrier indésirable.",
+    "resend": "Renvoyer l'e-mail de vérification",
+    "sending": "Envoi...",
+    "goToLogin": "Aller à la connexion"
+  },
+  "toasts": {
+    "success": "Inscription réussie",
+    "failed": "Échec de l'inscription",
+    "fillAllFields": "Veuillez remplir tous les champs",
+    "weakPassword": "Le mot de passe est trop faible. Incluez des majuscules, des minuscules, des chiffres et des caractères spéciaux.",
+    "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+    "acceptTerms": "Veuillez accepter les conditions générales",
+    "timeout": "L'inscription prend plus de temps que prévu.",
+    "successVerification": "Inscription réussie ! Veuillez vérifier votre e-mail pour activer votre compte.",
+    "resendSuccess": "E-mail de vérification renvoyé avec succès !",
+    "resendFailed": "Échec de l'envoi de l'e-mail de vérification"
+  }
+},
+"login": {
+    "welcomeBack": "Bienvenue !",
+    "enterCredentials": "Entrez vos identifiants pour accéder à votre compte",
+    "emailAddress": "ADRESSE EMAIL",
+    "password": "MOT DE PASSE",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?",
+    "loginButton": "SE CONNECTER",
+    "continueWith": "ou continuer avec",
+    "signInWithGoogle": "Se connecter avec Google",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "signUp": "inscrivez-vous",
+    "emailNotVerified": "Email Non Vérifié",
+    "emailNotVerifiedDescription": "Votre email",
+    "checkInbox": "n'a pas encore été vérifié. Veuillez consulter votre boîte de réception pour le lien de vérification que nous avons envoyé lors de votre inscription.",
+    "note": "Remarque",
+    "checkSpam": "Si vous ne voyez pas l'e-mail dans votre boîte de réception, veuillez vérifier votre dossier spam ou courrier indésirable.",
+    "sending": "Envoi en cours...",
+    "resendVerificationEmail": "Renvoyer l'e-mail de vérification",
+    "backToLogin": "Retour à la connexion",
+    "invalidEmail": "Veuillez entrer une adresse e-mail valide",
+    "passwordRequired": "Le mot de passe est requis",
+    "passwordTooShort": "Le mot de passe doit comporter au moins 8 caractères",
+    "success": "Connexion réussie",
+    "failed": "Échec de la connexion. Veuillez réessayer."
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oublié ?",
+    "instruction": "Entrez votre email et nous vous enverrons un lien de réinitialisation",
+    "emailAddress": "ADRESSE EMAIL",
+    "emailRequired": "L'email est requis",
+    "invalidEmail": "Veuillez entrer une adresse email valide",
+    "resetLinkSent": "Lien de réinitialisation envoyé ! Vérifiez votre email.",
+    "resetLinkFailed": "Échec de l'envoi du lien de réinitialisation.",
+    "emailSent": "EMAIL ENVOYÉ",
+    "sendResetLink": "ENVOYER LE LIEN",
+    "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
+    "backToLogin": "Retour à la connexion"
+  },
+  "resetPassword": {
+    "title": "Réinitialiser le mot de passe",
+    "enterNewPassword": "Entrez votre nouveau mot de passe ci-dessous",
+    "newPassword": "NOUVEAU MOT DE PASSE",
+    "confirmPassword": "CONFIRMER LE MOT DE PASSE",
+    "passwordRequirements": "Le mot de passe doit contenir au moins 8 caractères avec des majuscules, des minuscules, des chiffres et des caractères spéciaux.",
+    "passwordResetButton": "MOT DE PASSE RÉINITIALISÉ",
+    "resetPasswordButton": "RÉINITIALISER LE MOT DE PASSE",
+    "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
+    "backToLogin": "Retour à la connexion",
+    "invalidResetLink": "Lien de réinitialisation invalide !",
+    "allFieldsRequired": "Tous les champs sont requis !",
+    "passwordTooShort": "Le mot de passe doit comporter au moins 8 caractères.",
+    "successRedirecting": "Réinitialisation du mot de passe réussie ! Redirection vers la connexion...",
+    "failedReset": "Échec de la réinitialisation du mot de passe.",
+    "passwordStrength": {
+      "weak": "Faible",
+      "medium": "Moyen",
+      "strong": "Fort",
+      "veryStrong": "Très fort"
+    }
+  },
+  "verifyEmail": {
+    "title": "Vérification d'Email",
+    "verifying": "Vérification de votre adresse e-mail...",
+    "invalidLink": "Lien de vérification invalide. Jeton ou e-mail manquant.",
+    "successMessage": "Email vérifié avec succès !",
+    "verificationFailed": "La vérification a échoué.",
+    "tryAgain": "La vérification a échoué. Veuillez réessayer.",
+    "emailNotFound": "Adresse e-mail introuvable.",
+    "verificationSuccess": "Votre e-mail a été vérifié avec succès !",
+    "redirecting": "Vous serez redirigé vers la page de connexion dans quelques secondes.",
+    "goToLogin": "Aller à la Connexion",
+    "resendEmail": "Renvoyer l'e-mail de vérification",
+    "backToLogin": "Retour à la Connexion"
+  },
+  "dashboard": {
+    "loading": "Chargement du Tableau de Bord",
+    "welcome": "Bienvenue",
+    "overview": "Voici un aperçu de l'état et de l'activité de votre compte",
+    "notAvailable": "Non disponible",
+    "errors": {
+      "loginRequired": "Veuillez vous connecter pour continuer",
+      "unknown": "Une erreur inconnue s'est produite"
+    },
+    "cards": {
+      "availableCredits": "Crédits Disponibles",
+      "currentPlan": "Abonnement Actuel",
+      "noActivePlan": "Aucun Abonnement Actif",
+      "planExpires": "Expiration",
+      "days": "Jours",
+      "expires": "Expire le",
+      "autoRenewEnabled": "Renouvellement automatique activé",
+      "autoRenewDisabled": "Renouvellement automatique désactivé"
+    },
+    "usageStats": {
+      "logoRequests": "Demandes de Logo",
+      "chatHistory": "Historique de Chat",
+      "bizWebAI": "BizWebAI",
+      "noUsageYet": "Pas Encore d'Utilisation"
+    },
+    "usageBreakdown": {
+      "title": "Répartition d'Utilisation",
+      "logoRequests": "Demandes de Logo",
+      "chatHistory": "Historique de Chat",
+      "bizWebAI": "BizWebAI"
+    },
+    "planDetails": {
+      "title": "Caractéristiques de l'Abonnement",
+      "planName": "Nom de l'Abonnement",
+      "price": "Prix",
+      "annualSubscription": "Abonnement Annuel",
+      "monthlySubscription": "Abonnement Mensuel",
+      "activated": "Activé le :",
+      "expires": "Expire le :",
+      "autoRenewal": "Renouvellement auto :",
+      "enabled": "Activé",
+      "disabled": "Désactivé",
+      "featuresIncluded": "Fonctionnalités Incluses :",
+      "noFeatures": "Aucune fonctionnalité disponible",
+      "planExpires": "L'abonnement expire le :",
+      "noActivePlan": "Aucun abonnement actif"
+    },
+    "transactionHistory": {
+      "title": "Historique des Transactions",
+      "credits": "Crédits",
+      "noTransactions": "Aucune transaction trouvée",
+      "willAppearHere": "Vos transactions récentes apparaîtront ici",
+      "types": {
+        "subscription": "Abonnement",
+        "credit": "Achat de Crédits",
+        "payment": "Paiement",
+        "transaction": "Transaction"
+      }
+    },
+    "buttons": {
+      "addCredits": "Ajouter des Crédits",
+      "upgradePlan": "Améliorer l'Abonnement",
+      "manage": "Gérer",
+      "viewPlans": "Voir les Abonnements",
+      "manageSubscription": "Gérer l'Abonnement",
+      "viewAllTransactions": "Voir Toutes les Transactions"
+    }
+  },
+  "profile": {
+    "loading": "Chargement du profil...",
+    "title": "Paramètres du profil",
+    "subtitle": "Gérez vos préférences et informations de compte",
+    "notAvailable": "N/D",
+    "errors": {
+      "loginRequired": "Veuillez vous connecter pour continuer",
+      "unknown": "Une erreur inconnue s'est produite",
+      "updateFailed": "Échec de la mise à jour du profil"
+    },
+    "success": {
+      "profileUpdated": "Profil mis à jour avec succès"
+    },
+    "fields": {
+      "firstName": "Prénom",
+      "lastName": "Nom de famille",
+      "emailAddress": "Adresse e-mail",
+      "memberSince": "Membre depuis"
+    },
+    "buttons": {
+      "editProfile": "Modifier le profil",
+      "cancel": "Annuler",
+      "saveChanges": "Enregistrer les modifications"
+    }
+  },
+  "contact": {
+    "loading": "Chargement des informations de contact...",
+    "title": "Contactez-nous",
+    "subtitle": "Nous serions ravis d'avoir de vos nouvelles. Remplissez le formulaire ci-dessous ou utilisez nos coordonnées.",
+    "form": {
+      "title": "Envoyez-nous un message",
+      "fullName": "Nom complet",
+      "emailAddress": "Adresse e-mail",
+      "yourMessage": "Votre message",
+      "sending": "Envoi en cours...",
+      "sendMessage": "Envoyer le message"
+    },
+    "info": {
+      "title": "Informations de contact",
+      "phoneNumber": "Numéro de téléphone",
+      "emailAddress": "Adresse e-mail",
+      "address": "Adresse",
+      "workingHours": "Heures d'ouverture",
+      "notAvailable": "Non disponible",
+      "responseTime": "Nous nous efforçons de répondre à toutes les demandes dans un délai de 24 heures pendant les jours ouvrables. Pour les questions urgentes, veuillez nous contacter directement par téléphone."
+    },
+    "errors": {
+      "loginRequired": "Veuillez vous connecter pour continuer",
+      "default": "Une erreur s'est produite",
+      "submitFailed": "Une erreur s'est produite. Veuillez réessayer."
+    },
+    "success": {
+      "messageSent": "Votre message a été envoyé avec succès !"
+    }
+  },
+  "aistart": {
+    "mascotAlt": "Mascotte",
+    "locked": {
+      "title": "Fonctionnalité Premium Verrouillée",
+      "description": "Débloquez nos puissantes fonctionnalités d'IA pour améliorer vos projets numériques et optimiser votre flux de travail.",
+      "upgradeButton": "Passer à Premium"
+    },
+    "coming": {
+      "title": "Bientôt Disponible",
+      "description": "Quelque chose d'incroyable est en préparation. Restez à l'écoute pour quelque chose de spécial.",
+      "emailPlaceholder": "Entrez votre email",
+      "notifyButton": "Me Notifier"
+    },
+    "social": {
+      "twitter": "Twitter",
+      "discord": "Discord",
+      "instagram": "Instagram"
+    }
+  },
+  "tasks": {
+    "mascotAlt": "Mascotte",
+    "locked": {
+      "title": "Fonctionnalité Premium Verrouillée",
+      "description": "Débloquez nos puissantes fonctionnalités de gestion des tâches pour améliorer vos projets numériques et optimiser votre flux de travail.",
+      "upgradeButton": "Passer à Premium"
+    },
+    "coming": {
+      "title": "Bientôt Disponible",
+      "description": "Quelque chose d'incroyable est en préparation. Restez à l'écoute pour quelque chose de spécial.",
+      "emailPlaceholder": "Entrez votre email",
+      "notifyButton": "Me Notifier"
+    },
+    "social": {
+      "twitter": "Twitter",
+      "discord": "Discord",
+      "instagram": "Instagram"
+    }
+  },
+ "websiteDashboard": {
+    "loading": "Chargement...",
+    "title": "BizWeb",
+    "subtitle": "Transformez votre présence numérique avec des solutions de site web personnalisées. Suivez, gérez et créez des demandes de site web adaptées aux besoins de votre entreprise.",
+    "untitledProject": "Projet sans titre",
+    "more": "de plus",
+    "due": "Échéance",
+    "errors": {
+      "unknown": "Une erreur inconnue s'est produite"
+    },
+    "emptyState": {
+      "title": "Pas encore de demandes de site web",
+      "description": "Commencez votre parcours numérique en créant votre première demande de site web. Nous vous aiderons à donner vie à votre vision en ligne."
+    },
+    "locked": {
+      "title": "Fonctionnalité Verrouillée",
+      "description": "Le tableau de bord des demandes de site web est disponible exclusivement pour les utilisateurs premium. Mettez à niveau votre abonnement pour accéder aux services de développement web personnalisés et gérer vos demandes de projet.",
+      "upgradeButton": "Mettre à niveau maintenant"
+    },
+    "noResults": {
+      "title": "Aucune demande correspondante trouvée",
+      "description": "Essayez d'ajuster vos termes de recherche ou vos filtres pour trouver ce que vous cherchez."
+    },
+    "filters": {
+      "searchPlaceholder": "Rechercher des projets...",
+      "allStatuses": "Tous les statuts"
+    },
+    "status": {
+      "pending": "En attente",
+      "inProgress": "En cours",
+      "completed": "Terminé",
+      "rejected": "Rejeté"
+    },
+    "buttons": {
+      "createFirst": "Créer la première demande de site web",
+      "newRequest": "Nouvelle demande",
+      "newWebsiteRequest": "Nouvelle demande de site web",
+      "clearFilters": "Effacer les filtres",
+      "viewDetails": "Voir les détails",
+      "close": "Fermer"
+    },
+    "modal": {
+      "projectDescription": "Description du projet",
+      "message": "Message",
+      "technologies": "Technologies",
+      "budget": "Budget",
+      "deadline": "Date limite",
+      "features": "Fonctionnalités"
+    }
+  },
+  "projectForm": {
+    "title": "Formulaire de Demande de Projet",
+    "subtitle": "Parlez-nous de votre projet",
+    "sections": {
+      "projectDetails": "Détails du Projet",
+      "technicalRequirements": "Exigences Techniques",
+      "timelineBudget": "Calendrier & Budget",
+      "projectFiles": "Fichiers du Projet"
+    },
+    "fields": {
+      "projectName": "Nom du Projet",
+      "projectType": "Type de Projet",
+      "projectDescription": "Description du Projet",
+      "frameworkPreferences": "Préférences de Framework",
+      "keyFeatures": "Fonctionnalités Clés",
+      "projectDeadline": "Date Limite du Projet",
+      "budgetAmount": "Montant du Budget (USD)"
+    },
+    "placeholders": {
+      "projectName": "Entrez le nom du projet",
+      "selectProjectType": "Sélectionnez le type de projet",
+      "projectDescription": "Décrivez votre projet en détail",
+      "framework": "Listez les frameworks ou technologies préférés",
+      "features": "Listez les fonctionnalités principales requises",
+      "budget": "Entrez le montant du budget"
+    },
+    "projectTypes": {
+      "web": "Application Web",
+      "mobile": "Application Mobile",
+      "desktop": "Logiciel de Bureau",
+      "ecommerce": "Plateforme E-commerce",
+      "enterprise": "Solution d'Entreprise"
+    },
+    "fileUpload": {
+      "dropFiles": "Déposez les fichiers ici ou cliquez pour parcourir",
+      "supportedFormats": "Formats supportés: PDF, DOC, DOCX, TXT, CSV, XLS, XLSX (Max 10MB)",
+      "removeFile": "Supprimer le fichier"
+    },
+    "terms": {
+      "agreement": "J'accepte les termes et conditions de la demande de projet, y compris le calendrier du projet, les livrables et les conditions de paiement tels que discutés."
+    },
+    "submission": {
+      "processing": "Traitement de votre demande...",
+      "submitting": "Soumission en cours...",
+      "submitButton": "Soumettre la Demande",
+      "reviewTime": "Votre demande sera examinée dans les 24 à 48 heures"
+    },
+    "validation": {
+      "projectNameRequired": "Le nom du projet est requis",
+      "projectTypeRequired": "Le type de projet est requis",
+      "descriptionRequired": "La description du projet est requise",
+      "frameworkRequired": "Les détails du framework sont requis",
+      "featuresRequired": "Les fonctionnalités sont requises",
+      "deadlineRequired": "La date limite est requise",
+      "amountRequired": "Un montant valide est requis",
+      "termsRequired": "L'acceptation des conditions est requise"
+    },
+    "errors": {
+      "pleaseLogin": "Veuillez vous reconnecter",
+      "unknown": "Une erreur inconnue s'est produite",
+      "unexpected": "Une erreur inattendue s'est produite",
+      "fileTooLarge": "Fichier trop volumineux: {{fileName}} (max 10MB)",
+      "fillAllFields": "Veuillez remplir correctement tous les champs obligatoires",
+      "correctHighlighted": "Veuillez corriger les erreurs surlignées",
+      "submissionFailed": "Échec de la soumission de la demande de projet"
+    },
+    "success": {
+      "submitted": "Demande de projet soumise avec succès"
+    }
+  },
+  "logoHistory": {
+      "loading": "Chargement des Logos...",
+      "title": "LogoAI",
+      "subtitle": "Créez des logos impressionnants générés par IA. Générez, gérez et téléchargez des logos uniques adaptés à l'identité de votre marque.",
+      "errors": {
+        "loadingError": "Erreur de Chargement des Logos",
+        "loginRequired": "Veuillez vous connecter pour continuer",
+        "default": "Une erreur s'est produite"
+      },
+      "buttons": {
+        "retry": "Réessayer",
+        "createFirst": "Créer Premier Logo",
+        "newRequest": "Nouvelle Demande de Logo",
+        "details": "Détails",
+        "back": "Retour",
+        "download": "Télécharger Logo",
+        "preparing": "Préparation..."
+      },
+      "status": {
+        "pending": "en attente",
+        "completed": "terminé"
+      },
+      "emptyState": {
+        "title": "Pas Encore de Demandes de Logo",
+        "description": "Commencez votre parcours de marque en créant votre première demande de logo générée par IA. Nous vous aiderons à créer le logo parfait pour votre marque."
+      },
+      "logoDetails": {
+        "title": "Détails du Logo",
+        "prompt": "Instruction",
+        "creditsUsed": "Crédits Utilisés",
+        "date": "Date inconnue",
+        "invalidDate": "Date invalide",
+        "noPrompt": "Aucune instruction disponible"
+      },
+      "imageStatus": {
+        "loading": "Chargement de l'image...",
+        "failed": "Erreur de Chargement d'Image"
+      }
+    },
+    "logoRequest": {
+      "loading": "Chargement...",
+      "title": "Créateur de Logo AI",
+      "subtitle": "Transformez votre vision en un logo impressionnant avec l'IA",
+      "credits": {
+        "label": "Crédits",
+        "cost": "Coût:"
+      },
+      "prompt": {
+        "placeholder": "Décrivez votre logo idéal avec autant de détails que possible...",
+        "characters": "caractères",
+        "tipsButton": "Afficher les conseils pour de meilleurs prompts",
+        "tips": {
+          "title": "Conseils pour de meilleurs prompts de logo:",
+          "items": [
+            "Spécifiez le nom de l'entreprise et le secteur d'activité",
+            "Mentionnez les couleurs préférées ou le schéma de couleurs",
+            "Décrivez le style (minimaliste, moderne, vintage, etc.)",
+            "Suggérez des éléments graphiques ou des symboles à inclure",
+            "Mentionnez les préférences de police ou de typographie"
+          ]
+        }
+      },
+      "buttons": {
+        "generate": "Générer un Logo",
+        "creatingMagic": "Création en cours...",
+        "createNew": "Créer Nouveau",
+        "createNewShort": "Nouveau",
+        "download": "Télécharger",
+        "save": "Enregistrer aux Favoris",
+        "saveShort": "Enregistrer",
+        "retry": "Réessayer"
+      },
+      "generatingStages": {
+        "analyzing": "Analyse du prompt...",
+        "crafting": "Conception des éléments...",
+        "finalizing": "Finalisation de votre logo...",
+        "creating": "Création de la magie..."
+      },
+      "results": {
+        "title": "Votre Création de Logo"
+      },
+      "errors": {
+        "emptyPrompt": "Veuillez saisir un prompt pour le logo",
+        "insufficientCredits": "Crédits insuffisants. Vous avez besoin de ${cost} pour générer un logo.",
+        "generateFailed": "Échec de la génération du logo",
+        "downloadFailed": "Échec du téléchargement du logo: ",
+        "loadFailed": "Échec du chargement de l'image du logo",
+        "loadFailedRetry": "Échec du chargement de l'image. Veuillez réessayer.",
+        "unknownError": "Erreur inconnue"
+      },
+      "success": {
+        "logoGenerated": "Logo généré avec succès!",
+        "downloadStarted": "Téléchargement du logo commencé!",
+        "downloadInitiated": "Téléchargement du logo initié!"
+      }
+    },
+    "loadings": {
+      "default": "Chargement",
+      "messages": {
+        "loadingData": "Chargement des données",
+        "almostThere": "Presque terminé",
+        "settingUp": "Configuration en cours"
+      },
+      "pleaseWait": "Veuillez patienter un instant"
+    },
+    "sidebar": {
+      "logoAlt": "Logo",
+      "menuItems": {
+        "home": "Accueil",
+        "profile": "Profil",
+        "logoAI": "LogoAI",
+        "bizzPlan": "BizzPlan",
+        "aiStart": "AI-Start",
+        "bizWebAI": "BizWeb AI",
+        "task": "Tâches",
+        "bizFormation": "BizFormation",
+        "creditsPurchase": "Acheter des Crédits",
+        "subscriptionPurchase": "Acheter un Abonnement"
+      },
+      "actions": {
+        "contactUs": "Nous contacter",
+        "logout": "Se déconnecter"
+      },
+      "notifications": {
+        "logoutSuccess": "Déconnexion réussie",
+        "error": "Une erreur s'est produite"
+      },
+      "aria": {
+        "openMenu": "Ouvrir le menu",
+        "closeMenu": "Fermer le menu",
+        "expandSidebar": "Développer la barre latérale",
+        "collapseSidebar": "Réduire la barre latérale"
+      }
+    },
+    "creditPurchase": {
+    "title": "Acheter des Crédits",
+    "subtitle": "Ajoutez plus de crédits à votre compte.",
+    "creditRate": "1 crédit = {{price}} $",
+    "defaultRate": "1 crédit = 1,00 $",
+    "selectPackage": "Sélectionnez un Forfait de Crédits",
+    "popular": "Populaire",
+    "percentOff": "{{percent}}% de réduction",
+    "noPackages": "Aucun forfait de crédits disponible pour le moment.",
+    "currentBalance": "Solde Actuel",
+    "creditsCount": "{{count}} Crédits",
+    "summary": "Résumé",
+    "creditsToPurchase": "Crédits à Acheter",
+    "pricePerCredit": "Prix par Crédit",
+    "standardPrice": "Prix Standard",
+    "discount": "Réduction",
+    "totalAmount": "Montant Total",
+    "loading": "Chargement...",
+    "refreshHistory": "Actualiser l'historique des transactions de crédits",
+    "viewHistory": "Voir l'historique des transactions de crédits",
+    "paymentDetails": "Détails du Paiement",
+    "loadingPayment": "Chargement du système de paiement...",
+    "selectToContinue": "Veuillez sélectionner un forfait de crédits pour continuer.",
+    "transactionHistory": "Historique des Transactions de Crédits",
+    "date": "Date",
+    "transactionId": "ID de Transaction",
+    "amount": "Montant",
+    "credits": "Crédits",
+    "method": "Méthode",
+    "creditCard": "Carte de Crédit",
+    "status": "Statut",
+    "noTransactions": "Aucun historique de transaction de crédits trouvé.",
+    "pleaseLogin": "Veuillez vous connecter pour continuer",
+    "loadPackagesError": "Impossible de charger les forfaits de crédits. Veuillez réessayer plus tard.",
+    "paymentInitError": "Impossible d'initialiser le système de paiement. Veuillez réessayer plus tard.",
+    "genericError": "Une erreur s'est produite",
+    "fetchTransactionsError": "Échec de la récupération de l'historique des transactions",
+    "loadHistoryError": "Échec du chargement de l'historique des transactions",
+    "creditAmount": "{{amount}} Crédits",
+    "statusTypes": {
+      "completed": "Terminé",
+      "pending": "En attente",
+      "failed": "Échoué",
+      "processing": "En cours"
+    }
+  },
+"checkout": {
+    "form": {
+      "cardDetails": "Détails de la carte",
+      "autoRenewal": {
+        "title": "Activer le renouvellement automatique",
+        "enabledInfo": "Votre abonnement sera automatiquement renouvelé tous les {{term}} jusqu'à son annulation. Vous pouvez annuler à tout moment dans les paramètres de votre compte.",
+        "disabledInfo": "Votre abonnement expirera après {{duration}} sans renouvellement. Vous devrez vous réabonner manuellement.",
+        "year": "an",
+        "month": "mois"
+      },
+      "summary": {
+        "product": "Produit :",
+        "plan": "Forfait :",
+        "billingCycle": "Cycle de facturation :",
+        "duration": "Durée :",
+        "autoRenewal": "Renouvellement automatique :",
+        "enabled": "Activé",
+        "disabled": "Désactivé",
+        "total": "Total :"
+      },
+      "button": {
+        "pay": "Payer ${{price}}",
+        "subscribeWithAutoRenewal": "S'abonner pour ${{price}} avec renouvellement automatique",
+        "subscribe": "S'abonner pour ${{price}}",
+        "processing": "Traitement en cours..."
+      }
+    },
+    "status": {
+      "error": "Paiement échoué. Veuillez vérifier les détails de votre carte et réessayer.",
+      "successCredits": "Paiement réussi ! Les crédits ont été ajoutés à votre compte.",
+      "successSubscription": "Paiement réussi ! Votre abonnement {{planName}} est maintenant actif.",
+      "successAutoRenewal": "Le renouvellement automatique est activé."
+    },
+    "disclaimer": {
+      "securityNotice": "Votre paiement est traité en toute sécurité par Stripe. Nous ne stockons pas les détails de votre carte.",
+      "autoRenewalNotice": "En vous abonnant avec renouvellement automatique, vous nous autorisez à débiter périodiquement votre carte selon le cycle de facturation jusqu'à ce que vous annuliez votre abonnement."
+    },
+    "errors": {
+      "cardElementNotFound": "Élément de carte non trouvé",
+      "paymentMethodCreation": "Échec de la création du mode de paiement",
+      "subscriptionCreation": "Échec de la création de l'abonnement",
+      "paymentConfirmation": "La confirmation du paiement a échoué",
+      "paymentInitialization": "Impossible d'initialiser le paiement. Veuillez réessayer.",
+      "paymentVerification": "Paiement traité mais vérification échouée",
+      "paymentStatus": "État du paiement : {{status}}. Veuillez réessayer ou contacter le support.",
+      "generic": "Le paiement a échoué. Veuillez réessayer."
+    },
+    "success": {
+      "subscription": "Abonnement réussi au forfait {{planName}} avec renouvellement automatique activé !",
+      "subscriptionWithoutAutoRenewal": "Abonnement réussi au forfait {{planName}} !",
+      "credits": "Achat réussi de {{credits}} crédits !"
+    },
+    "duration": {
+      "monthly": "30 jours",
+      "yearly": "365 jours"
+    }
+  },
+ "loading": {
+    "loadingPlans": "Chargement des plans...",
+    "loadingPayment": "Chargement du système de paiement..."
+  },
+  "messages": {
+    "loginRequired": "Veuillez vous connecter pour continuer",
+    "loadPlansError": "Impossible de charger les plans tarifaires. Veuillez réessayer plus tard.",
+    "genericError": "Une erreur s'est produite",
+    "paymentSuccess": "Paiement réussi ! Votre abonnement est maintenant actif.",
+    "paymentError": "Échec du paiement. Veuillez réessayer.",
+    "subscriptionUpdateSuccess": "Abonnement mis à jour avec succès !",
+    "subscriptionUpdateError": "Échec de la mise à jour de l'abonnement. Veuillez réessayer."
+  },
+  "pricing": {
+    "title": {
+      "plans": "Sélectionnez un plan d'abonnement",
+      "subscriptions": "Gérez vos abonnements"
+    },
+    "subtitle": {
+      "plans": "Choisissez le plan qui correspond le mieux à vos besoins et débloquez des fonctionnalités premium.",
+      "subscriptions": "Affichez et gérez vos abonnements actifs et les paramètres de renouvellement automatique."
+    },
+    "currentPlan": "Plan actuel : {{plan}} • {{days}} jours restants",
+    "autoRenewEnabled": "Renouvellement automatique activé",
+    "autoRenewDisabled": "Renouvellement automatique désactivé",
+    "view": {
+      "plans": "Parcourir les plans",
+      "subscriptions": "Gérer les abonnements"
+    },
+    "billing": {
+      "monthly": "Mensuel",
+      "yearly": "Annuel",
+      "save": "Économisez 20%"
+    },
+    "duration": {
+      "monthly": "Mensuel (30 jours)",
+      "yearly": "Annuel (365 jours)"
+    },
+    "availablePlans": "Plans disponibles",
+    "popularBadge": "Populaire",
+    "defaultPlanDescription": "Abonnement {{plan}}",
+    "price": "{{price}} $",
+    "yearlySavings": "Économisez {{amount}} $",
+    "currentPlanLabel": "Plan actuel",
+    "expiresIn": "Expire dans",
+    "daysRemaining": "{{days}} jours restants",
+    "autoRenewal": "Renouvellement automatique",
+    "enabled": "Activé",
+    "disabled": "Désactivé",
+    "summary": "Résumé",
+    "selectedPlanLabel": "Plan sélectionné",
+    "billingCycleLabel": "Cycle de facturation",
+    "featuresLabel": "Fonctionnalités",
+    "totalAmount": "Montant total",
+    "refreshTransactions": "Actualiser",
+    "viewTransactions": "Voir",
+    "transactionHistory": "Historique des transactions",
+    "paymentDetails": "Détails de paiement",
+    "selectPlanPrompt": "Veuillez sélectionner un plan pour continuer",
+    "noPlansAvailable": "Aucun plan disponible pour le moment.",
+    "noTransactionsFound": "Aucune transaction d'abonnement trouvée.",
+    "date": "Date",
+    "plan": "Plan",
+    "amount": "Montant",
+    "stat": "Statut",
+    "status": {
+      "completed": "Terminé",
+      "pending": "En attente",
+      "failed": "Échoué",
+      "unknown": "Inconnu"
+    }
+  },
+  "message": {
+    "fetchSubscriptionsError": "Échec de la récupération des abonnements",
+    "autoRenewalEnabled": "Renouvellement automatique activé avec succès",
+    "autoRenewalDisabled": "Renouvellement automatique désactivé avec succès",
+    "updateAutoRenewalError": "Échec de la mise à jour du renouvellement automatique",
+    "subscriptionCancelSuccess": "Renouvellement automatique de l'abonnement annulé avec succès",
+    "subscriptionCancelError": "Échec de l'annulation de l'abonnement",
+    "genericError": "Une erreur s'est produite"
+  },
+  "subscription": {
+    "manageSubscriptions": "Gérer les abonnements",
+    "noActiveSubscriptions": "Vous n'avez aucun abonnement actif",
+    "choosePlanPrompt": "Choisissez un plan pour débloquer des fonctionnalités premium",
+    "plan": "Plan",
+    "autoRenewal": "Renouvellement automatique",
+    "backToPricing": "Retour aux Forfaits",
+    "viewPricingPlans": "Voir les Forfaits",
+    "status": {
+      "active": "Actif",
+      "cancelling": "En cours d'annulation",
+      "expired": "Expiré",
+      "canceled": "Annulé"
+    },
+    "nextBilling": "Prochain paiement",
+    "started": "Commencé",
+    "cancellationNotice": "Renouvellement automatique annulé le {cancelledDate}. Votre abonnement restera actif jusqu'au {endDate}.",
+    "disableAutoRenewal": "Désactiver le renouvellement automatique",
+    "enableAutoRenewal": "Activer le renouvellement automatique",
+    "cancelSubscription": "Annuler l'abonnement",
+    "contactSupport": "Contactez le support client pour obtenir de l'aide concernant votre abonnement",
+    "aboutAutoRenewal": "À propos du renouvellement automatique",
+    "autoRenewalDescription": "Lorsque le renouvellement automatique est activé, votre abonnement sera automatiquement renouvelé à la fin de chaque période de facturation. Vous pouvez désactiver le renouvellement automatique à tout moment pour empêcher le renouvellement de votre abonnement.",
+    "needHelp": "Besoin d'aide ? Contactez notre équipe de support pour obtenir de l'aide concernant votre abonnement.",
+    "manageYourSubscriptions": "Gérez vos abonnements",
+    "manageSubscriptionsDescription": "Affichez et gérez vos abonnements actifs et les paramètres de renouvellement automatique",
+    "cancelConfirmation": "Êtes-vous sûr de vouloir annuler le renouvellement automatique pour votre {planName} ?",
+    "cancelNotice": "Votre abonnement restera actif jusqu'à la fin de la période de facturation en cours ({endDate}). Après cela, il sera annulé et vous perdrez l'accès aux fonctionnalités premium.",
+    "keepSubscription": "Conserver l'abonnement",
+    "cancelAutoRenewal": "Annuler le renouvellement automatique",
+    "subscription": "abonnement",
+    "billing": {
+      "monthly": "mensuel",
+      "yearly": "annuel"
+    }
+  },
+  "businessChat": {
+    "title": "BizzPlan IA",
+    "welcome": "Posez-moi des questions sur le marketing, l'image de marque, la stratégie commerciale et la croissance. Je suis là pour vous aider à réussir !",
+    "viewPreviousConversations": "Voir les conversations précédentes",
+    "inputPlaceholder": "Posez des questions sur la stratégie commerciale, le marketing ou la croissance...",
+    "messageInput": "Saisie de message",
+    "sendMessage": "Envoyer le message",
+    "send": "Envoyer",
+    "insufficientCredits": "Crédits insuffisants. Vous avez besoin de ${{cost}} pour envoyer un message.",
+    "invalidDate": "Date invalide",
+    "errors": {
+      "chatHistoryFailed": "Échec du chargement de l'historique des conversations",
+      "insufficientCredits": "Crédits insuffisants. Vous avez besoin de ${{cost}} pour envoyer un message.",
+      "responseFailure": "Échec de l'obtention d'une réponse",
+      "processingError": "Je suis désolé, je n'ai pas pu traiter votre demande pour le moment.",
+      "connectionError": "J'ai des difficultés à me connecter. Veuillez réessayer dans un instant.",
+      "deleteFailed": "Échec de la suppression de la conversation"
+    },
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette conversation?",
+    "deleteSuccess": "Conversation supprimée",
+    "loading": "Chargement de BizzPlan IA...",
+    "back": "Retour",
+    "chatHistory": "Historique des conversations",
+    "credits": "Crédits",
+    "chat": "Chat",
+    "toggleChatHistory": "Basculer l'historique des conversations",
+    "startNewChat": "Démarrer une nouvelle conversation",
+    "noHistory": "Aucun historique de conversation trouvé",
+    "startYourFirstChat": "Commencez votre première conversation pour obtenir des conseils commerciaux personnalisés"
+  },
+  "bizFormation": {
+    "heading": "Bientôt Disponible",
+    "description": "Quelque chose d'incroyable est en préparation. Restez à l'écoute pour quelque chose de spécial.",
+    "emailPlaceholder": "Entrez votre email",
+    "notifyButton": "Prévenez-moi",
+    "mascotAlt": "Mascotte",
+    "socials": {
+      "twitter": "Twitter",
+      "discord": "Discord",
+      "instagram": "Instagram"
+    }
+  }
+  
+  
+
+  
+
+
+
+
+
+  }

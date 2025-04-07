@@ -10,12 +10,16 @@ import {
   IoInformationCircleOutline
 } from 'react-icons/io5';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next'; // Import translation hook
 import 'react-toastify/dist/ReactToastify.css';
 import SideNavbar from '../userlayout/sidebar';
 import Background from "../../../assets/background.png";
 import ApiService from '../../../Apiservice';
 
 const Logorequest = () => {
+  // Initialize translation hook
+  const { t } = useTranslation();
+  
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [generatedLogo, setGeneratedLogo] = useState(null);
@@ -102,11 +106,11 @@ const Logorequest = () => {
         setImageError(false);
       } else {
         setImageError(true);
-        toast.error(response.message || "Failed to load logo image");
+        toast.error(t('logoRequest.errors.loadFailed', "Failed to load logo image"));
       }
     } catch (error) {
       setImageError(true);
-      toast.error("Failed to load logo image: " + (error.message || "Unknown error"));
+      toast.error(t('logoRequest.errors.loadFailedRetry', "Failed to load logo image: ") + (error.message || t('logoRequest.errors.unknownError', "Unknown error")));
     } finally {
       setLoading(false);
     }
@@ -114,13 +118,13 @@ const Logorequest = () => {
 
   const handleGenerateLogo = async () => {
     if (!prompt.trim()) {
-      toast.error("Please enter a logo prompt");
+      toast.error(t('logoRequest.errors.emptyPrompt', "Please enter a logo prompt"));
       return;
     }
 
     // Check client-side if user has enough credits before making the API call
     if (userCredits !== null && logoCreditCost !== null && userCredits < logoCreditCost) {
-      toast.error(`Insufficient credits. You need $${logoCreditCost} to generate a logo.`);
+      toast.error(t('logoRequest.errors.insufficientCredits', "Insufficient credits. You need ${cost} to generate a logo.").replace('${cost}', logoCreditCost));
       return;
     }
 
@@ -154,12 +158,12 @@ const Logorequest = () => {
         if (response.credits_remaining !== undefined) {
           setUserCredits(response.credits_remaining);
         }
-        toast.success("Logo generated successfully!");
+        toast.success(t('logoRequest.success.logoGenerated', "Logo generated successfully!"));
       } else {
-        toast.error(response.message || "Failed to generate logo");
+        toast.error(response.message || t('logoRequest.errors.generateFailed', "Failed to generate logo"));
       }
     } catch (error) {
-      toast.error(error.message || "Failed to generate logo");
+      toast.error(error.message || t('logoRequest.errors.generateFailed', "Failed to generate logo"));
     } finally {
       setLoading(false);
       setTimeout(() => {
@@ -180,9 +184,9 @@ const Logorequest = () => {
         link.click();
         document.body.removeChild(link);
         
-        toast.success("Logo download started!");
+        toast.success(t('logoRequest.success.downloadStarted', "Logo download started!"));
       } catch (error) {
-        toast.error("Failed to download logo: " + (error.message || "Unknown error"));
+        toast.error(t('logoRequest.errors.downloadFailed', "Failed to download logo: ") + (error.message || t('logoRequest.errors.unknownError', "Unknown error")));
         console.error("Download error:", error);
       }
     } 
@@ -192,9 +196,9 @@ const Logorequest = () => {
         // Open in a new tab or trigger download
         window.open(logoImageUrl, '_blank');
         
-        toast.success("Logo download initiated!");
+        toast.success(t('logoRequest.success.downloadInitiated', "Logo download initiated!"));
       } catch (error) {
-        toast.error("Failed to download logo: " + (error.message || "Unknown error"));
+        toast.error(t('logoRequest.errors.downloadFailed', "Failed to download logo: ") + (error.message || t('logoRequest.errors.unknownError', "Unknown error")));
         console.error("Download error:", error);
       }
     }
@@ -207,7 +211,7 @@ const Logorequest = () => {
     
     // If the image fails to load, show an error placeholder
     e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzJhMmEyYSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjI0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+SW1hZ2UgTG9hZCBFcnJvcjwvdGV4dD48L3N2Zz4=';
-    toast.error("Failed to load logo image. Please try again.");
+    toast.error(t('logoRequest.errors.loadFailedRetry', "Failed to load logo image. Please try again."));
   };
 
   return (
@@ -220,9 +224,9 @@ const Logorequest = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(180,100,255,0.1)_0%,transparent_60%)] animate-pulse-slower"></div>
         <img src={Background} alt="Background" className="absolute inset-0 object-cover w-full h-full opacity-40 animate-bg-zoom" />
         
-        {/* Floating particles */}
+        {/* Floating particles - reduced for better performance on mobile */}
         <div className="particles-container">
-          {[...Array(12)].map((_, i) => (
+          {[...Array(8)].map((_, i) => (
             <div 
               key={i}
               className={`particle particle-${i + 1}`}
@@ -238,92 +242,98 @@ const Logorequest = () => {
           ))}
         </div>
         
-        {/* Main content */}
-        <div className="relative z-10 flex flex-col items-center min-h-screen p-4 lg:p-8">
-          {/* Credit Information Display with animated border - made responsive */}
-          <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 animate-fade-in">
-            <div className="group flex items-center px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 bg-gray-800/60 border border-cyan-500/20 backdrop-blur-lg rounded-lg sm:rounded-xl shadow-lg transition-all duration-300 hover:bg-gray-800/80 hover:border-cyan-500/40">
-              <div className="mr-2 sm:mr-3 p-1.5 sm:p-2 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-lg group-hover:from-cyan-500/30 group-hover:to-purple-500/30 transition-all duration-300">
-                <IoWalletOutline size={16} className="sm:text-xl md:text-2xl text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300" />
-              </div>
-              <div>
-                <span className="text-gray-400 text-xs">Credits</span>
-                <div className="text-white font-medium">
-                  <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                    ${userCredits !== null ? userCredits : '...'}
+        {/* Credit Information Display - Adjusted positioning for better visibility on small screens */}
+        <div className="absolute top-1 xs:top-2 sm:top-3 md:top-4 right-1 xs:right-2 sm:right-3 md:right-4 animate-fade-in z-20">
+          <div className="group flex items-center px-1.5 xs:px-2 sm:px-3 md:px-4 py-1.5 xs:py-2 sm:py-2.5 md:py-3 bg-gray-800/80 border border-cyan-500/30 backdrop-blur-lg rounded-lg sm:rounded-xl shadow-lg transition-all duration-300 hover:bg-gray-800/90 hover:border-cyan-500/40">
+            <div className="mr-1.5 xs:mr-2 sm:mr-3 p-1 xs:p-1.5 sm:p-2 bg-gradient-to-br from-cyan-500/30 to-purple-500/30 rounded-lg group-hover:from-cyan-500/40 group-hover:to-purple-500/40 transition-all duration-300">
+              <IoWalletOutline className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300" />
+            </div>
+            <div>
+              <span className="text-gray-400 text-xxs xs:text-xs">{t('logoRequest.credits.label', 'Credits')}</span>
+              <div className="text-white font-medium text-xs xs:text-sm">
+                <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+                  ${userCredits !== null ? userCredits : '...'}
+                </span>
+                {logoCreditCost !== null && (
+                  <span className="ml-1 xs:ml-1 sm:ml-2 text-gray-400 text-xxs xs:text-xs">
+                    ({t('logoRequest.credits.cost', 'Cost:')} <span className="text-cyan-300">${logoCreditCost}</span>)
                   </span>
-                  {logoCreditCost !== null && (
-                    <span className="ml-1 sm:ml-2 text-gray-400 text-xs">
-                      (Cost: <span className="text-cyan-300">${logoCreditCost}</span>)
-                    </span>
-                  )}
-                </div>
+                )}
               </div>
             </div>
           </div>
-
-          {/* Generator Card - Transparent Background with responsive padding */}
-          <div className="w-full max-w-3xl mx-auto mt-8 sm:mt-12 md:mt-16 bg-transparent backdrop-blur-sm border border-gray-700/30 p-4 sm:p-6 md:p-8 rounded-2xl shadow-2xl animate-float-in overflow-hidden">
+        </div>
+        
+        {/* Main content wrapper with adjusted spacing and padding */}
+        <div className="relative z-10 flex flex-col items-center min-h-screen p-3 xs:p-4 lg:p-8 pt-10 xs:pt-12 sm:pt-14 md:pt-16">
+          {/* Generator Card - Adjusted spacing to prevent overlap with credits */}
+          <div className="w-full max-w-3xl mx-auto mt-16 xs:mt-18 sm:mt-20 md:mt-24 bg-transparent backdrop-blur-sm border border-gray-700/30 p-3 xs:p-4 sm:p-6 md:p-8 rounded-xl xs:rounded-2xl shadow-2xl animate-float-in overflow-hidden">
             {/* Header with glow effect - responsive */}
-            <div className="text-center mb-6 sm:mb-8 relative">
-              <div className="absolute -top-12 sm:-top-16 left-1/2 transform -translate-x-1/2 w-48 sm:w-64 h-48 sm:h-64 bg-cyan-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-              <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2">
-                <div className="p-2 sm:p-3 rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 backdrop-blur-md border border-cyan-500/20 animate-float-subtle">
-                  <IoSparklesOutline size={24} className="sm:text-3xl text-cyan-300" />
+            <div className="text-center mb-4 xs:mb-6 sm:mb-8 relative">
+              <div className="absolute -top-8 xs:-top-12 sm:-top-16 left-1/2 transform -translate-x-1/2 w-32 xs:w-48 sm:w-64 h-32 xs:h-48 sm:h-64 bg-cyan-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+              <div className="flex items-center justify-center gap-1 xs:gap-2 sm:gap-3 mb-1 xs:mb-2">
+                <div className="p-1.5 xs:p-2 sm:p-3 rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 backdrop-blur-md border border-cyan-500/20 animate-float-subtle">
+                  <IoSparklesOutline className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 text-cyan-300" />
                 </div>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300 animate-text-shimmer">AI Logo Creator</h2>
-              <p className="text-gray-400 mt-2 max-w-xl mx-auto text-sm sm:text-base">Transform your vision into a stunning logo with AI</p>
+              <h2 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300 animate-text-shimmer">
+                {t('logoRequest.title', 'AI Logo Creator')}
+              </h2>
+              <p className="text-gray-400 mt-1 xs:mt-2 max-w-xl mx-auto text-xs xs:text-sm sm:text-base">
+                {t('logoRequest.subtitle', 'Transform your vision into a stunning logo with AI')}
+              </p>
             </div>
             
             {/* Prompt Input with enhanced glowing border - responsive */}
             {!loading && (
-              <div className="relative mb-4 sm:mb-6 group">
+              <div className="relative mb-3 xs:mb-4 sm:mb-6 group">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl blur opacity-30 group-hover:opacity-70 group-hover:animate-border-flow transition duration-1000"></div>
                 <textarea
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  placeholder="Describe your dream logo with as much detail as possible..."
-                  className="relative w-full p-4 sm:p-6 text-white bg-gray-800/40 border border-gray-700/50 rounded-xl focus:outline-none min-h-36 sm:min-h-52 resize-none shadow-inner transition-all duration-300 focus:shadow-cyan-900/30"
+                  placeholder={t('logoRequest.prompt.placeholder', 'Describe your dream logo with as much detail as possible...')}
+                  className="relative w-full p-3 xs:p-4 sm:p-6 text-white bg-gray-800/40 border border-gray-700/50 rounded-xl focus:outline-none min-h-24 xs:min-h-36 sm:min-h-52 resize-none shadow-inner transition-all duration-300 focus:shadow-cyan-900/30 text-sm xs:text-base"
                   style={{ caretColor: '#06b6d4' }}
                 />
-                <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-gray-500 text-xs sm:text-sm">
-                  {prompt.length} characters
+                <div className="absolute bottom-1 xs:bottom-2 sm:bottom-4 right-1 xs:right-2 sm:right-4 text-gray-500 text-xxs xs:text-xs sm:text-sm">
+                  {prompt.length} {t('logoRequest.prompt.characters', 'characters')}
                 </div>
                 
                 {/* Prompt tips toggle */}
                 <button 
                   onClick={() => setShowTips(!showTips)}
-                  className="absolute top-2 sm:top-4 right-2 sm:right-4 text-gray-400 hover:text-cyan-400 transition-colors duration-300"
-                  title="Show tips for better prompts"
+                  className="absolute top-1 xs:top-2 sm:top-4 right-1 xs:right-2 sm:right-4 text-gray-400 hover:text-cyan-400 transition-colors duration-300"
+                  title={t('logoRequest.prompt.tipsButton', 'Show tips for better prompts')}
                 >
-                  <IoInformationCircleOutline size={18} className="sm:text-xl" />
+                  <IoInformationCircleOutline className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" />
                 </button>
               </div>
             )}
             
             {/* Prompt tips panel with slide animation */}
             {showTips && !loading && (
-              <div className="bg-gray-800/40 border border-gray-700/30 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 animate-slide-down">
-                <h4 className="text-cyan-300 text-xs sm:text-sm font-medium mb-1 sm:mb-2">Tips for better logo prompts:</h4>
-                <ul className="text-gray-300 text-xs sm:text-sm space-y-0.5 sm:space-y-1">
-                  <li>• Specify the business name and industry</li>
-                  <li>• Mention preferred colors or color scheme</li>
-                  <li>• Describe the style (minimalist, modern, vintage, etc.)</li>
-                  <li>• Suggest graphic elements or symbols to include</li>
-                  <li>• Mention any fonts or typography preferences</li>
+              <div className="bg-gray-800/40 border border-gray-700/30 rounded-xl p-2 xs:p-3 sm:p-4 mb-3 xs:mb-4 sm:mb-6 animate-slide-down">
+                <h4 className="text-cyan-300 text-xxs xs:text-xs sm:text-sm font-medium mb-0.5 xs:mb-1 sm:mb-2">
+                  {t('logoRequest.prompt.tips.title', 'Tips for better logo prompts:')}
+                </h4>
+                <ul className="text-gray-300 text-xxs xs:text-xs sm:text-sm space-y-0.5 sm:space-y-1">
+                  <li>• {t('logoRequest.prompt.tips.items.0', 'Specify the business name and industry')}</li>
+                  <li>• {t('logoRequest.prompt.tips.items.1', 'Mention preferred colors or color scheme')}</li>
+                  <li>• {t('logoRequest.prompt.tips.items.2', 'Describe the style (minimalist, modern, vintage, etc.)')}</li>
+                  <li>• {t('logoRequest.prompt.tips.items.3', 'Suggest graphic elements or symbols to include')}</li>
+                  <li>• {t('logoRequest.prompt.tips.items.4', 'Mention any fonts or typography preferences')}</li>
                 </ul>
               </div>
             )}
             
             {/* Generate Button with enhanced gradient and glow - responsive */}
             {!loading && (
-              <div className="flex justify-center mt-6 sm:mt-8 relative">
+              <div className="flex justify-center mt-4 xs:mt-6 sm:mt-8 relative">
                 <div className={`absolute inset-0 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-xl blur-md ${loading || !prompt.trim() || (userCredits !== null && logoCreditCost !== null && userCredits < logoCreditCost) ? 'opacity-0' : 'opacity-50 animate-pulse-slow'}`}></div>
                 <button 
                   onClick={handleGenerateLogo} 
                   disabled={loading || !prompt.trim() || (userCredits !== null && logoCreditCost !== null && userCredits < logoCreditCost)} 
-                  className={`relative flex items-center gap-2 sm:gap-3 px-6 sm:px-8 md:px-10 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white transition-all duration-500 transform shadow-xl rounded-xl ${
+                  className={`relative flex items-center gap-1.5 xs:gap-2 sm:gap-3 px-4 xs:px-6 sm:px-8 md:px-10 py-2 xs:py-3 sm:py-4 text-sm xs:text-base sm:text-lg font-semibold text-white transition-all duration-500 transform shadow-xl rounded-xl ${
                     loading ? 'bg-gray-700/80 cursor-not-allowed' : 
                     (!prompt.trim() || (userCredits !== null && logoCreditCost !== null && userCredits < logoCreditCost)) ? 
                     'bg-gray-700/80 cursor-not-allowed' : 
@@ -332,14 +342,14 @@ const Logorequest = () => {
                 >
                   {loading ? (
                     <>
-                      <div className="animate-spin h-4 sm:h-5 w-4 sm:w-5 border-2 border-white border-t-transparent rounded-full mr-2"></div>
-                      Creating Magic...
+                      <div className="animate-spin h-3 xs:h-4 sm:h-5 w-3 xs:w-4 sm:w-5 border-2 border-white border-t-transparent rounded-full mr-1.5 xs:mr-2"></div>
+                      {t('logoRequest.buttons.creatingMagic', 'Creating Magic...')}
                     </>
                   ) : (
                     <>
-                      Generate Logo
+                      {t('logoRequest.buttons.generate', 'Generate Logo')}
                       {!(userCredits !== null && logoCreditCost !== null && userCredits < logoCreditCost) && !loading && 
-                        <IoArrowForward size={18} className="sm:text-xl animate-bounce-subtle" />
+                        <IoArrowForward className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 animate-bounce-subtle" />
                       }
                     </>
                   )}
@@ -349,28 +359,28 @@ const Logorequest = () => {
 
             {/* Staged Loading Animation */}
             {loading && (
-              <div className="flex flex-col items-center mt-6">
-                <div className="relative w-16 h-16 mb-4">
+              <div className="flex flex-col items-center mt-4 xs:mt-6">
+                <div className="relative w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 mb-3 xs:mb-4">
                   <div className="absolute inset-0 rounded-full border-4 border-gray-700 border-opacity-25"></div>
                   <div 
                     className="absolute inset-0 rounded-full border-4 border-l-cyan-400 border-t-purple-400 border-r-cyan-400 border-b-purple-400 border-opacity-75 animate-spin"
                     style={{ animationDuration: '1.5s' }}
                   ></div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <IoSparklesOutline size={24} className="text-cyan-300 animate-pulse-slow" />
+                    <IoSparklesOutline className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 text-cyan-300 animate-pulse-slow" />
                   </div>
                 </div>
                 <div className="text-center">
-                  <p className="text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300">
-                    {generatingStage === 1 && "Analyzing prompt..."}
-                    {generatingStage === 2 && "Crafting design elements..."}
-                    {generatingStage === 3 && "Finalizing your logo..."}
-                    {generatingStage === 0 && "Creating magic..."}
+                  <p className="text-base xs:text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300">
+                    {generatingStage === 1 && t('logoRequest.generatingStages.analyzing', "Analyzing prompt...")}
+                    {generatingStage === 2 && t('logoRequest.generatingStages.crafting', "Crafting design elements...")}
+                    {generatingStage === 3 && t('logoRequest.generatingStages.finalizing', "Finalizing your logo...")}
+                    {generatingStage === 0 && t('logoRequest.generatingStages.creating', "Creating magic...")}
                   </p>
-                  <div className="flex justify-center space-x-2 mt-3">
-                    <div className={`w-3 h-3 rounded-full ${generatingStage >= 1 ? 'bg-cyan-400' : 'bg-gray-600'} transition-colors duration-300`}></div>
-                    <div className={`w-3 h-3 rounded-full ${generatingStage >= 2 ? 'bg-purple-400' : 'bg-gray-600'} transition-colors duration-300`}></div>
-                    <div className={`w-3 h-3 rounded-full ${generatingStage >= 3 ? 'bg-cyan-400' : 'bg-gray-600'} transition-colors duration-300`}></div>
+                  <div className="flex justify-center space-x-2 mt-2 xs:mt-3">
+                    <div className={`w-2 h-2 xs:w-3 xs:h-3 rounded-full ${generatingStage >= 1 ? 'bg-cyan-400' : 'bg-gray-600'} transition-colors duration-300`}></div>
+                    <div className={`w-2 h-2 xs:w-3 xs:h-3 rounded-full ${generatingStage >= 2 ? 'bg-purple-400' : 'bg-gray-600'} transition-colors duration-300`}></div>
+                    <div className={`w-2 h-2 xs:w-3 xs:h-3 rounded-full ${generatingStage >= 3 ? 'bg-cyan-400' : 'bg-gray-600'} transition-colors duration-300`}></div>
                   </div>
                 </div>
               </div>
@@ -379,19 +389,19 @@ const Logorequest = () => {
 
           {/* Generated Logo Display - Transparent Background with responsive design */}
           {(logoImageData || logoImageUrl) && !loading && (
-            <div className="mt-8 sm:mt-10 md:mt-12 p-4 sm:p-6 md:p-8 bg-transparent backdrop-blur-sm border border-gray-700/30 text-white rounded-2xl max-w-3xl mx-auto w-full animate-fade-in-up shadow-2xl">
-              <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
-                <div className="p-1.5 sm:p-2 rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 animate-float-subtle">
-                  <IoImageOutline size={20} className="sm:text-2xl md:text-3xl text-cyan-300" />
+            <div className="mt-6 xs:mt-8 sm:mt-10 md:mt-12 p-3 xs:p-4 sm:p-6 md:p-8 bg-transparent backdrop-blur-sm border border-gray-700/30 text-white rounded-xl xs:rounded-2xl max-w-3xl mx-auto w-full animate-fade-in-up shadow-2xl">
+              <div className="flex items-center justify-center gap-1.5 xs:gap-2 sm:gap-3 mb-4 xs:mb-6 sm:mb-8">
+                <div className="p-1 xs:p-1.5 sm:p-2 rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 animate-float-subtle">
+                  <IoImageOutline className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-cyan-300" />
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300 animate-text-shimmer">
-                  Your Logo Creation
+                <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300 animate-text-shimmer">
+                  {t('logoRequest.results.title', 'Your Logo Creation')}
                 </h3>
               </div>
               
-              <div className="flex justify-center mb-6 sm:mb-8 relative group">
-                <div className="absolute -inset-1 sm:-inset-1.5 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl blur opacity-40 group-hover:opacity-70 transition duration-500 animate-pulse-slow"></div>
-                <div className="relative p-1 sm:p-1.5 bg-gradient-to-r from-cyan-900/50 to-purple-900/50 rounded-lg">
+              <div className="flex justify-center mb-4 xs:mb-6 sm:mb-8 relative group">
+                <div className="absolute -inset-0.5 xs:-inset-1 sm:-inset-1.5 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl blur opacity-40 group-hover:opacity-70 transition duration-500 animate-pulse-slow"></div>
+                <div className="relative p-0.5 xs:p-1 sm:p-1.5 bg-gradient-to-r from-cyan-900/50 to-purple-900/50 rounded-lg">
                   {/* Use base64 data if available, otherwise fall back to URL */}
                   <img 
                     src={logoImageData || logoImageUrl}
@@ -401,13 +411,13 @@ const Logorequest = () => {
                   />
                   {imageError && (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-800/60 rounded-lg">
-                      <div className="text-center p-4">
-                        <p className="text-red-400 mb-2">Image failed to load</p>
+                      <div className="text-center p-2 xs:p-4">
+                        <p className="text-red-400 mb-1 xs:mb-2 text-xs xs:text-sm">{t('logoRequest.errors.loadFailed', 'Image failed to load')}</p>
                         <button 
                           onClick={fetchLogoData}
-                          className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 rounded-md text-white text-sm"
+                          className="px-2 xs:px-3 py-0.5 xs:py-1 bg-cyan-600 hover:bg-cyan-500 rounded-md text-white text-xs xs:text-sm"
                         >
-                          Retry
+                          {t('logoRequest.buttons.retry', 'Retry')}
                         </button>
                       </div>
                     </div>
@@ -416,7 +426,7 @@ const Logorequest = () => {
               </div>
               
               {/* Action buttons */}
-              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mt-6 sm:mt-8 md:mt-10">
+              <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 sm:gap-3 md:gap-4 mt-4 xs:mt-6 sm:mt-8 md:mt-10">
                 <button 
                   onClick={() => {
                     setPrompt('');
@@ -429,28 +439,28 @@ const Logorequest = () => {
                     setImageError(false);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base md:text-lg text-white bg-gradient-to-r from-cyan-700/80 to-purple-700/80 hover:from-cyan-600/90 hover:to-purple-600/90 rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-700/30 hover:scale-105"
+                  className="flex items-center gap-1 xs:gap-1.5 sm:gap-2 px-3 xs:px-4 sm:px-5 md:px-6 py-1.5 xs:py-2.5 sm:py-3 md:py-3.5 text-xs xs:text-sm sm:text-base md:text-lg text-white bg-gradient-to-r from-cyan-700/80 to-purple-700/80 hover:from-cyan-600/90 hover:to-purple-600/90 rounded-lg xs:rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-700/30 hover:scale-105"
                 >
-                  <IoRefreshOutline size={16} className="sm:text-xl md:text-2xl" />
-                  <span className="hidden xs:inline">Create New</span>
-                  <span className="xs:hidden">New</span>
+                 <IoRefreshOutline className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                  <span className="hidden xxs:inline">{t('logoRequest.buttons.createNew', 'Create New')}</span>
+                  <span className="xxs:hidden">{t('logoRequest.buttons.createNewShort', 'New')}</span>
                 </button>
                 
                 <button 
                   onClick={handleDownload}
                   disabled={(!logoImageData && !logoImageUrl) || imageError}
-                  className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base md:text-lg text-white bg-gray-700/80 hover:bg-gray-600/90 rounded-xl transition-all duration-300 shadow-lg hover:shadow-gray-700/30 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-700 disabled:hover:scale-100"
+                  className="flex items-center gap-1 xs:gap-1.5 sm:gap-2 px-3 xs:px-4 sm:px-5 md:px-6 py-1.5 xs:py-2.5 sm:py-3 md:py-3.5 text-xs xs:text-sm sm:text-base md:text-lg text-white bg-gray-700/80 hover:bg-gray-600/90 rounded-lg xs:rounded-xl transition-all duration-300 shadow-lg hover:shadow-gray-700/30 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-700 disabled:hover:scale-100"
                 >
-                  <IoDownloadOutline size={16} className="sm:text-xl md:text-2xl" />
-                  Download
+                  <IoDownloadOutline className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                  {t('logoRequest.buttons.download', 'Download')}
                 </button>
                 
                 <button 
-                  className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base md:text-lg text-white bg-gray-700/80 hover:bg-gray-600/90 rounded-xl transition-all duration-300 shadow-lg hover:shadow-gray-700/30 hover:scale-105"
+                  className="flex items-center gap-1 xs:gap-1.5 sm:gap-2 px-3 xs:px-4 sm:px-5 md:px-6 py-1.5 xs:py-2.5 sm:py-3 md:py-3.5 text-xs xs:text-sm sm:text-base md:text-lg text-white bg-gray-700/80 hover:bg-gray-600/90 rounded-lg xs:rounded-xl transition-all duration-300 shadow-lg hover:shadow-gray-700/30 hover:scale-105"
                 >
-                  <IoStarOutline size={16} className="sm:text-xl md:text-2xl" />
-                  <span className="hidden xs:inline">Save to Favorites</span>
-                  <span className="xs:hidden">Save</span>
+                  <IoStarOutline className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                  <span className="hidden xxs:inline">{t('logoRequest.buttons.save', 'Save to Favorites')}</span>
+                  <span className="xxs:hidden">{t('logoRequest.buttons.saveShort', 'Save')}</span>
                 </button>
               </div>
             </div>
@@ -479,7 +489,7 @@ const Logorequest = () => {
           0% { opacity: 0; transform: translateY(-20px); }
           100% { opacity: 1; transform: translateY(0); }
         }
-        
+          
         @keyframes float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-15px); }
@@ -561,19 +571,6 @@ const Logorequest = () => {
           animation: bounceSubtle 1.5s ease-in-out infinite;
         }
         
-        .animate-float-random {
-          animation: floatRandom 6s ease-in-out infinite;
-        }
-        
-        .animate-typing {
-          animation: typing 3.5s steps(40, end);
-        }
-        
-        .animate-text-shimmer-wide {
-          background-size: 200% auto;
-          animation: textShimmerWide 6s linear infinite;
-        }
-        
         .animate-pulse-slow {
           animation: pulseSlow 4s ease-in-out infinite;
         }
@@ -601,30 +598,6 @@ const Logorequest = () => {
           animation: slideDown 0.3s ease-out forwards;
         }
         
-        .animate-spin-fast {
-          animation: spinFast 1s linear infinite;
-        }
-        
-        .animate-spin-slow {
-          animation: spinSlow 12s linear infinite;
-        }
-        
-        .animate-spin-reverse {
-          animation: spinReverse 10s linear infinite;
-        }
-        
-        .animate-pulse-dots {
-          animation: pulseDots 1.5s ease-in-out infinite;
-        }
-        
-        .animate-pulse-glow {
-          animation: pulseGlow 2s ease-in-out infinite;
-        }
-        
-        .animate-pulse-scale {
-          animation: pulseScale 1.5s ease-in-out infinite;
-        }
-        
         .particles-container {
           position: absolute;
           top: 0;
@@ -642,28 +615,44 @@ const Logorequest = () => {
           animation: particleFloat 20s infinite ease-in-out;
         }
         
-        .particle-1, .particle-5, .particle-9 {
+        .particle-1, .particle-5 {
           background-color: rgba(100, 200, 255, 0.15);
           box-shadow: 0 0 15px rgba(100, 200, 255, 0.3);
         }
         
-        .particle-2, .particle-6, .particle-10 {
+        .particle-2, .particle-6 {
           background-color: rgba(180, 100, 255, 0.15);
           box-shadow: 0 0 15px rgba(180, 100, 255, 0.3);
         }
         
-        .particle-3, .particle-7, .particle-11 {
+        .particle-3, .particle-7 {
           background-color: rgba(100, 255, 200, 0.15);
           box-shadow: 0 0 15px rgba(100, 255, 200, 0.3);
         }
         
-        .particle-4, .particle-8, .particle-12 {
+        .particle-4, .particle-8 {
           background-color: rgba(255, 100, 200, 0.15);
           box-shadow: 0 0 15px rgba(255, 100, 200, 0.3);
         }
         
+        /* Custom breakpoints for extra small screens */
+        .text-xxs {
+          font-size: 0.65rem;
+          line-height: 1rem;
+        }
+        
         /* Responsive utilities */
-        @media (min-width: 475px) {
+        @media (min-width: 360px) {
+          .xxs\\:hidden {
+            display: none;
+          }
+          
+          .xxs\\:inline {
+            display: inline;
+          }
+        }
+        
+        @media (min-width: 414px) {
           .xs\\:hidden {
             display: none;
           }

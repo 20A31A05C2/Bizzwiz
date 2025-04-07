@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const TestimonialSection = () => {
+  const { t } = useTranslation(); // Use translation hook
+  
   // Refs for scroll detection
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
@@ -19,26 +22,27 @@ const TestimonialSection = () => {
   const [isNavigationVisible, setIsNavigationVisible] = useState(false);
   const [isHorizontalLineVisible, setIsHorizontalLineVisible] = useState(false);
   
+  // Get testimonials from translations
   const testimonials = [
     {
       id: 1,
-      name: 'Jean M',
-      role: 'Entrepreneur',
-      quote: 'Grâce à ADS IA, j\'ai multiplié mes ventes en ligne sans toucher aux publicités. L\'IA optimise tout toute seule, c\'est bluffant !',
+      name: t('testimonials.testimonial1.name'),
+      role: t('testimonials.testimonial1.role'),
+      quote: t('testimonials.testimonial1.quote'),
       gradient: 'from-purple-600 to-pink-500'
     },
     {
       id: 2,
-      name: 'Sophie L',
-      role: 'Fondatrice d\'une boutique en ligne',
-      quote: 'Je n\'y connaissais rien en publicité, mais avec ADS IA, mon trafic a explosé en quelques semaines ! Une vraie révolution pour mon business.',
+      name: t('testimonials.testimonial2.name'),
+      role: t('testimonials.testimonial2.role'),
+      quote: t('testimonials.testimonial2.quote'),
       gradient: 'from-blue-600 to-purple-500'
     },
     {
       id: 3,
-      name: 'David R',
-      role: 'Consultant indépendant',
-      quote: 'Je passais des heures à ajuster mes campagnes. Maintenant, ADS IA le fait pour moi et avec de meilleurs résultats. Un must-have !',
+      name: t('testimonials.testimonial3.name'),
+      role: t('testimonials.testimonial3.role'),
+      quote: t('testimonials.testimonial3.quote'),
       gradient: 'from-teal-500 to-blue-600'
     }
   ];
@@ -138,15 +142,13 @@ const TestimonialSection = () => {
           ref={headingRef}
           className={`text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 transition-all duration-700 transform ${isHeadingVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
-          Ce que disent nos clients
+          {t('testimonials.heading')}
         </h2>
         <p 
           ref={descriptionRef}
           className={`text-center text-gray-300 text-sm sm:text-base md:text-lg max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 transition-all duration-700 delay-200 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
         >
-          Ne laissez plus votre publicité au hasard ! ADS IA génère des annonces 
-          percutantes, les optimise en temps réel et maximise votre retour sur investissement. 
-          Automatisez votre visibilité et attirez plus de clients sans effort.
+          {t('testimonials.description')}
         </p>
 
         {/* Testimonials display - Increased gap */}
@@ -236,14 +238,14 @@ const TestimonialSection = () => {
           <button 
             onClick={prevSlide}
             className="p-2 sm:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-all duration-300 hover:scale-110"
-            aria-label="Previous testimonial"
+            aria-label={t('testimonials.previousAriaLabel')}
           >
             <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
           </button>
           <button 
             onClick={nextSlide}
             className="p-2 sm:p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-all duration-300 hover:scale-110"
-            aria-label="Next testimonial"
+            aria-label={t('testimonials.nextAriaLabel')}
           >
             <ChevronRight size={20} className="sm:w-6 sm:h-6" />
           </button>

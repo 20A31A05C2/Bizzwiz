@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import leftside from '../../assets/leftside.png'; // Import the left side image
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const Advertisement = () => {
+  const { t } = useTranslation(); // Use translation hook
+  
   // Refs for scroll detection
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
@@ -107,7 +110,7 @@ const Advertisement = () => {
         >
           <img 
             src={leftside} 
-            alt="ADS IA Logo and Certifications" 
+            alt={t('ads.imageAlt')} 
             className="max-w-full w-3/4 sm:w-4/5 md:w-auto h-auto"
           />
         </div>
@@ -118,21 +121,21 @@ const Advertisement = () => {
             ref={labelRef}
             className={`text-blue-500 mb-2 tracking-wide text-xs sm:text-sm transition-all duration-700 transform ${isLabelVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
           >
-            PUBLICITÉ
+            {t('ads.label')}
           </div>
           
           <h1 
             ref={titleRef}
             className={`text-xl sm:text-2xl md:text-3xl font-bold mb-2 transition-all duration-700 delay-200 transform ${isTitleVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
           >
-            ADS IA - Votre publicité boostée par l'Intelligence Artificielle
+            {t('ads.title')}
           </h1>
           
           <p 
             ref={descriptionRef}
             className={`mb-3 sm:mb-4 text-gray-300 text-sm sm:text-base transition-all duration-700 delay-400 transform ${isDescriptionVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
           >
-            Gagnez en visibilité et attirez plus de clients grâce à ADS IA, une IA spécialisée dans la création et l'optimisation de vos campagnes publicitaires.
+            {t('ads.description')}
           </p>
           
           <div 
@@ -146,7 +149,7 @@ const Advertisement = () => {
                 transition: 'all 0.3s ease-out, box-shadow 1.5s ease'
               }}
             >
-              En savoir +
+              {t('ads.button')}
             </button>
           </div>
         </div>

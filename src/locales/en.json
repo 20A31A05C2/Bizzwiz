@@ -1,0 +1,938 @@
+{
+    "navigation": {
+      "home": "Home",
+      "services": "Our Services",
+      "createBusiness": "Create my Business",
+      "createWebsite": "Create my Website",
+      "contact": "Contact"
+    },
+    "buttons": {
+      "login": "LOGIN"
+    },
+
+    "hero": {
+    "new": "NEW",
+    "badge": "BizzWiz - Boost your business with digital",
+    "heading1": "Don't just watch digital happen,",
+    "heading2": "fully integrate it!",
+    "description": "Launch your business and create your website in a few clicks with AI!🚀",
+    "cta": "Discover AI tools"
+  },
+
+
+  "advantages": {
+    "title": "KEY ADVANTAGES",
+    "viewOffer": "View offer",
+    "card1": {
+      "title": "AI-assisted business creation",
+      "altText": "Business creation icon"
+    },
+    "card2": {
+      "title": "Website ready in 24 hours",
+      "altText": "Web site icon"
+    },
+    "card3": {
+      "title": "Smart tools to automate your business",
+      "altText": "Tools icon"
+    },
+    "codeImage": "Code snippet showing addNumbersToToken function"
+  },
+
+  "task": {
+    "label": "INTEGRATIONS",
+    "heading": "TASK - Your personal AI assistant",
+    "text1": "Stop wasting time on repetitive tasks!",
+    "text2": "TASK is an AI agent designed to automate and manage your online tasks.",
+    "button": "View all AI tools",
+    "imageAlt": "Integration platforms and tools"
+  },
+  "ads": {
+    "label": "ADVERTISING",
+    "title": "ADS AI - Your advertising boosted by Artificial Intelligence",
+    "description": "Gain visibility and attract more customers with ADS AI, an AI specialized in creating and optimizing your advertising campaigns.",
+    "button": "Learn more",
+    "imageAlt": "ADS AI Logo and Certifications"
+  },
+  "token": {
+    "heading": "The WZC Token - A crypto of the future for entrepreneurs",
+    "description": "WZC is not just a token, it's an opportunity for entrepreneurs to position themselves today in the digital ecosystem of tomorrow. As BizzWiz platform's cryptocurrency, the WZC token offers exclusive benefits to users, while having growth potential in the blockchain and crypto universe.",
+    "logoAlt": "WZC Token Logo",
+    "whyChoose": "Why choose WZC?",
+    "card1": {
+      "title": "Exclusive Offers and Discounts",
+      "description": "Use the WZC token to get discounts on our services and special offers reserved for our members."
+    },
+    "card2": {
+      "title": "Access to Premium Features",
+      "description": "The token allows you to access advanced tools and features on our platform to grow your business."
+    },
+    "card3": {
+      "title": "Participate in the Future of Crypto",
+      "description": "Invest in the WZC token and be part of our ambitious project that aims to revolutionize the digital universe and small businesses."
+    },
+    "future": {
+      "title": "WZC, a crypto with a future",
+      "description": "BizzWiz invests in blockchain innovation to make the WZC token a key player in the digital ecosystem.",
+      "callToAction": "Don't miss this chance to prepare for the future. Start today with WZC!"
+    },
+    "button": "Learn more"
+  },
+  "testimonials": {
+    "heading": "What our clients say",
+    "description": "Don't leave your advertising to chance anymore! ADS AI generates impactful ads, optimizes them in real-time, and maximizes your return on investment. Automate your visibility and attract more customers effortlessly.",
+    "previousAriaLabel": "Previous testimonial",
+    "nextAriaLabel": "Next testimonial",
+    "testimonial1": {
+      "name": "Jean M",
+      "role": "Entrepreneur",
+      "quote": "Thanks to ADS AI, I've multiplied my online sales without touching the ads. The AI optimizes everything by itself, it's amazing!"
+    },
+    "testimonial2": {
+      "name": "Sophie L",
+      "role": "Online store founder",
+      "quote": "I knew nothing about advertising, but with ADS AI, my traffic exploded in just a few weeks! A real revolution for my business."
+    },
+    "testimonial3": {
+      "name": "David R",
+      "role": "Independent consultant",
+      "quote": "I used to spend hours adjusting my campaigns. Now, ADS AI does it for me and with better results. A must-have!"
+    }
+  },
+  "community": {
+    "heading": "Join the community",
+    "description": "Join our community of over 4,000 people and contribute to a more private and decentralized Internet. Start for free.",
+    "button": "Join"
+  },
+  "businessCreation": {
+    "title": "Create your own business",
+    "subtitle": "for free with AI",
+    "emailPlaceholder": "Your email",
+    "button": "Try for free",
+    "noCreditCard": "No credit card required · it's free"
+  },
+  "footer": {
+    "title": "Legal",
+    "legalNotice": "Legal Notice",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use (ToU)",
+    "termsOfSale": "Terms of Sale (ToS)",
+    "copyright": "Copyright and Intellectual Property",
+    "accessibility": "Accessibility",
+    "faq": "FAQ"
+  },
+
+
+  
+  "register": {
+    "title": "Create Account",
+    "subtitle": "Enter your details to create your account",
+    "altTexts": {
+      "logo": "Logo",
+      "blueShape": "Blue decorative shape",
+      "purpleShape": "Purple decorative shape"
+    },
+    "form": {
+      "firstName": "FIRST NAME",
+      "lastName": "LAST NAME",
+      "email": "EMAIL ADDRESS",
+      "password": "PASSWORD",
+      "confirmPassword": "CONFIRM PASSWORD",
+      "passwordRequirements": "Password should contain at least 8 characters with uppercase, lowercase, numbers and special characters.",
+      "termsAgreement": "I agree to the Terms of Service and Privacy Policy",
+      "createAccount": "CREATE ACCOUNT",
+      "orSignUpWith": "or sign up with",
+      "signInWithGoogle": "Sign in with Google",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "passwordStrength": {
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong",
+      "veryStrong": "Very Strong"
+    },
+    "verification": {
+      "title": "Verification Email Sent!",
+      "message": "We've sent a verification email to",
+      "instruction": " Please check your inbox and click the verification link to activate your account.",
+      "important": "Important:",
+      "checkSpam": "If you don't see the email in your inbox, please check your spam or junk folder.",
+      "resend": "Resend Verification Email",
+      "sending": "Sending...",
+      "goToLogin": "Go to Login"
+    },
+    "toasts": {
+      "success": "Registration successful",
+      "failed": "Registration failed",
+      "fillAllFields": "Please fill all the fields",
+      "weakPassword": "Password is too weak. Include uppercase, lowercase, numbers, and special characters.",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "acceptTerms": "Please accept the terms and conditions",
+      "timeout": "Registration is taking longer than expected.",
+      "successVerification": "Registration successful! Please check your email to verify your account.",
+      "resendSuccess": "Verification email resent successfully!",
+      "resendFailed": "Failed to resend verification email"
+    }
+  },
+
+
+  "login": {
+    "welcomeBack": "Welcome back!",
+    "enterCredentials": "Enter your credentials to access your account",
+    "emailAddress": "EMAIL ADDRESS",
+    "password": "PASSWORD",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "LOGIN",
+    "continueWith": "or continue with",
+    "signInWithGoogle": "Sign in with Google",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "emailNotVerified": "Email Not Verified",
+    "emailNotVerifiedDescription": "Your email",
+    "checkInbox": "has not been verified yet. Please check your inbox for the verification link we sent when you registered.",
+    "note": "Note",
+    "checkSpam": "If you don't see the email in your inbox, please check your spam or junk folder.",
+    "sending": "Sending...",
+    "resendVerificationEmail": "Resend Verification Email",
+    "backToLogin": "Back to Login",
+    "invalidEmail": "Please enter a valid email address",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "Password should be at least 8 characters long",
+    "success": "Login successful",
+    "failed": "Login failed. Please try again."
+  },
+  "forgotPassword": {
+    "title": "Forgot Password?",
+    "instruction": "Enter your email and we'll send you a reset link",
+    "emailAddress": "EMAIL ADDRESS",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Please enter a valid email address",
+    "resetLinkSent": "Password reset link sent! Check your email.",
+    "resetLinkFailed": "Failed to send reset link.",
+    "emailSent": "EMAIL SENT",
+    "sendResetLink": "SEND RESET LINK",
+    "rememberPassword": "Remember your password?",
+    "backToLogin": "Back to login"
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "enterNewPassword": "Enter your new password below",
+    "newPassword": "NEW PASSWORD",
+    "confirmPassword": "CONFIRM PASSWORD",
+    "passwordRequirements": "Password should contain at least 8 characters with uppercase, lowercase, numbers and special characters.",
+    "passwordResetButton": "PASSWORD RESET",
+    "resetPasswordButton": "RESET PASSWORD",
+    "rememberPassword": "Remember your password?",
+    "backToLogin": "Back to login",
+    "invalidResetLink": "Invalid reset link!",
+    "allFieldsRequired": "All fields are required!",
+    "passwordTooShort": "Password must be at least 8 characters long.",
+    "successRedirecting": "Password reset successful! Redirecting to login...",
+    "failedReset": "Failed to reset password.",
+    "passwordStrength": {
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong",
+      "veryStrong": "Very Strong"
+    }
+  },
+  "verifyEmail": {
+    "title": "Email Verification",
+    "verifying": "Verifying your email address...",
+    "invalidLink": "Invalid verification link. Missing token or email.",
+    "successMessage": "Email verified successfully!",
+    "verificationFailed": "Verification failed.",
+    "tryAgain": "Verification failed. Please try again.",
+    "emailNotFound": "Email address not found.",
+    "verificationSuccess": "Your email has been successfully verified!",
+    "redirecting": "You will be redirected to the login page in a few seconds.",
+    "goToLogin": "Go to Login",
+    "resendEmail": "Resend Verification Email",
+    "backToLogin": "Back to Login"
+  },
+  "dashboard": {
+    "loading": "Loading Dashboard",
+    "welcome": "Welcome",
+    "overview": "Here's an overview of your account status and activity",
+    "notAvailable": "Not available",
+    "errors": {
+      "loginRequired": "Please login to continue",
+      "unknown": "Unknown error occurred"
+    },
+    "cards": {
+      "availableCredits": "Available Credits",
+      "currentPlan": "Current Plan",
+      "noActivePlan": "No Active Plan",
+      "planExpires": "Plan Expires",
+      "days": "Days",
+      "expires": "Expires",
+      "autoRenewEnabled": "Auto-renewal enabled",
+      "autoRenewDisabled": "Auto-renewal disabled"
+    },
+    "usageStats": {
+      "logoRequests": "Logo Requests",
+      "chatHistory": "Chat History",
+      "bizWebAI": "BizWebAI",
+      "noUsageYet": "No Usage Yet"
+    },
+    "usageBreakdown": {
+      "title": "Usage Breakdown",
+      "logoRequests": "Logo Requests",
+      "chatHistory": "Chat History",
+      "bizWebAI": "BizWebAI"
+    },
+    "planDetails": {
+      "title": "Plan Features",
+      "planName": "Plan Name",
+      "price": "Price",
+      "annualSubscription": "Annual Subscription",
+      "monthlySubscription": "Monthly Subscription",
+      "activated": "Activated:",
+      "expires": "Expires:",
+      "autoRenewal": "Auto-renewal:",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "featuresIncluded": "Features Included:",
+      "noFeatures": "No features available",
+      "planExpires": "Plan Expires:",
+      "noActivePlan": "No active plan"
+    },
+    "transactionHistory": {
+      "title": "Transaction History",
+      "credits": "Credits",
+      "noTransactions": "No transactions found",
+      "willAppearHere": "Your recent transactions will appear here",
+      "types": {
+        "subscription": "Subscription",
+        "credit": "Credit Purchase",
+        "payment": "Payment",
+        "transaction": "Transaction"
+      }
+    },
+    "buttons": {
+      "addCredits": "Add Credits",
+      "upgradePlan": "Upgrade Plan",
+      "manage": "Manage",
+      "viewPlans": "View Plans",
+      "manageSubscription": "Manage Subscription",
+      "viewAllTransactions": "View All Transactions"
+    }
+  },
+  
+  
+    "profile": {
+      "loading": "Loading Profile...",
+      "title": "Profile Settings",
+      "subtitle": "Manage your account preferences and information",
+      "notAvailable": "N/A",
+      "errors": {
+        "loginRequired": "Please login to continue",
+        "unknown": "Unknown error occurred",
+        "updateFailed": "Failed to update profile"
+      },
+      "success": {
+        "profileUpdated": "Profile updated successfully"
+      },
+      "fields": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "emailAddress": "Email Address",
+        "memberSince": "Member Since"
+      },
+      "buttons": {
+        "editProfile": "Edit Profile",
+        "cancel": "Cancel",
+        "saveChanges": "Save Changes"
+      }
+    },
+
+    "contact": {
+    "loading": "Loading Contact Info...",
+    "title": "Get In Touch",
+    "subtitle": "We would love to hear from you. Fill out the form below or use our contact information.",
+    "form": {
+      "title": "Send us a Message",
+      "fullName": "Full Name",
+      "emailAddress": "Email Address",
+      "yourMessage": "Your Message",
+      "sending": "Sending...",
+      "sendMessage": "Send Message"
+    },
+    "info": {
+      "title": "Contact Information",
+      "phoneNumber": "Phone Number",
+      "emailAddress": "Email Address",
+      "address": "Address",
+      "workingHours": "Working Hours",
+      "notAvailable": "Not available",
+      "responseTime": "We aim to respond to all inquiries within 24 hours during business days. For urgent matters, please contact us directly by phone."
+    },
+    "errors": {
+      "loginRequired": "Please login to continue",
+      "default": "An error occurred",
+      "submitFailed": "Something went wrong. Please try again."
+    },
+    "success": {
+      "messageSent": "Your message has been sent successfully!"
+    }
+  },
+  "aistart": {
+    "mascotAlt": "Mascot",
+    "locked": {
+      "title": "Premium Feature Locked",
+      "description": "Unlock our powerful AI features to enhance your digital projects and streamline your workflow.",
+      "upgradeButton": "Upgrade to Premium"
+    },
+    "coming": {
+      "title": "Coming Soon",
+      "description": "Something amazing is in the works. Stay tuned for something special.",
+      "emailPlaceholder": "Enter your email",
+      "notifyButton": "Notify Me"
+    },
+    "social": {
+      "twitter": "Twitter",
+      "discord": "Discord",
+      "instagram": "Instagram"
+    }
+  },
+  "tasks": {
+    "mascotAlt": "Mascot",
+    "locked": {
+      "title": "Premium Feature Locked",
+      "description": "Unlock our powerful task management features to enhance your digital projects and streamline your workflow.",
+      "upgradeButton": "Upgrade to Premium"
+    },
+    "coming": {
+      "title": "Coming Soon",
+      "description": "Something amazing is in the works. Stay tuned for something special.",
+      "emailPlaceholder": "Enter your email",
+      "notifyButton": "Notify Me"
+    },
+    "social": {
+      "twitter": "Twitter",
+      "discord": "Discord",
+      "instagram": "Instagram"
+    }
+  },
+  "websiteDashboard": {
+    "loading": "Loading...",
+    "title": "BizWeb",
+    "subtitle": "Transform your digital presence with custom website solutions. Track, manage, and create website requests tailored to your business needs.",
+    "untitledProject": "Untitled Project",
+    "more": "more",
+    "due": "Due",
+    "errors": {
+      "unknown": "Unknown error occurred"
+    },
+    "emptyState": {
+      "title": "No Website Requests Yet",
+      "description": "Start your digital journey by creating your first website request. We will help you bring your online vision to life."
+    },
+    "locked": {
+      "title": "Feature Locked",
+      "description": "The Website Request Dashboard is available exclusively for premium users. Upgrade your plan to access custom website development services and manage your project requests.",
+      "upgradeButton": "Upgrade Now"
+    },
+    "noResults": {
+      "title": "No Matching Requests Found",
+      "description": "Try adjusting your search terms or filters to find what you're looking for."
+    },
+    "filters": {
+      "searchPlaceholder": "Search projects...",
+      "allStatuses": "All Statuses"
+    },
+    "status": {
+      "pending": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "rejected": "Rejected"
+    },
+    "buttons": {
+      "createFirst": "Create First Website Request",
+      "newRequest": "New Request",
+      "newWebsiteRequest": "New Website Request",
+      "clearFilters": "Clear Filters",
+      "viewDetails": "View Details",
+      "close": "Close"
+    },
+    "modal": {
+      "projectDescription": "Project Description",
+      "message": "Message",
+      "technologies": "Technologies",
+      "budget": "Budget",
+      "deadline": "Deadline",
+      "features": "Features"
+    }
+  },
+  "projectForm": {
+    "title": "Project Request Form",
+    "subtitle": "Tell us about your project",
+    "sections": {
+      "projectDetails": "Project Details",
+      "technicalRequirements": "Technical Requirements",
+      "timelineBudget": "Timeline & Budget",
+      "projectFiles": "Project Files"
+    },
+    "fields": {
+      "projectName": "Project Name",
+      "projectType": "Project Type",
+      "projectDescription": "Project Description",
+      "frameworkPreferences": "Framework Preferences",
+      "keyFeatures": "Key Features",
+      "projectDeadline": "Project Deadline",
+      "budgetAmount": "Budget Amount (USD)"
+    },
+    "placeholders": {
+      "projectName": "Enter project name",
+      "selectProjectType": "Select Project Type",
+      "projectDescription": "Describe your project in detail",
+      "framework": "List preferred frameworks or technologies",
+      "features": "List main features required",
+      "budget": "Enter budget amount"
+    },
+    "projectTypes": {
+      "web": "Web Application",
+      "mobile": "Mobile App",
+      "desktop": "Desktop Software",
+      "ecommerce": "E-commerce Platform",
+      "enterprise": "Enterprise Solution"
+    },
+    "fileUpload": {
+      "dropFiles": "Drop files here or click to browse",
+      "supportedFormats": "Supported: PDF, DOC, DOCX, TXT, CSV, XLS, XLSX (Max 10MB)",
+      "removeFile": "Remove file"
+    },
+    "terms": {
+      "agreement": "I agree to the terms and conditions of the project request, including project timeline, deliverables, and payment terms as discussed."
+    },
+    "submission": {
+      "processing": "Processing your request...",
+      "submitting": "Submitting...",
+      "submitButton": "Submit Request",
+      "reviewTime": "Your request will be reviewed within 24-48 hours"
+    },
+    "validation": {
+      "projectNameRequired": "Project name is required",
+      "projectTypeRequired": "Project type is required",
+      "descriptionRequired": "Project description is required",
+      "frameworkRequired": "Framework details are required",
+      "featuresRequired": "Features are required",
+      "deadlineRequired": "Deadline is required",
+      "amountRequired": "Valid amount is required",
+      "termsRequired": "Terms acceptance is required"
+    },
+    "errors": {
+      "pleaseLogin": "Please Login Again",
+      "unknown": "Unknown error occurred",
+      "unexpected": "An unexpected error occurred",
+      "fileTooLarge": "File too large: {{fileName}} (max 10MB)",
+      "fillAllFields": "Please fill all required fields correctly",
+      "correctHighlighted": "Please correct the highlighted errors",
+      "submissionFailed": "Failed to submit project request"
+    },
+    "success": {
+      "submitted": "Project request submitted successfully"
+    }
+  },
+  "logoHistory": {
+    "loading": "Loading Logos...",
+    "title": "LogoAI",
+    "subtitle": "Create stunning logos powered by AI. Generate, manage, and download unique logos tailored to your brand identity.",
+    "errors": {
+      "loadingError": "Error Loading Logos",
+      "loginRequired": "Please login to continue",
+      "default": "An error occurred"
+    },
+    "buttons": {
+      "retry": "Retry",
+      "createFirst": "Create First Logo",
+      "newRequest": "New Logo Request",
+      "details": "Details",
+      "back": "Back",
+      "download": "Download Logo",
+      "preparing": "Preparing..."
+    },
+    "status": {
+      "pending": "pending",
+      "completed": "completed"
+    },
+    "emptyState": {
+      "title": "No Logo Requests Yet",
+      "description": "Start your branding journey by creating your first AI-generated logo request. We'll help you create the perfect logo for your brand."
+    },
+    "logoDetails": {
+      "title": "Logo Details",
+      "prompt": "Prompt",
+      "creditsUsed": "Credits Used",
+      "date": "Unknown date",
+      "invalidDate": "Invalid date",
+      "noPrompt": "No prompt available"
+    },
+    "imageStatus": {
+      "loading": "Loading image...",
+      "failed": "Image Load Error"
+    }
+  },
+  "logoRequest": {
+      "loading": "Loading...",
+      "title": "AI Logo Creator",
+      "subtitle": "Transform your vision into a stunning logo with AI",
+      "credits": {
+        "label": "Credits",
+        "cost": "Cost:"
+      },
+      "prompt": {
+        "placeholder": "Describe your dream logo with as much detail as possible...",
+        "characters": "characters",
+        "tipsButton": "Show tips for better prompts",
+        "tips": {
+          "title": "Tips for better logo prompts:",
+          "items": [
+            "Specify the business name and industry",
+            "Mention preferred colors or color scheme",
+            "Describe the style (minimalist, modern, vintage, etc.)",
+            "Suggest graphic elements or symbols to include",
+            "Mention any fonts or typography preferences"
+          ]
+        }
+      },
+      "buttons": {
+        "generate": "Generate Logo",
+        "creatingMagic": "Creating Magic...",
+        "createNew": "Create New",
+        "createNewShort": "New",
+        "download": "Download",
+        "save": "Save to Favorites",
+        "saveShort": "Save",
+        "retry": "Retry"
+      },
+      "generatingStages": {
+        "analyzing": "Analyzing prompt...",
+        "crafting": "Crafting design elements...",
+        "finalizing": "Finalizing your logo...",
+        "creating": "Creating magic..."
+      },
+      "results": {
+        "title": "Your Logo Creation"
+      },
+      "errors": {
+        "emptyPrompt": "Please enter a logo prompt",
+        "insufficientCredits": "Insufficient credits. You need ${cost} to generate a logo.",
+        "generateFailed": "Failed to generate logo",
+        "downloadFailed": "Failed to download logo: ",
+        "loadFailed": "Failed to load logo image",
+        "loadFailedRetry": "Failed to load logo image. Please try again.",
+        "unknownError": "Unknown error"
+      },
+      "success": {
+        "logoGenerated": "Logo generated successfully!",
+        "downloadStarted": "Logo download started!",
+        "downloadInitiated": "Logo download initiated!"
+      }
+    },
+    "loadings": {
+      "default": "Loading",
+      "messages": {
+        "loadingData": "Loading data",
+        "almostThere": "Almost there",
+        "settingUp": "Setting things up"
+      },
+      "pleaseWait": "Please wait a moment"
+    },
+    "sidebar": {
+      "logoAlt": "Logo",
+      "menuItems": {
+        "home": "Home",
+        "profile": "Profile",
+        "logoAI": "LogoAI",
+        "bizzPlan": "BizzPlan",
+        "aiStart": "AI-Start",
+        "bizWebAI": "BizWeb AI",
+        "task": "Task",
+        "bizFormation": "BizFormation",
+        "creditsPurchase": "Credits Purchase",
+        "subscriptionPurchase": "Subscription Purchase"
+      },
+      "actions": {
+        "contactUs": "Contact us",
+        "logout": "Log out"
+      },
+      "notifications": {
+        "logoutSuccess": "Logout successfully",
+        "error": "Something went wrong"
+      },
+      "aria": {
+        "openMenu": "Open menu",
+        "closeMenu": "Close menu",
+        "expandSidebar": "Expand sidebar",
+        "collapseSidebar": "Collapse sidebar"
+      }
+    },
+    "creditPurchase": {
+    "title": "Purchase Credits",
+    "subtitle": "Add more credits to your account.",
+    "creditRate": "1 credit = ${{price}}",
+    "defaultRate": "1 credit = $1.00",
+    "selectPackage": "Select Credit Package",
+    "popular": "Popular",
+    "percentOff": "{{percent}}% off",
+    "noPackages": "No credit packages available at the moment.",
+    "currentBalance": "Current Balance",
+    "creditsCount": "{{count}} Credits",
+    "summary": "Summary",
+    "creditsToPurchase": "Credits to Purchase",
+    "pricePerCredit": "Price Per Credit",
+    "standardPrice": "Standard Price",
+    "discount": "Discount",
+    "totalAmount": "Total Amount",
+    "loading": "Loading...",
+    "refreshHistory": "Refresh Credit Transaction History",
+    "viewHistory": "View Credit Transaction History",
+    "paymentDetails": "Payment Details",
+    "loadingPayment": "Loading payment system...",
+    "selectToContinue": "Please select a credit package to continue.",
+    "transactionHistory": "Credit Transactions History",
+    "date": "Date",
+    "transactionId": "Transaction ID",
+    "amount": "Amount",
+    "credits": "Credits",
+    "method": "Method",
+    "creditCard": "Credit Card",
+    "status": "Status",
+    "noTransactions": "No credit transaction history found.",
+    "pleaseLogin": "Please login to continue",
+    "loadPackagesError": "Could not load credit packages. Please try again later.",
+    "paymentInitError": "Could not initialize payment system. Please try again later.",
+    "genericError": "An error occurred",
+    "fetchTransactionsError": "Failed to fetch transaction history",
+    "loadHistoryError": "Failed to load transaction history",
+    "creditAmount": "{{amount}} Credits",
+    "statusTypes": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed",
+      "processing": "Processing"
+    }
+  },
+"checkout": {
+    "form": {
+      "cardDetails": "Card Details",
+      "autoRenewal": {
+        "title": "Enable Auto-Renewal",
+        "enabledInfo": "Your subscription will automatically renew every {{term}} until cancelled. You can cancel anytime in your account settings.",
+        "disabledInfo": "Your subscription will expire after {{duration}} without renewal. You'll need to manually subscribe again.",
+        "year": "year",
+        "month": "month"
+      },
+      "summary": {
+        "product": "Product:",
+        "plan": "Plan:",
+        "billingCycle": "Billing Cycle:",
+        "duration": "Duration:",
+        "autoRenewal": "Auto-Renewal:",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "total": "Total:"
+      },
+      "button": {
+        "pay": "Pay ${{price}}",
+        "subscribeWithAutoRenewal": "Subscribe for ${{price}} with Auto-Renewal",
+        "subscribe": "Subscribe for ${{price}}",
+        "processing": "Processing..."
+      }
+    },
+    "status": {
+      "error": "Payment failed. Please check your card details and try again.",
+      "successCredits": "Payment successful! Credits have been added to your account.",
+      "successSubscription": "Payment successful! Your {{planName}} subscription is now active.",
+      "successAutoRenewal": "Auto-renewal is enabled."
+    },
+    "disclaimer": {
+      "securityNotice": "Your payment is processed securely through Stripe. We do not store your card details.",
+      "autoRenewalNotice": "By subscribing with auto-renewal, you authorize us to charge your card periodically according to the billing cycle until you cancel your subscription."
+    },
+    "errors": {
+      "cardElementNotFound": "Card element not found",
+      "paymentMethodCreation": "Failed to create payment method",
+      "subscriptionCreation": "Failed to create subscription",
+      "paymentConfirmation": "Payment confirmation failed",
+      "paymentInitialization": "Could not initialize payment. Please try again.",
+      "paymentVerification": "Payment processed but verification failed",
+      "paymentStatus": "Payment status: {{status}}. Please try again or contact support.",
+      "generic": "Payment failed. Please try again."
+    },
+    "success": {
+      "subscription": "Successfully subscribed to {{planName}} plan with auto-renewal enabled!",
+      "subscriptionWithoutAutoRenewal": "Successfully subscribed to {{planName}} plan!",
+      "credits": "Successfully purchased {{credits}} credits!"
+    },
+    "duration": {
+      "monthly": "30 days",
+      "yearly": "365 days"
+    }
+  },
+  "loading": {
+    "loadingPlans": "Loading Plans...",
+    "loadingPayment": "Loading payment system..."
+  },
+  "messages": {
+    "loginRequired": "Please login to continue",
+    "loadPlansError": "Could not load pricing plans. Please try again later.",
+    "genericError": "An error occurred",
+    "paymentSuccess": "Payment successful! Your subscription is now active.",
+    "paymentError": "Payment failed. Please try again.",
+    "subscriptionUpdateSuccess": "Subscription updated successfully!",
+    "subscriptionUpdateError": "Failed to update subscription. Please try again."
+  },
+  "pricing": {
+    "title": {
+      "plans": "Select a Subscription Plan",
+      "subscriptions": "Manage Your Subscriptions"
+    },
+    "subtitle": {
+      "plans": "Choose the plan that best fits your needs and unlock premium features.",
+      "subscriptions": "View and manage your active subscriptions and auto-renewal settings."
+    },
+    "currentPlan": "Current plan: {{plan}} • {{days}} days remaining",
+    "autoRenewEnabled": "Auto-renewal enabled",
+    "autoRenewDisabled": "Auto-renewal disabled",
+    "view": {
+      "plans": "Browse Plans",
+      "subscriptions": "Manage Subscriptions"
+    },
+    "billing": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "save": "Save 20%"
+    },
+    "duration": {
+      "monthly": "Monthly (30 days)",
+      "yearly": "Yearly (365 days)"
+    },
+    "availablePlans": "Available Plans",
+    "popularBadge": "Popular",
+    "defaultPlanDescription": "{{plan}} Subscription",
+    "price": "${{price}}",
+    "yearlySavings": "Save ${{amount}}",
+    "currentPlanLabel": "Current Plan",
+    "expiresIn": "Expires In",
+    "daysRemaining": "{{days}} days remaining",
+    "autoRenewal": "Auto-Renewal",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "summary": "Summary",
+    "selectedPlanLabel": "Selected Plan",
+    "billingCycleLabel": "Billing Cycle",
+    "featuresLabel": "Features",
+    "totalAmount": "Total Amount",
+    "refreshTransactions": "Refresh",
+    "viewTransactions": "View",
+    "transactionHistory": "Transaction History",
+    "paymentDetails": "Payment Details",
+    "selectPlanPrompt": "Please select a plan to continue",
+    "noPlansAvailable": "No plans available at the moment.",
+    "noTransactionsFound": "No subscription transactions found.",
+    "date": "Date",
+    "plan": "Plan",
+    "amount": "Amount",
+    "stat": "Status",
+    "status": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed",
+      "unknown": "Unknown"
+    }
+  },
+  "message": {
+    "fetchSubscriptionsError": "Failed to fetch subscriptions",
+    "autoRenewalEnabled": "Auto-renewal enabled successfully",
+    "autoRenewalDisabled": "Auto-renewal disabled successfully",
+    "updateAutoRenewalError": "Failed to update auto-renewal",
+    "subscriptionCancelSuccess": "Subscription auto-renewal canceled successfully",
+    "subscriptionCancelError": "Failed to cancel subscription",
+    "genericError": "An error occurred"
+  },
+  "subscription": {
+    "manageSubscriptions": "Manage Subscriptions",
+    "noActiveSubscriptions": "You don't have any active subscriptions",
+    "choosePlanPrompt": "Choose a plan to unlock premium features",
+    "plan": "Plan",
+    "autoRenewal": "Auto-Renewal",
+    "backToPricing": "Back to Pricing Plans",
+    "viewPricingPlans": "View Pricing Plans",
+    "status": {
+      "active": "Active",
+      "cancelling": "Cancelling",
+      "expired": "Expired",
+      "canceled": "Canceled"
+    },
+    "nextBilling": "Next billing",
+    "started": "Started",
+    "cancellationNotice": "Auto-renewal cancelled on {cancelledDate}. Your subscription will remain active until {endDate}.",
+    "disableAutoRenewal": "Disable Auto-Renewal",
+    "enableAutoRenewal": "Enable Auto-Renewal",
+    "cancelSubscription": "Cancel Subscription",
+    "contactSupport": "Contact customer support for help with your subscription",
+    "aboutAutoRenewal": "About Auto-Renewal",
+    "autoRenewalDescription": "When auto-renewal is enabled, your subscription will automatically renew at the end of each billing period. You can disable auto-renewal at any time to prevent your subscription from renewing.",
+    "needHelp": "Need help? Contact our support team for assistance with your subscription.",
+    "manageYourSubscriptions": "Manage Your Subscriptions",
+    "manageSubscriptionsDescription": "View and manage your active subscriptions and auto-renewal settings",
+    "cancelConfirmation": "Are you sure you want to cancel auto-renewal for your {planName}?",
+    "cancelNotice": "Your subscription will remain active until the end of the current billing period ({endDate}). After that, it will be cancelled and you'll lose access to premium features.",
+    "keepSubscription": "Keep Subscription",
+    "cancelAutoRenewal": "Cancel Auto-Renewal",
+    "subscription": "subscription",
+    "billing": {
+      "monthly": "monthly",
+      "yearly": "yearly"
+    }
+  },
+  "businessChat": {
+    "title": "BizzPlan AI",
+    "welcome": "Ask me questions about marketing, branding, business strategy, and growth. I'm here to help you succeed!",
+    "viewPreviousConversations": "View Previous Conversations",
+    "inputPlaceholder": "Ask about business strategy, marketing, or growth...",
+    "messageInput": "Message input",
+    "sendMessage": "Send message",
+    "send": "Send",
+    "insufficientCredits": "Insufficient credits. You need ${{cost}} to send a message.",
+    "invalidDate": "Invalid date",
+    "errors": {
+      "chatHistoryFailed": "Failed to load chat history",
+      "insufficientCredits": "Insufficient credits. You need ${{cost}} to send a message.",
+      "responseFailure": "Failed to get response",
+      "processingError": "I'm sorry, I couldn't process your request at this time.",
+      "connectionError": "I'm having trouble connecting. Please try again in a moment.",
+      "deleteFailed": "Failed to delete conversation"
+    },
+    "confirmDelete": "Are you sure you want to delete this conversation?",
+    "deleteSuccess": "Conversation deleted",
+    "loading": "Loading BizzPlan AI...",
+    "back": "Back",
+    "chatHistory": "Chat History",
+    "credits": "Credits",
+    "chat": "Chat",
+    "toggleChatHistory": "Toggle Chat History",
+    "startNewChat": "Start New Chat",
+    "noHistory": "No conversation history found",
+    "startYourFirstChat": "Start your first chat to get personalized business advice"
+  },
+  "bizFormation": {
+    "heading": "Coming Soon",
+    "description": "Something amazing is in the works. Stay tuned for something special.",
+    "emailPlaceholder": "Enter your email",
+    "notifyButton": "Notify Me",
+    "mascotAlt": "Mascot",
+    "socials": {
+      "twitter": "Twitter",
+      "discord": "Discord",
+      "instagram": "Instagram"
+    }
+  }
+
+
+
+  
+}
