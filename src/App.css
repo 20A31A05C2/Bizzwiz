@@ -1,0 +1,38 @@
+
+
+:root {
+    background-color:black;
+    --primary-dark: rgb(37, 37, 37);
+    --primary-purple: rgb(19, 19, 19);
+    --primary-bg: rgb(37, 19, 65);
+    --primary-light: rgb(65, 65, 65);
+    --accent-turquoise: #5dd3d1;
+    --accent-turquoise-hover: #4cc2c0;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Custom checkbox styles */
+  .custom-checkbox {
+    accent-color: var(--accent-turquoise);
+  }
+  
+  /* Custom input focus styles */
+  .custom-input:focus {
+    box-shadow: 0 0 0 2px rgba(93, 211, 209, 0.2);
+  }
+  
+  /* Responsive padding adjustments */
+  @media (max-width: 768px) {
+    .responsive-padding {
+      padding: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .responsive-padding {
+      padding: 1rem;
+    }
+  }
+
+  
