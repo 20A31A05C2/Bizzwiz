@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 import "@fontsource/inter";
 
@@ -45,15 +45,18 @@ export const Navbar = ({ children, className }) => {
 
   // In a real implementation, this would use useScroll and useMotionValueEvent
   // For now, we'll use a basic window scroll event listener
-  if (typeof window !== 'undefined') {
-    window.addEventListener('scroll', () => {
+  React.useEffect(() => {
+    const handleScroll = () => {
       if (window.scrollY > 100) {
         setVisible(true);
       } else {
         setVisible(false);
       }
-    });
-  }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div
@@ -113,6 +116,13 @@ export const NavBody = ({ children, className, visible }) => {
 
 export const NavItems = ({ items, className, onItemClick }) => {
   const [hovered, setHovered] = useState(null);
+  const navigate = useNavigate();
+
+  const handleNavigation = (e, link) => {
+    e.preventDefault();
+    if (onItemClick) onItemClick();
+    navigate(link);
+  };
 
   return (
     <div
@@ -123,12 +133,12 @@ export const NavItems = ({ items, className, onItemClick }) => {
       )}
     >
       {items.map((item, idx) => (
-        <a
+        <Link
           onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
+          onClick={(e) => handleNavigation(e, item.link)}
           className="relative px-3 sm:px-4 py-2 text-white whitespace-nowrap text-xs sm:text-sm"
           key={`link-${idx}`}
-          href={item.link}
+          to={item.link}
         >
           {hovered === idx && (
             <Motion
@@ -145,7 +155,7 @@ export const NavItems = ({ items, className, onItemClick }) => {
             />
           )}
           <span className="relative z-20">{item.name}</span>
-        </a>
+        </Link>
       ))}
     </div>
   );
@@ -239,9 +249,17 @@ export const MobileNavToggle = ({ isOpen, onClick }) => {
 };
 
 export const NavbarLogo = () => {
+  const navigate = useNavigate();
+  
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    navigate('/');
+  };
+
   return (
-    <a
-      href="#"
+    <Link
+      to="/"
+      onClick={handleLogoClick}
       className="relative z-20 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-white"
     >
       <div className="relative group">
@@ -251,7 +269,7 @@ export const NavbarLogo = () => {
         </div>
       </div>
       <span className="font-medium text-white">BizWiz</span>
-    </a>
+    </Link>
   );
 };
 
@@ -297,14 +315,14 @@ const Header = () => {
 
           <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
             {navItems.map((item, idx) => (
-              <a
+              <Link
                 key={`mobile-link-${idx}`}
-                href={item.link}
+                to={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="relative text-white block py-2 w-full hover:text-opacity-80"
               >
                 <span className="block">{item.name}</span>
-              </a>
+              </Link>
             ))}
             <div className="flex w-full flex-col gap-4 pt-4">
               <LitBorderButton 
