@@ -262,10 +262,10 @@ const Header = () => {
 
   const navItems = [
     { name: 'Home', link: '/' },
-    { name: 'About', link: 'About' },
-    { name: 'Services', link: 'Services' },
+    { name: 'About', link: '/About' },
+    { name: 'Services', link: '/Services' },
     // { name: 'Create Business', link: '#create-business' },
-    { name: 'Contact', link: 'AssistanceForm' }
+    { name: 'Contact', link: '/AssistanceForm' }
   ];
 
   return (
