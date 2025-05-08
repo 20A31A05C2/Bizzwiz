@@ -1,7 +1,12 @@
 import React from 'react';
 import GradientText from '../ui/GradientText';
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const Question = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full py-16 md:py-24 lg:py-32 flex flex-col items-center justify-center bg-black p-4 sm:p-6 relative">
       {/* Purple radial gradient overlay */}
@@ -31,10 +36,12 @@ const Question = () => {
         
         {/* Assistance button - improved hover effects */}
         <button
+          onClick={() => navigate("/AssistanceForm")}
           className="bg-white hover:bg-gray-100 text-purple-900 font-semibold rounded-full px-6 sm:px-8 py-2.5 sm:py-3 text-base sm:text-lg shadow-lg transition-all duration-300 hover:shadow-purple-500/20 hover:transform hover:scale-105"
         >
           Assistance
         </button>
+
       </div>
     </div>
   );
